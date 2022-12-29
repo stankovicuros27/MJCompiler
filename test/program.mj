@@ -2,6 +2,8 @@ program MJProgram
 	int x, y;
 {
 	void main() {
-		
+		bool a = true;
+		int b = 123;
+		char c = 'a';
 	}
 }
