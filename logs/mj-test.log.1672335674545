@@ -1,0 +1,16 @@
+INFO  17:51:10,078 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  17:51:10,081 - #1 program
+INFO  17:51:10,081 - #4 MJProgram
+INFO  17:51:10,081 - #4 int
+INFO  17:51:10,081 - #4 x
+INFO  17:51:10,081 - #8 ,
+INFO  17:51:10,081 - #4 y
+INFO  17:51:10,081 - #9 ;
+INFO  17:51:10,081 - #12 {
+INFO  17:51:10,081 - #15 void
+INFO  17:51:10,081 - #4 main
+INFO  17:51:10,081 - #10 (
+INFO  17:51:10,081 - #11 )
+INFO  17:51:10,081 - #12 {
+INFO  17:51:10,081 - #13 }
+INFO  17:51:10,081 - #13 }
