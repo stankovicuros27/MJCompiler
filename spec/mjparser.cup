@@ -49,6 +49,55 @@ scan with {:
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GRAMMAR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+
+
+// ~~~~~~~~~~~~~~~~NONTERMINALS~~~~~~~~~~~~~~~~
+
+nonterminal Program, ProgramDeclListE, MethodDeclListE;
+nonterminal ConstDecl, VarDecl, ClassDecl;
+nonterminal ConstDeclInnerList, Type, Const;
+nonterminal VarDeclInnerList, SquareBracketsOptional;
+nonterminal ExtendsTypeOptional, ClassBody;
+nonterminal VarDeclListE, ClassConstructorsAndMethodsDeclOptional;
+nonterminal ConstructorDeclListE, ConstructorDecl, MethodDecl;
+nonterminal MethodReturnType, FormParsOptional, StatementListE;
+nonterminal FormPars;
+nonterminal Statement, MatchedStatement, UnmatchedStatement;
+nonterminal Condition;
+nonterminal DesignatorStatement, ExprOptional, PrintNumConstOptional;
+nonterminal Expr;
+nonterminal Designator, DesignatorAction, DesignatorListOptionalES;
+nonterminal ActParsOptional, Assignop;
+nonterminal DesignatorList;
+nonterminal ActPars;
+nonterminal CondTerm, CondFact;
+nonterminal RelopExprOptional, Relop;
+nonterminal OptionalMinus, TermAddopList, Addop, Term;
+nonterminal Mulop, Factor;
+nonterminal ParenActParsOptional, NewTypeSuffix;
+nonterminal Label;
+
+
+
+
+// ~~~~~~~~~~~~~~~~TERMINALS~~~~~~~~~~~~~~~~
+
+// Keywords
+terminal PROGRAM, BREAK, CLASS, ELSE, CONST, IF, WHILE, NEW, PRINT, READ, RETURN, VOID, EXTENDS, CONTINUE, FOREACH;
+
+// Operators
+terminal PLUS, MINUS, MUL, DIV, MOD, EQUALS, NOT_EQUALS, GREATER, GREATER_EQUALS, LESS, LESS_EQUALS, AND, OR, ASSIGN;
+terminal INC, DEC, SEMI_COLON, COLON, COMMA, DOT, L_PAREN, R_PAREN, L_SQUARE_BRACKET, R_SQUARE_BRACKET, L_BRACE, R_BRACE, ARROW;
+
+// Token types
+terminal CHAR_CONST, BOOL_CONST, NUM_CONST, IDENT;
+
+
+
+
+// ~~~~~~~~~~~~~~~~RULES~~~~~~~~~~~~~~~~
+
 Program ::= (Program) PROGRAM IDENT ProgramDeclListE L_BRACE MethodDeclListE R_BRACE;
 
 ProgramDeclListE ::= (ProgramDeclListEConst) ProgramDeclListE ConstDecl
@@ -100,17 +149,18 @@ VarDeclListE ::= (VarDeclListEExists) VarDeclListE VarDecl
 			(VarDeclListEEmpty) /* e */
 			;
 
-ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE ConstructorDeclListE MethodDeclListE R_BRACE
+ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE /* ConstructorDeclListE */ MethodDeclListE R_BRACE
 										|
 										(ClassConstructorsAndMethodsDeclOptionalEmpty) /* e */
 										;
-									
-ConstructorDeclListE ::= (ConstructorDeclListEExists) ConstructorDeclListE ConstructorDecl
-						|
-						(ConstructorDeclListEEmpty) /* e */
-						;
 
-ConstructorDecl ::= /* e */; // Level C
+// Level C
+//ConstructorDeclListE ::= (ConstructorDeclListEExists) ConstructorDeclListE ConstructorDecl
+//						|
+//						(ConstructorDeclListEEmpty) /* e */
+//						;
+//
+//ConstructorDecl ::= (ConstructorDeclEmpty) /* e */; // Level C
 
 
 MethodDeclListE ::= (MethodDeclListEExists) MethodDeclListE MethodDecl
@@ -118,7 +168,7 @@ MethodDeclListE ::= (MethodDeclListEExists) MethodDeclListE MethodDecl
 				(MethodDeclListEEmpty) /* e */
 				;
 
-MethodDecl ::= MethodReturnType IDENT L_PAREN FormParsOptional R_PAREN VarDeclListE L_BRACE StatementListE R_BRACE;
+MethodDecl ::= (MethodDecl) MethodReturnType IDENT L_PAREN FormParsOptional R_PAREN VarDeclListE L_BRACE StatementListE R_BRACE;
 
 MethodReturnType ::= (MethodReturnTypeHasType) Type
 					|
@@ -137,40 +187,41 @@ FormPars ::= (FormParsSignle) Type IDENT SquareBracketsOptional
 
 Type ::= (Type) IDENT;
 
-Statement ::= (MatchedStatement) MatchedStatement
+Statement ::= (StatementMatched) MatchedStatement
 			|
-			(UnmatchedStatement) UnmatchedStatement
+			(StatementUnmatched) UnmatchedStatement
 			;
 			
-UnmatchedStatement ::= IF L_PAREN Condition R_PAREN Statement
+UnmatchedStatement ::= (UnmatchedStatementIf) IF L_PAREN Condition R_PAREN Statement
 					|
-					IF L_PAREN Condition R_PAREN MatchedStatement ELSE UnmatchedStatement
+					(UnmatchedStatementIfElse) IF L_PAREN Condition R_PAREN MatchedStatement ELSE UnmatchedStatement
 					;
 
 // FOREACH missing - level B, C
-MatchedStatement ::= DesignatorStatement SEMI_COLON
+MatchedStatement ::= (MatchedStatementDesignator) DesignatorStatement SEMI_COLON
 					|
-					IF L_PAREN Condition R_PAREN MatchedStatement ELSE MatchedStatement 
+					(MatchedStatementIfElse) IF L_PAREN Condition R_PAREN MatchedStatement ELSE MatchedStatement 
 					|
-					WHILE L_PAREN Condition R_PAREN Statement
+					(MatchedStatementWhile) WHILE L_PAREN Condition R_PAREN Statement
 					|
-					BREAK SEMI_COLON
+					(MatchedStatementBreak) BREAK SEMI_COLON
 					|
-					CONTINUE SEMI_COLON
+					(MatchedStatementContinue) CONTINUE SEMI_COLON
 					|
-					RETURN ExprOptional SEMI_COLON
+					(MatchedStatementExpr) RETURN ExprOptional SEMI_COLON
 					|
-					READ L_PAREN Designator R_PAREN SEMI_COLON
+					(MatchedStatementRead) READ L_PAREN Designator R_PAREN SEMI_COLON
 					|
-					PRINT L_PAREN Expr PrintNumConstOptional R_PAREN SEMI_COLON
+					(MatchedStatementPrint) PRINT L_PAREN Expr PrintNumConstOptional R_PAREN SEMI_COLON
 					|
-					L_BRACE StatementListE R_BRACE
+					(MatchedStatementSection) L_BRACE StatementListE R_BRACE
 					;
 
-ExprOptional :== (ExprOptionalExists) Expr
+ExprOptional ::= (ExprOptionalExists) Expr
 				|
 				(ExprOptionalEmpty) /* e */
 				;
+
 
 PrintNumConstOptional ::= (PrintNumConstOptionalExists) COMMA NUM_CONST
 						|
@@ -181,21 +232,23 @@ DesignatorStatement ::= (DesignatorStatementAction) Designator DesignatorAction
 					|
 					(DesignatorStatementSquareBracket) L_SQUARE_BRACKET DesignatorListOptionalES R_SQUARE_BRACKET ASSIGN Designator
 					;
-
-DesignatorAction ::= Assignop Expr
+					
+					
+DesignatorAction ::= (DesignatorActionAssignop) Assignop Expr
 					|
-					L_PAREN ActParsOptional R_PAREN
+					(DesignatorActionActPars) L_PAREN ActParsOptional R_PAREN
 					|
-					INC
+					(DesignatorActionInc) INC
 					|
-					DEC
+					(DesignatorActionDec) DEC
 					;
+					
 					
 DesignatorListOptionalES ::= (DesignatorListOptionalESExist) DesignatorList
 						|
-						DesignatorListOptionalESEmpty) /* e */
+						(DesignatorListOptionalESEmpty) /* e */
 						;
-					
+						
 DesignatorList ::= (DesignatorListMultiple) DesignatorList COMMA Designator
 				|
 				(DesignatorListSingle) Designator
@@ -244,7 +297,7 @@ Term ::= (TermMultiple) Term Mulop Factor
 		|
 		(TermSingle) Factor
 		;
-
+			
 Factor ::= (FactorDesignator) Designator ParenActParsOptional
 		| 
 		(FactorNumConst) NUM_CONST
@@ -262,17 +315,12 @@ ParenActParsOptional ::= (ParenActParsOptionalExist) L_PAREN ActParsOptional R_P
 						|
 						(ParenActParsOptionalEmpty) /* e */
 						;
-						
-ActParsOptional ::= (ActParsOptionalExist) ActPars
-				|
-				(ActParsOptionalEmpty) /* e */
-				;
 
-NewTypeSuffix ::= L_SQUARE_BRACKET Expr R_SQUARE_BRACKET
+NewTypeSuffix ::= (NewTypeSuffixSquareBracket) L_SQUARE_BRACKET Expr R_SQUARE_BRACKET
 				|
-				L_PAREN ActParsOptional R_PAREN
-				;
-
+				(NewTypeSuffixActPars) L_PAREN ActParsOptional R_PAREN
+				;		
+				
 Designator ::= (DesignatorMultipleIdent) Designator DOT IDENT
 			|
 			(DesignatorMultipleExpr) Designator L_SQUARE_BRACKET Expr R_SQUARE_BRACKET
@@ -280,7 +328,7 @@ Designator ::= (DesignatorMultipleIdent) Designator DOT IDENT
 			(DesignatorSingle) IDENT
 			;
 			
-Label ::= (Label) ident;
+Label ::= (Label) IDENT;
 
 Assignop ::= (Assignop) ASSIGN;
 
@@ -307,6 +355,7 @@ Mulop ::= (AddopMul) MUL
 		(AddopDiv) DIV
 		|
 		(AddopMod) MOD
-		;
-
-
+		;	
+		
+		
+		

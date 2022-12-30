@@ -1,0 +1,38 @@
+INFO  18:28:27,069 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  18:28:27,077 - #2 program
+INFO  18:28:27,077 - #47 p
+INFO  18:28:27,077 - #6 const
+INFO  18:28:27,077 - #47 int
+INFO  18:28:27,077 - #47 size
+INFO  18:28:27,077 - #30 =
+INFO  18:28:27,078 - #46 10
+INFO  18:28:27,078 - #33 ;
+INFO  18:28:27,078 - #4 class
+INFO  18:28:27,078 - #47 Table
+INFO  18:28:27,078 - #41 {
+INFO  18:28:27,078 - #47 int
+INFO  18:28:27,078 - #47 pos
+INFO  18:28:27,078 - #39 [
+INFO  18:28:27,078 - #40 ]
+INFO  18:28:27,078 - #35 ,
+INFO  18:28:27,080 - #47 neg
+INFO  18:28:27,080 - #39 [
+INFO  18:28:27,080 - #40 ]
+INFO  18:28:27,080 - #35 ,
+INFO  18:28:27,080 - #47 factor
+INFO  18:28:27,080 - #33 ;
+INFO  18:28:27,080 - #41 {
+INFO  18:28:27,080 - #13 void
+INFO  18:28:27,081 - #47 putp
+INFO  18:28:27,081 - #37 (
+INFO  18:28:27,081 - #47 int
+INFO  18:28:27,081 - #47 a
+INFO  18:28:27,081 - #35 ,
+INFO  18:28:27,081 - #47 int
+INFO  18:28:27,081 - #47 idx
+INFO  18:28:27,081 - #38 )
+INFO  18:28:27,081 - #41 {
+INFO  18:28:27,081 - #47 this
+ERROR 18:28:27,081 - 
+Sintaksna greska na liniji 6
+ERROR 18:28:27,081 - Fatalna greska, parsiranje se ne moze nastaviti na liniji 6
