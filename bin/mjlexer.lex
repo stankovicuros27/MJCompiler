@@ -34,14 +34,18 @@ import java_cup.runtime.Symbol;
 %%
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ REGULAR EXPRESSIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 // BLANK
+
 " " 		{ }
 "\b" 		{ }
 "\t" 		{ }
 "\r\n" 		{ }
 "\f" 		{ }
 
+
 // KEYWORDS
+
 "program"   { return new_symbol(sym.PROGRAM, yytext()); }
 "break" 	{ return new_symbol(sym.BREAK, yytext()); }
 "class" 	{ return new_symbol(sym.CLASS, yytext()); }
@@ -58,7 +62,9 @@ import java_cup.runtime.Symbol;
 "continue"	{ return new_symbol(sym.CONTINUE, yytext()); }
 "foreach"	{ return new_symbol(sym.FOREACH, yytext()); }
 
+
 // OPERATORS
+
 "+"   		{ return new_symbol(sym.PLUS, yytext()); }
 "-" 		{ return new_symbol(sym.MINUS, yytext()); }
 "*" 		{ return new_symbol(sym.MUL, yytext()); }
@@ -87,17 +93,23 @@ import java_cup.runtime.Symbol;
 "}"			{ return new_symbol(sym.R_BRACE, yytext()); }
 "=>"		{ return new_symbol(sym.ARROW, yytext()); }
 
+
 // COMMENTS
+
 "//"				{ yybegin(COMMENT); }
 <COMMENT> . 		{ yybegin(COMMENT); }
 <COMMENT> "\r\n" 	{ yybegin(YYINITIAL); }
 
+
 // TOKEN_TYPES
+
 '[\x20-\x7E]' 					{ return new_symbol(sym.CHAR_CONST, new Character(yytext().charAt(1))); }
 ("false"|"true")				{ return new_symbol(sym.BOOL_CONST, new Boolean(yytext())); }
 [0-9]+  						{ return new_symbol(sym.NUM_CONST, new Integer(yytext())); }
 ([a-z]|[A-Z])[a-z|A-Z|0-9|_]* 	{ return new_symbol(sym.IDENT, yytext()); }
 
+
 // ERROR
+
 . { System.err.println("Lexical analysis error (" + yytext() + ") at line " + (yyline + 1)); }
 

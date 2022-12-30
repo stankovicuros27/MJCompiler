@@ -1,9 +1,10 @@
 program MJProgram
-	int x, y;
+	int x;
+	int y;
 {
-	void main() {
-		bool a = true;
-		int b = 123;
-		char c = 'a';
+	int main() {
+		print(1);
+		print(2);
+		x = y + 5 + ;
 	}
 }

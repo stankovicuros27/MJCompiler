@@ -1,0 +1,312 @@
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ IMPORTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+package rs.ac.bg.etf.pp1;
+
+import java_cup.runtime.*;
+import org.apache.log4j.*;
+import rs.ac.bg.etf.pp1.ast.*;
+
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+parser code {:
+
+	Logger log = Logger.getLogger(getClass());
+   
+    // Redefined error handling methods
+     
+    public void report_fatal_error(String message, Object info) throws java.lang.Exception {
+      done_parsing();
+      report_error(message, info);
+    }
+  
+    public void syntax_error(Symbol cur_token) {
+        report_error("\nSintaksna greska", cur_token);
+    }
+  
+    public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
+        report_fatal_error("Fatalna greska, parsiranje se ne moze nastaviti", cur_token);
+    }
+
+    public void report_error(String message, Object info) {
+    	StringBuilder msg = new StringBuilder(message); 
+    	if (info instanceof Symbol)
+            msg.append (" na liniji ").append(((Symbol)info).left);
+        log.error(msg.toString());
+    }
+
+:}
+
+scan with {:
+	Symbol s = this.getScanner().next_token();
+	if (s != null && s.value != null) 
+		log.info(s.toString() + " " + s.value.toString());
+	return s;
+:}
+
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GRAMMAR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Program ::= (Program) PROGRAM IDENT ProgramDeclListE L_BRACE MethodDeclListE R_BRACE;
+
+ProgramDeclListE ::= (ProgramDeclListEConst) ProgramDeclListE ConstDecl
+				|
+				(ProgramDeclListEVar) ProgramDeclListE VarDecl
+				|
+				(ProgramDeclListEClass) ProgramDeclListE ClassDecl
+				|
+				(ProgramDeclListEEmpty) /* e */
+				;
+
+ConstDecl ::= (ConstDecl) ConstDeclInnerList SEMI_COLON;
+
+ConstDeclInnerList ::= (ConstDeclInnerListSingle) CONST Type IDENT ASSIGN Const
+			|
+			(ConstDeclInnerListMultiple) ConstDeclInnerList COMMA IDENT ASSIGN Const
+			;
+
+Const ::= (NumConst) NUM_CONST
+		|
+		(CharConst) CHAR_CONST
+		|
+		(BoolConst) BOOL_CONST
+		;
+
+VarDecl ::= (VarDecl) VarDeclInnerList SEMI_COLON;
+
+VarDeclInnerList ::= (VarDeclInnerListSingle) Type IDENT SquareBracketsOptional
+				|
+				(VarDeclInnerListMultiple) VarDeclInnerList COMMA IDENT SquareBracketsOptional
+				;
+
+SquareBracketsOptional ::= (SquareBracketsExists) L_SQUARE_BRACKET R_SQUARE_BRACKET
+						|
+						(SquareBracketsEmpty) /* e */ 
+						;
+
+ClassDecl ::= (ClassDecl) CLASS IDENT ExtendsTypeOptional L_BRACE ClassBody R_BRACE;
+
+ExtendsTypeOptional ::= (ExtendsTypeExists) EXTENDS Type
+					|
+					(ExtendsTypeEmpty) /* e */
+					;
+
+ClassBody ::= (ClassBody) VarDeclListE ClassConstructorsAndMethodsDeclOptional;
+
+VarDeclListE ::= (VarDeclListEExists) VarDeclListE VarDecl
+			|
+			(VarDeclListEEmpty) /* e */
+			;
+
+ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE ConstructorDeclListE MethodDeclListE R_BRACE
+										|
+										(ClassConstructorsAndMethodsDeclOptionalEmpty) /* e */
+										;
+									
+ConstructorDeclListE ::= (ConstructorDeclListEExists) ConstructorDeclListE ConstructorDecl
+						|
+						(ConstructorDeclListEEmpty) /* e */
+						;
+
+ConstructorDecl ::= /* e */; // Level C
+
+
+MethodDeclListE ::= (MethodDeclListEExists) MethodDeclListE MethodDecl
+				|
+				(MethodDeclListEEmpty) /* e */
+				;
+
+MethodDecl ::= MethodReturnType IDENT L_PAREN FormParsOptional R_PAREN VarDeclListE L_BRACE StatementListE R_BRACE;
+
+MethodReturnType ::= (MethodReturnTypeHasType) Type
+					|
+					(MethodReturnTypeIsVoid) VOID
+					;
+					
+FormParsOptional ::= (FormParsExists) FormPars
+					|
+					(FormParsEmpty) /* e */
+					;
+					
+FormPars ::= (FormParsSignle) Type IDENT SquareBracketsOptional
+			|
+			(FormParsMultiple) FormPars COMMA Type IDENT SquareBracketsOptional
+			;
+
+Type ::= (Type) IDENT;
+
+Statement ::= (MatchedStatement) MatchedStatement
+			|
+			(UnmatchedStatement) UnmatchedStatement
+			;
+			
+UnmatchedStatement ::= IF L_PAREN Condition R_PAREN Statement
+					|
+					IF L_PAREN Condition R_PAREN MatchedStatement ELSE UnmatchedStatement
+					;
+
+// FOREACH missing - level B, C
+MatchedStatement ::= DesignatorStatement SEMI_COLON
+					|
+					IF L_PAREN Condition R_PAREN MatchedStatement ELSE MatchedStatement 
+					|
+					WHILE L_PAREN Condition R_PAREN Statement
+					|
+					BREAK SEMI_COLON
+					|
+					CONTINUE SEMI_COLON
+					|
+					RETURN ExprOptional SEMI_COLON
+					|
+					READ L_PAREN Designator R_PAREN SEMI_COLON
+					|
+					PRINT L_PAREN Expr PrintNumConstOptional R_PAREN SEMI_COLON
+					|
+					L_BRACE StatementListE R_BRACE
+					;
+
+ExprOptional :== (ExprOptionalExists) Expr
+				|
+				(ExprOptionalEmpty) /* e */
+				;
+
+PrintNumConstOptional ::= (PrintNumConstOptionalExists) COMMA NUM_CONST
+						|
+						(PrintNumConstOptionalEmpty) /* e */
+						;
+						
+DesignatorStatement ::= (DesignatorStatementAction) Designator DesignatorAction 
+					|
+					(DesignatorStatementSquareBracket) L_SQUARE_BRACKET DesignatorListOptionalES R_SQUARE_BRACKET ASSIGN Designator
+					;
+
+DesignatorAction ::= Assignop Expr
+					|
+					L_PAREN ActParsOptional R_PAREN
+					|
+					INC
+					|
+					DEC
+					;
+					
+DesignatorListOptionalES ::= (DesignatorListOptionalESExist) DesignatorList
+						|
+						DesignatorListOptionalESEmpty) /* e */
+						;
+					
+DesignatorList ::= (DesignatorListMultiple) DesignatorList COMMA Designator
+				|
+				(DesignatorListSingle) Designator
+				;
+				
+ActPars ::= (ActParsMultiple) ActPars COMMA Expr
+		|
+		(ActParsSingle) Expr
+		;
+		
+ActParsOptional ::= (ActParsOptionalExist) ActPars
+				|
+				(ActParsOptionalEmpty) /* e */
+				;
+
+Condition ::= (ConditionMultiple) Condition OR CondTerm
+			|
+			(ConditionSingle) CondTerm
+			;
+			
+CondTerm ::= (CondTermMultiple) CondTerm AND CondFact
+			|
+			(CondTermSingle) CondFact
+			;
+
+CondFact ::= (CondFact) Expr RelopExprOptional;
+
+RelopExprOptional ::= (RelopExprOptionalExist) Relop Expr
+					|
+					(RelopExprOptionalEmpty) /* e */
+					;
+
+Expr ::= (Expr) OptionalMinus TermAddopList;
+
+OptionalMinus ::= (OptionalMinusExist) MINUS
+				|
+				(OptionalMinusEmpty) /* e */
+				;
+				
+TermAddopList ::= (TermAddopListMultiple) TermAddopList Addop Term
+				|
+				(TermAddopListSingle) Term
+				;
+				
+Term ::= (TermMultiple) Term Mulop Factor
+		|
+		(TermSingle) Factor
+		;
+
+Factor ::= (FactorDesignator) Designator ParenActParsOptional
+		| 
+		(FactorNumConst) NUM_CONST
+		| 
+		(FactorCharConst) CHAR_CONST
+		| 
+		(FactorBoolConst) BOOL_CONST
+		|
+		(FactorNew) NEW Type NewTypeSuffix
+		|
+		(FactorExpr) L_PAREN Expr R_PAREN
+		;
+		
+ParenActParsOptional ::= (ParenActParsOptionalExist) L_PAREN ActParsOptional R_PAREN
+						|
+						(ParenActParsOptionalEmpty) /* e */
+						;
+						
+ActParsOptional ::= (ActParsOptionalExist) ActPars
+				|
+				(ActParsOptionalEmpty) /* e */
+				;
+
+NewTypeSuffix ::= L_SQUARE_BRACKET Expr R_SQUARE_BRACKET
+				|
+				L_PAREN ActParsOptional R_PAREN
+				;
+
+Designator ::= (DesignatorMultipleIdent) Designator DOT IDENT
+			|
+			(DesignatorMultipleExpr) Designator L_SQUARE_BRACKET Expr R_SQUARE_BRACKET
+			|
+			(DesignatorSingle) IDENT
+			;
+			
+Label ::= (Label) ident;
+
+Assignop ::= (Assignop) ASSIGN;
+
+Relop ::= (RelopEquals) EQUALS
+		|
+		(RelopNotEquals) NOT_EQUALS
+		|
+		(RelopGreater) GREATER
+		|
+		(RelopGreaterEquals) GREATER_EQUALS
+		|
+		(RelopLess) LESS
+		|
+		(RelopLessEquals) LESS_EQUALS
+		;
+	
+Addop ::= (AddopPlus) PLUS
+		|
+		(AddopMinus) MINUS
+		;
+		
+Mulop ::= (AddopMul) MUL
+		|
+		(AddopDiv) DIV
+		|
+		(AddopMod) MOD
+		;
+
+
