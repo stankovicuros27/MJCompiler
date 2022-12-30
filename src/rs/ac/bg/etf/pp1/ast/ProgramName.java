@@ -1,13 +1,31 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 18:23:9
+// 30/11/2022 23:8:13
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class OptionalMinusExist extends OptionalMinus {
+public class ProgramName implements SyntaxNode {
 
-    public OptionalMinusExist () {
+    private SyntaxNode parent;
+    private int line;
+    public ProgramName () {
+    }
+
+    public SyntaxNode getParent() {
+        return parent;
+    }
+
+    public void setParent(SyntaxNode parent) {
+        this.parent=parent;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line=line;
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +46,10 @@ public class OptionalMinusExist extends OptionalMinus {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("OptionalMinusExist(\n");
+        buffer.append("ProgramName(\n");
 
         buffer.append(tab);
-        buffer.append(") [OptionalMinusExist]");
+        buffer.append(") [ProgramName]");
         return buffer.toString();
     }
 }

@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 18:23:9
+// 30/11/2022 23:8:13
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -31,9 +31,11 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ProgramDeclListE ProgramDeclListE) { }
     public void visit(Condition Condition) { }
     public void visit(FormParsOptional FormParsOptional) { }
+    public void visit(MinusOptional MinusOptional) { }
     public void visit(MethodDeclListE MethodDeclListE) { }
     public void visit(VarDeclListE VarDeclListE) { }
     public void visit(StatementListE StatementListE) { }
+    public void visit(Expr Expr) { }
     public void visit(ActPars ActPars) { }
     public void visit(ExtendsTypeOptional ExtendsTypeOptional) { }
     public void visit(DesignatorList DesignatorList) { }
@@ -43,7 +45,6 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(MethodReturnType MethodReturnType) { }
     public void visit(Statement Statement) { }
     public void visit(SquareBracketsOptional SquareBracketsOptional) { }
-    public void visit(OptionalMinus OptionalMinus) { }
     public void visit(FormPars FormPars) { }
     public void visit(DesignatorListOptionalES DesignatorListOptionalES) { }
     public void visit(AddopMod AddopMod) { visit(); }
@@ -74,11 +75,10 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(FactorDesignator FactorDesignator) { visit(); }
     public void visit(TermSingle TermSingle) { visit(); }
     public void visit(TermMultiple TermMultiple) { visit(); }
-    public void visit(TermAddopListSingle TermAddopListSingle) { visit(); }
-    public void visit(TermAddopListMultiple TermAddopListMultiple) { visit(); }
-    public void visit(OptionalMinusEmpty OptionalMinusEmpty) { visit(); }
-    public void visit(OptionalMinusExist OptionalMinusExist) { visit(); }
-    public void visit(Expr Expr) { visit(); }
+    public void visit(MinusOptionalEmpty MinusOptionalEmpty) { visit(); }
+    public void visit(MinusOptionalExist MinusOptionalExist) { visit(); }
+    public void visit(ExprMultiple ExprMultiple) { visit(); }
+    public void visit(ExprSingle ExprSingle) { visit(); }
     public void visit(RelopExprOptionalEmpty RelopExprOptionalEmpty) { visit(); }
     public void visit(RelopExprOptionalExist RelopExprOptionalExist) { visit(); }
     public void visit(CondFact CondFact) { visit(); }
@@ -117,6 +117,8 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(UnmatchedStatementIf UnmatchedStatementIf) { visit(); }
     public void visit(StatementUnmatched StatementUnmatched) { visit(); }
     public void visit(StatementMatched StatementMatched) { visit(); }
+    public void visit(StatementListEEmpty StatementListEEmpty) { visit(); }
+    public void visit(StatementListEExists StatementListEExists) { visit(); }
     public void visit(Type Type) { visit(); }
     public void visit(FormParsMultiple FormParsMultiple) { visit(); }
     public void visit(FormParsSignle FormParsSignle) { visit(); }
@@ -150,6 +152,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ProgramDeclListEClass ProgramDeclListEClass) { visit(); }
     public void visit(ProgramDeclListEVar ProgramDeclListEVar) { visit(); }
     public void visit(ProgramDeclListEConst ProgramDeclListEConst) { visit(); }
+    public void visit(ProgramName ProgramName) { visit(); }
     public void visit(Program Program) { visit(); }
 
 

@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 18:23:9
+// 30/11/2022 23:8:13
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class OptionalMinusEmpty extends OptionalMinus {
+public class MinusOptionalExist extends MinusOptional {
 
-    public OptionalMinusEmpty () {
+    public MinusOptionalExist () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class OptionalMinusEmpty extends OptionalMinus {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("OptionalMinusEmpty(\n");
+        buffer.append("MinusOptionalExist(\n");
 
         buffer.append(tab);
-        buffer.append(") [OptionalMinusEmpty]");
+        buffer.append(") [MinusOptionalExist]");
         return buffer.toString();
     }
 }

@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 18:23:9
+// 30/11/2022 23:8:13
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -31,9 +31,11 @@ public interface Visitor {
     public void visit(ProgramDeclListE ProgramDeclListE);
     public void visit(Condition Condition);
     public void visit(FormParsOptional FormParsOptional);
+    public void visit(MinusOptional MinusOptional);
     public void visit(MethodDeclListE MethodDeclListE);
     public void visit(VarDeclListE VarDeclListE);
     public void visit(StatementListE StatementListE);
+    public void visit(Expr Expr);
     public void visit(ActPars ActPars);
     public void visit(ExtendsTypeOptional ExtendsTypeOptional);
     public void visit(DesignatorList DesignatorList);
@@ -43,7 +45,6 @@ public interface Visitor {
     public void visit(MethodReturnType MethodReturnType);
     public void visit(Statement Statement);
     public void visit(SquareBracketsOptional SquareBracketsOptional);
-    public void visit(OptionalMinus OptionalMinus);
     public void visit(FormPars FormPars);
     public void visit(DesignatorListOptionalES DesignatorListOptionalES);
     public void visit(AddopMod AddopMod);
@@ -74,11 +75,10 @@ public interface Visitor {
     public void visit(FactorDesignator FactorDesignator);
     public void visit(TermSingle TermSingle);
     public void visit(TermMultiple TermMultiple);
-    public void visit(TermAddopListSingle TermAddopListSingle);
-    public void visit(TermAddopListMultiple TermAddopListMultiple);
-    public void visit(OptionalMinusEmpty OptionalMinusEmpty);
-    public void visit(OptionalMinusExist OptionalMinusExist);
-    public void visit(Expr Expr);
+    public void visit(MinusOptionalEmpty MinusOptionalEmpty);
+    public void visit(MinusOptionalExist MinusOptionalExist);
+    public void visit(ExprMultiple ExprMultiple);
+    public void visit(ExprSingle ExprSingle);
     public void visit(RelopExprOptionalEmpty RelopExprOptionalEmpty);
     public void visit(RelopExprOptionalExist RelopExprOptionalExist);
     public void visit(CondFact CondFact);
@@ -117,6 +117,8 @@ public interface Visitor {
     public void visit(UnmatchedStatementIf UnmatchedStatementIf);
     public void visit(StatementUnmatched StatementUnmatched);
     public void visit(StatementMatched StatementMatched);
+    public void visit(StatementListEEmpty StatementListEEmpty);
+    public void visit(StatementListEExists StatementListEExists);
     public void visit(Type Type);
     public void visit(FormParsMultiple FormParsMultiple);
     public void visit(FormParsSignle FormParsSignle);
@@ -150,6 +152,7 @@ public interface Visitor {
     public void visit(ProgramDeclListEClass ProgramDeclListEClass);
     public void visit(ProgramDeclListEVar ProgramDeclListEVar);
     public void visit(ProgramDeclListEConst ProgramDeclListEConst);
+    public void visit(ProgramName ProgramName);
     public void visit(Program Program);
 
 }

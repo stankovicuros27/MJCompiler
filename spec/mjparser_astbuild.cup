@@ -95,7 +95,7 @@ nonterminal CondTerm CondTerm;
 nonterminal CondFact CondFact;
 nonterminal RelopExprOptional RelopExprOptional;
 nonterminal Relop Relop;
-nonterminal OptionalMinus OptionalMinus;
+nonterminal MinusOptional MinusOptional;
 nonterminal TermAddopList TermAddopList;
 nonterminal Addop Addop;
 nonterminal Term Term;
@@ -104,6 +104,9 @@ nonterminal Factor Factor;
 nonterminal ParenActParsOptional ParenActParsOptional;
 nonterminal NewTypeSuffix NewTypeSuffix;
 nonterminal Label Label;
+
+nonterminal ProgramName ProgramName;
+
 
 
 
@@ -120,12 +123,16 @@ terminal INC, DEC, SEMI_COLON, COLON, COMMA, DOT, L_PAREN, R_PAREN, L_SQUARE_BRA
 // Token types
 terminal CHAR_CONST, BOOL_CONST, NUM_CONST, IDENT;
 
+precedence left ELSE;
+
 
 
 
 // ~~~~~~~~~~~~~~~~RULES~~~~~~~~~~~~~~~~
 
-Program ::= (Program) PROGRAM IDENT ProgramDeclListE:P1 L_BRACE MethodDeclListE:M2 R_BRACE {: RESULT=new Program(P1, M2); RESULT.setLine(P1left); :};
+Program ::= (Program) PROGRAM ProgramName:P1 ProgramDeclListE:P2 L_BRACE MethodDeclListE:M3 R_BRACE {: RESULT=new Program(P1, P2, M3); RESULT.setLine(P1left); :};
+
+ProgramName ::= (ProgramName) IDENT:programName {: RESULT=new ProgramName(); :};
 
 ProgramDeclListE ::= (ProgramDeclListEConst) ProgramDeclListE:P1 ConstDecl:C2 {: RESULT=new ProgramDeclListEConst(P1, C2); RESULT.setLine(P1left); :}
 				|
@@ -136,9 +143,9 @@ ProgramDeclListE ::= (ProgramDeclListEConst) ProgramDeclListE:P1 ConstDecl:C2 {:
 				(ProgramDeclListEEmpty) {: RESULT=new ProgramDeclListEEmpty(); :} /* e */
 				;
 
-ConstDecl ::= (ConstDecl) ConstDeclInnerList:C1 SEMI_COLON {: RESULT=new ConstDecl(C1); RESULT.setLine(C1left); :};
+ConstDecl ::= (ConstDecl) CONST Type:T1 ConstDeclInnerList:C2 SEMI_COLON {: RESULT=new ConstDecl(T1, C2); RESULT.setLine(T1left); :};
 
-ConstDeclInnerList ::= (ConstDeclInnerListSingle) CONST Type:T1 IDENT ASSIGN Const:C2 {: RESULT=new ConstDeclInnerListSingle(T1, C2); RESULT.setLine(T1left); :}
+ConstDeclInnerList ::= (ConstDeclInnerListSingle) IDENT ASSIGN Const:C1 {: RESULT=new ConstDeclInnerListSingle(C1); RESULT.setLine(C1left); :}
 			|
 			(ConstDeclInnerListMultiple) ConstDeclInnerList:C1 COMMA IDENT ASSIGN Const:C2 {: RESULT=new ConstDeclInnerListMultiple(C1, C2); RESULT.setLine(C1left); :}
 			;
@@ -150,9 +157,9 @@ Const ::= (NumConst) NUM_CONST {: RESULT=new NumConst(); :}
 		(BoolConst) BOOL_CONST {: RESULT=new BoolConst(); :}
 		;
 
-VarDecl ::= (VarDecl) VarDeclInnerList:V1 SEMI_COLON {: RESULT=new VarDecl(V1); RESULT.setLine(V1left); :};
+VarDecl ::= (VarDecl) Type:T1 VarDeclInnerList:V2 SEMI_COLON {: RESULT=new VarDecl(T1, V2); RESULT.setLine(T1left); :};
 
-VarDeclInnerList ::= (VarDeclInnerListSingle) Type:T1 IDENT SquareBracketsOptional:S2 {: RESULT=new VarDeclInnerListSingle(T1, S2); RESULT.setLine(T1left); :}
+VarDeclInnerList ::= (VarDeclInnerListSingle) IDENT SquareBracketsOptional:S1 {: RESULT=new VarDeclInnerListSingle(S1); RESULT.setLine(S1left); :}
 				|
 				(VarDeclInnerListMultiple) VarDeclInnerList:V1 COMMA IDENT SquareBracketsOptional:S2 {: RESULT=new VarDeclInnerListMultiple(V1, S2); RESULT.setLine(V1left); :}
 				;
@@ -176,7 +183,7 @@ VarDeclListE ::= (VarDeclListEExists) VarDeclListE:V1 VarDecl:V2 {: RESULT=new V
 			(VarDeclListEEmpty) {: RESULT=new VarDeclListEEmpty(); :} /* e */
 			;
 
-ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE /* ConstructorDeclListE */ MethodDeclListE:M1 R_BRACE {: RESULT=new ClassConstructorsAndMethodsDeclOptionalExists(M1); RESULT.setLine(M1left); :}
+ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE MethodDeclListE:M1 R_BRACE {: RESULT=new ClassConstructorsAndMethodsDeclOptionalExists(M1); RESULT.setLine(M1left); :}
 										|
 										(ClassConstructorsAndMethodsDeclOptionalEmpty) {: RESULT=new ClassConstructorsAndMethodsDeclOptionalEmpty(); :} /* e */
 										;
@@ -213,6 +220,11 @@ FormPars ::= (FormParsSignle) Type:T1 IDENT SquareBracketsOptional:S2 {: RESULT=
 			;
 
 Type ::= (Type) IDENT {: RESULT=new Type(); :};
+
+StatementListE ::= (StatementListEExists) StatementListE:S1 Statement:S2 {: RESULT=new StatementListEExists(S1, S2); RESULT.setLine(S1left); :}
+				|
+				(StatementListEEmpty) {: RESULT=new StatementListEEmpty(); :} /* e */
+				;
 
 Statement ::= (StatementMatched) MatchedStatement:M1 {: RESULT=new StatementMatched(M1); RESULT.setLine(M1left); :}
 			|
@@ -308,17 +320,16 @@ RelopExprOptional ::= (RelopExprOptionalExist) Relop:R1 Expr:E2 {: RESULT=new Re
 					(RelopExprOptionalEmpty) {: RESULT=new RelopExprOptionalEmpty(); :} /* e */
 					;
 
-Expr ::= (Expr) OptionalMinus:O1 TermAddopList:T2 {: RESULT=new Expr(O1, T2); RESULT.setLine(O1left); :};
+Expr ::= (ExprSingle) MinusOptional:M1 Term:T2 {: RESULT=new ExprSingle(M1, T2); RESULT.setLine(M1left); :}
+		|
+		(ExprMultiple) Expr:E1 Addop:A2 Term:T3 {: RESULT=new ExprMultiple(E1, A2, T3); RESULT.setLine(E1left); :}
+		;
 
-OptionalMinus ::= (OptionalMinusExist) MINUS {: RESULT=new OptionalMinusExist(); :}
+MinusOptional ::= (MinusOptionalExist) MINUS {: RESULT=new MinusOptionalExist(); :}
 				|
-				(OptionalMinusEmpty) {: RESULT=new OptionalMinusEmpty(); :} /* e */
+				(MinusOptionalEmpty) {: RESULT=new MinusOptionalEmpty(); :} /* e */
 				;
 				
-TermAddopList ::= (TermAddopListMultiple) TermAddopList:T1 Addop:A2 Term:T3 {: RESULT=new TermAddopListMultiple(T1, A2, T3); RESULT.setLine(T1left); :}
-				|
-				(TermAddopListSingle) Term:T1 {: RESULT=new TermAddopListSingle(T1); RESULT.setLine(T1left); :}
-				;
 				
 Term ::= (TermMultiple) Term:T1 Mulop:M2 Factor:F3 {: RESULT=new TermMultiple(T1, M2, F3); RESULT.setLine(T1left); :}
 		|

@@ -73,10 +73,13 @@ nonterminal DesignatorList;
 nonterminal ActPars;
 nonterminal CondTerm, CondFact;
 nonterminal RelopExprOptional, Relop;
-nonterminal OptionalMinus, TermAddopList, Addop, Term;
+nonterminal MinusOptional, TermAddopList, Addop, Term;
 nonterminal Mulop, Factor;
 nonterminal ParenActParsOptional, NewTypeSuffix;
 nonterminal Label;
+
+nonterminal ProgramName;
+
 
 
 
@@ -93,12 +96,16 @@ terminal INC, DEC, SEMI_COLON, COLON, COMMA, DOT, L_PAREN, R_PAREN, L_SQUARE_BRA
 // Token types
 terminal CHAR_CONST, BOOL_CONST, NUM_CONST, IDENT;
 
+precedence left ELSE;
+
 
 
 
 // ~~~~~~~~~~~~~~~~RULES~~~~~~~~~~~~~~~~
 
-Program ::= (Program) PROGRAM IDENT ProgramDeclListE L_BRACE MethodDeclListE R_BRACE;
+Program ::= (Program) PROGRAM ProgramName ProgramDeclListE L_BRACE MethodDeclListE R_BRACE;
+
+ProgramName ::= (ProgramName) IDENT:programName;
 
 ProgramDeclListE ::= (ProgramDeclListEConst) ProgramDeclListE ConstDecl
 				|
@@ -109,9 +116,9 @@ ProgramDeclListE ::= (ProgramDeclListEConst) ProgramDeclListE ConstDecl
 				(ProgramDeclListEEmpty) /* e */
 				;
 
-ConstDecl ::= (ConstDecl) ConstDeclInnerList SEMI_COLON;
+ConstDecl ::= (ConstDecl) CONST Type ConstDeclInnerList SEMI_COLON;
 
-ConstDeclInnerList ::= (ConstDeclInnerListSingle) CONST Type IDENT ASSIGN Const
+ConstDeclInnerList ::= (ConstDeclInnerListSingle) IDENT ASSIGN Const
 			|
 			(ConstDeclInnerListMultiple) ConstDeclInnerList COMMA IDENT ASSIGN Const
 			;
@@ -123,9 +130,9 @@ Const ::= (NumConst) NUM_CONST
 		(BoolConst) BOOL_CONST
 		;
 
-VarDecl ::= (VarDecl) VarDeclInnerList SEMI_COLON;
+VarDecl ::= (VarDecl) Type VarDeclInnerList SEMI_COLON;
 
-VarDeclInnerList ::= (VarDeclInnerListSingle) Type IDENT SquareBracketsOptional
+VarDeclInnerList ::= (VarDeclInnerListSingle) IDENT SquareBracketsOptional
 				|
 				(VarDeclInnerListMultiple) VarDeclInnerList COMMA IDENT SquareBracketsOptional
 				;
@@ -149,7 +156,7 @@ VarDeclListE ::= (VarDeclListEExists) VarDeclListE VarDecl
 			(VarDeclListEEmpty) /* e */
 			;
 
-ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE /* ConstructorDeclListE */ MethodDeclListE R_BRACE
+ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE MethodDeclListE R_BRACE
 										|
 										(ClassConstructorsAndMethodsDeclOptionalEmpty) /* e */
 										;
@@ -186,6 +193,11 @@ FormPars ::= (FormParsSignle) Type IDENT SquareBracketsOptional
 			;
 
 Type ::= (Type) IDENT;
+
+StatementListE ::= (StatementListEExists) StatementListE Statement
+				|
+				(StatementListEEmpty) /* e */
+				;
 
 Statement ::= (StatementMatched) MatchedStatement
 			|
@@ -281,17 +293,16 @@ RelopExprOptional ::= (RelopExprOptionalExist) Relop Expr
 					(RelopExprOptionalEmpty) /* e */
 					;
 
-Expr ::= (Expr) OptionalMinus TermAddopList;
+Expr ::= (ExprSingle) MinusOptional Term
+		|
+		(ExprMultiple) Expr Addop Term
+		;
 
-OptionalMinus ::= (OptionalMinusExist) MINUS
+MinusOptional ::= (MinusOptionalExist) MINUS
 				|
-				(OptionalMinusEmpty) /* e */
+				(MinusOptionalEmpty) /* e */
 				;
 				
-TermAddopList ::= (TermAddopListMultiple) TermAddopList Addop Term
-				|
-				(TermAddopListSingle) Term
-				;
 				
 Term ::= (TermMultiple) Term Mulop Factor
 		|

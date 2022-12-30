@@ -1,0 +1,43 @@
+INFO  18:50:28,468 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  18:50:28,477 - #2 program
+INFO  18:50:28,477 - #47 test302
+INFO  18:50:28,477 - #6 const
+INFO  18:50:28,477 - #47 int
+INFO  18:50:28,477 - #47 jedan
+INFO  18:50:28,477 - #30 =
+INFO  18:50:28,477 - #46 1
+INFO  18:50:28,477 - #33 ;
+INFO  18:50:28,477 - #47 int
+INFO  18:50:28,478 - #47 i
+INFO  18:50:28,478 - #33 ;
+INFO  18:50:28,478 - #47 bool
+INFO  18:50:28,478 - #47 ibool
+INFO  18:50:28,478 - #33 ;
+INFO  18:50:28,478 - #47 int
+INFO  18:50:28,478 - #47 niz2
+INFO  18:50:28,478 - #33 ;
+INFO  18:50:28,478 - #47 int
+INFO  18:50:28,478 - #47 niz
+INFO  18:50:28,478 - #39 [
+INFO  18:50:28,478 - #40 ]
+INFO  18:50:28,478 - #33 ;
+INFO  18:50:28,478 - #47 int
+INFO  18:50:28,478 - #47 a
+INFO  18:50:28,478 - #35 ,
+INFO  18:50:28,478 - #47 curr
+INFO  18:50:28,478 - #33 ;
+INFO  18:50:28,478 - #41 {
+INFO  18:50:28,479 - #47 int
+INFO  18:50:28,479 - #47 sum
+INFO  18:50:28,479 - #37 (
+INFO  18:50:28,479 - #47 int
+INFO  18:50:28,479 - #47 z
+INFO  18:50:28,479 - #35 ,
+INFO  18:50:28,479 - #47 int
+INFO  18:50:28,479 - #47 d
+INFO  18:50:28,479 - #38 )
+INFO  18:50:28,479 - #41 {
+INFO  18:50:28,479 - #47 int
+ERROR 18:50:28,479 - 
+Sintaksna greska na liniji 19
+ERROR 18:50:28,479 - Fatalna greska, parsiranje se ne moze nastaviti na liniji 19
