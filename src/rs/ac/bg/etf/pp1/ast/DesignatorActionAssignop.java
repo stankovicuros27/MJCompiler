@@ -1,36 +1,25 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 23:8:13
+// 2/0/2023 17:7:52
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class DesignatorActionAssignop extends DesignatorAction {
 
-    private Assignop Assignop;
-    private Expr Expr;
+    private DesignatorAssignopExpr DesignatorAssignopExpr;
 
-    public DesignatorActionAssignop (Assignop Assignop, Expr Expr) {
-        this.Assignop=Assignop;
-        if(Assignop!=null) Assignop.setParent(this);
-        this.Expr=Expr;
-        if(Expr!=null) Expr.setParent(this);
+    public DesignatorActionAssignop (DesignatorAssignopExpr DesignatorAssignopExpr) {
+        this.DesignatorAssignopExpr=DesignatorAssignopExpr;
+        if(DesignatorAssignopExpr!=null) DesignatorAssignopExpr.setParent(this);
     }
 
-    public Assignop getAssignop() {
-        return Assignop;
+    public DesignatorAssignopExpr getDesignatorAssignopExpr() {
+        return DesignatorAssignopExpr;
     }
 
-    public void setAssignop(Assignop Assignop) {
-        this.Assignop=Assignop;
-    }
-
-    public Expr getExpr() {
-        return Expr;
-    }
-
-    public void setExpr(Expr Expr) {
-        this.Expr=Expr;
+    public void setDesignatorAssignopExpr(DesignatorAssignopExpr DesignatorAssignopExpr) {
+        this.DesignatorAssignopExpr=DesignatorAssignopExpr;
     }
 
     public void accept(Visitor visitor) {
@@ -38,19 +27,16 @@ public class DesignatorActionAssignop extends DesignatorAction {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(Assignop!=null) Assignop.accept(visitor);
-        if(Expr!=null) Expr.accept(visitor);
+        if(DesignatorAssignopExpr!=null) DesignatorAssignopExpr.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(Assignop!=null) Assignop.traverseTopDown(visitor);
-        if(Expr!=null) Expr.traverseTopDown(visitor);
+        if(DesignatorAssignopExpr!=null) DesignatorAssignopExpr.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(Assignop!=null) Assignop.traverseBottomUp(visitor);
-        if(Expr!=null) Expr.traverseBottomUp(visitor);
+        if(DesignatorAssignopExpr!=null) DesignatorAssignopExpr.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -59,14 +45,8 @@ public class DesignatorActionAssignop extends DesignatorAction {
         buffer.append(tab);
         buffer.append("DesignatorActionAssignop(\n");
 
-        if(Assignop!=null)
-            buffer.append(Assignop.toString("  "+tab));
-        else
-            buffer.append(tab+"  null");
-        buffer.append("\n");
-
-        if(Expr!=null)
-            buffer.append(Expr.toString("  "+tab));
+        if(DesignatorAssignopExpr!=null)
+            buffer.append(DesignatorAssignopExpr.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

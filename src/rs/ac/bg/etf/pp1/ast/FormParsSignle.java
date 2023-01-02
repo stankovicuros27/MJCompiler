@@ -1,36 +1,25 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 23:8:13
+// 2/0/2023 17:7:52
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class FormParsSignle extends FormPars {
 
-    private Type Type;
-    private SquareBracketsOptional SquareBracketsOptional;
+    private FormParam FormParam;
 
-    public FormParsSignle (Type Type, SquareBracketsOptional SquareBracketsOptional) {
-        this.Type=Type;
-        if(Type!=null) Type.setParent(this);
-        this.SquareBracketsOptional=SquareBracketsOptional;
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.setParent(this);
+    public FormParsSignle (FormParam FormParam) {
+        this.FormParam=FormParam;
+        if(FormParam!=null) FormParam.setParent(this);
     }
 
-    public Type getType() {
-        return Type;
+    public FormParam getFormParam() {
+        return FormParam;
     }
 
-    public void setType(Type Type) {
-        this.Type=Type;
-    }
-
-    public SquareBracketsOptional getSquareBracketsOptional() {
-        return SquareBracketsOptional;
-    }
-
-    public void setSquareBracketsOptional(SquareBracketsOptional SquareBracketsOptional) {
-        this.SquareBracketsOptional=SquareBracketsOptional;
+    public void setFormParam(FormParam FormParam) {
+        this.FormParam=FormParam;
     }
 
     public void accept(Visitor visitor) {
@@ -38,19 +27,16 @@ public class FormParsSignle extends FormPars {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(Type!=null) Type.accept(visitor);
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.accept(visitor);
+        if(FormParam!=null) FormParam.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(Type!=null) Type.traverseTopDown(visitor);
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.traverseTopDown(visitor);
+        if(FormParam!=null) FormParam.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(Type!=null) Type.traverseBottomUp(visitor);
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.traverseBottomUp(visitor);
+        if(FormParam!=null) FormParam.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -59,14 +45,8 @@ public class FormParsSignle extends FormPars {
         buffer.append(tab);
         buffer.append("FormParsSignle(\n");
 
-        if(Type!=null)
-            buffer.append(Type.toString("  "+tab));
-        else
-            buffer.append(tab+"  null");
-        buffer.append("\n");
-
-        if(SquareBracketsOptional!=null)
-            buffer.append(SquareBracketsOptional.toString("  "+tab));
+        if(FormParam!=null)
+            buffer.append(FormParam.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

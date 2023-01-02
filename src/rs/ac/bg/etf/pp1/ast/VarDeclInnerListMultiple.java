@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 23:8:13
+// 2/0/2023 17:7:52
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,13 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class VarDeclInnerListMultiple extends VarDeclInnerList {
 
     private VarDeclInnerList VarDeclInnerList;
-    private SquareBracketsOptional SquareBracketsOptional;
+    private VarDeclInnerListElement VarDeclInnerListElement;
 
-    public VarDeclInnerListMultiple (VarDeclInnerList VarDeclInnerList, SquareBracketsOptional SquareBracketsOptional) {
+    public VarDeclInnerListMultiple (VarDeclInnerList VarDeclInnerList, VarDeclInnerListElement VarDeclInnerListElement) {
         this.VarDeclInnerList=VarDeclInnerList;
         if(VarDeclInnerList!=null) VarDeclInnerList.setParent(this);
-        this.SquareBracketsOptional=SquareBracketsOptional;
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.setParent(this);
+        this.VarDeclInnerListElement=VarDeclInnerListElement;
+        if(VarDeclInnerListElement!=null) VarDeclInnerListElement.setParent(this);
     }
 
     public VarDeclInnerList getVarDeclInnerList() {
@@ -25,12 +25,12 @@ public class VarDeclInnerListMultiple extends VarDeclInnerList {
         this.VarDeclInnerList=VarDeclInnerList;
     }
 
-    public SquareBracketsOptional getSquareBracketsOptional() {
-        return SquareBracketsOptional;
+    public VarDeclInnerListElement getVarDeclInnerListElement() {
+        return VarDeclInnerListElement;
     }
 
-    public void setSquareBracketsOptional(SquareBracketsOptional SquareBracketsOptional) {
-        this.SquareBracketsOptional=SquareBracketsOptional;
+    public void setVarDeclInnerListElement(VarDeclInnerListElement VarDeclInnerListElement) {
+        this.VarDeclInnerListElement=VarDeclInnerListElement;
     }
 
     public void accept(Visitor visitor) {
@@ -39,18 +39,18 @@ public class VarDeclInnerListMultiple extends VarDeclInnerList {
 
     public void childrenAccept(Visitor visitor) {
         if(VarDeclInnerList!=null) VarDeclInnerList.accept(visitor);
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.accept(visitor);
+        if(VarDeclInnerListElement!=null) VarDeclInnerListElement.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(VarDeclInnerList!=null) VarDeclInnerList.traverseTopDown(visitor);
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.traverseTopDown(visitor);
+        if(VarDeclInnerListElement!=null) VarDeclInnerListElement.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(VarDeclInnerList!=null) VarDeclInnerList.traverseBottomUp(visitor);
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.traverseBottomUp(visitor);
+        if(VarDeclInnerListElement!=null) VarDeclInnerListElement.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -65,8 +65,8 @@ public class VarDeclInnerListMultiple extends VarDeclInnerList {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(SquareBracketsOptional!=null)
-            buffer.append(SquareBracketsOptional.toString("  "+tab));
+        if(VarDeclInnerListElement!=null)
+            buffer.append(VarDeclInnerListElement.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

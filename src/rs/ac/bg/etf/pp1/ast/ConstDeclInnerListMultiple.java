@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 23:8:13
+// 2/0/2023 17:7:52
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,13 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class ConstDeclInnerListMultiple extends ConstDeclInnerList {
 
     private ConstDeclInnerList ConstDeclInnerList;
-    private Const Const;
+    private ConstDeclInnerListElement ConstDeclInnerListElement;
 
-    public ConstDeclInnerListMultiple (ConstDeclInnerList ConstDeclInnerList, Const Const) {
+    public ConstDeclInnerListMultiple (ConstDeclInnerList ConstDeclInnerList, ConstDeclInnerListElement ConstDeclInnerListElement) {
         this.ConstDeclInnerList=ConstDeclInnerList;
         if(ConstDeclInnerList!=null) ConstDeclInnerList.setParent(this);
-        this.Const=Const;
-        if(Const!=null) Const.setParent(this);
+        this.ConstDeclInnerListElement=ConstDeclInnerListElement;
+        if(ConstDeclInnerListElement!=null) ConstDeclInnerListElement.setParent(this);
     }
 
     public ConstDeclInnerList getConstDeclInnerList() {
@@ -25,12 +25,12 @@ public class ConstDeclInnerListMultiple extends ConstDeclInnerList {
         this.ConstDeclInnerList=ConstDeclInnerList;
     }
 
-    public Const getConst() {
-        return Const;
+    public ConstDeclInnerListElement getConstDeclInnerListElement() {
+        return ConstDeclInnerListElement;
     }
 
-    public void setConst(Const Const) {
-        this.Const=Const;
+    public void setConstDeclInnerListElement(ConstDeclInnerListElement ConstDeclInnerListElement) {
+        this.ConstDeclInnerListElement=ConstDeclInnerListElement;
     }
 
     public void accept(Visitor visitor) {
@@ -39,18 +39,18 @@ public class ConstDeclInnerListMultiple extends ConstDeclInnerList {
 
     public void childrenAccept(Visitor visitor) {
         if(ConstDeclInnerList!=null) ConstDeclInnerList.accept(visitor);
-        if(Const!=null) Const.accept(visitor);
+        if(ConstDeclInnerListElement!=null) ConstDeclInnerListElement.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(ConstDeclInnerList!=null) ConstDeclInnerList.traverseTopDown(visitor);
-        if(Const!=null) Const.traverseTopDown(visitor);
+        if(ConstDeclInnerListElement!=null) ConstDeclInnerListElement.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(ConstDeclInnerList!=null) ConstDeclInnerList.traverseBottomUp(visitor);
-        if(Const!=null) Const.traverseBottomUp(visitor);
+        if(ConstDeclInnerListElement!=null) ConstDeclInnerListElement.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -65,8 +65,8 @@ public class ConstDeclInnerListMultiple extends ConstDeclInnerList {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(Const!=null)
-            buffer.append(Const.toString("  "+tab));
+        if(ConstDeclInnerListElement!=null)
+            buffer.append(ConstDeclInnerListElement.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

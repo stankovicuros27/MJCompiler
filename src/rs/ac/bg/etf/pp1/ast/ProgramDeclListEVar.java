@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 23:8:13
+// 2/0/2023 17:7:52
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,13 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class ProgramDeclListEVar extends ProgramDeclListE {
 
     private ProgramDeclListE ProgramDeclListE;
-    private VarDecl VarDecl;
+    private VarDeclGlobal VarDeclGlobal;
 
-    public ProgramDeclListEVar (ProgramDeclListE ProgramDeclListE, VarDecl VarDecl) {
+    public ProgramDeclListEVar (ProgramDeclListE ProgramDeclListE, VarDeclGlobal VarDeclGlobal) {
         this.ProgramDeclListE=ProgramDeclListE;
         if(ProgramDeclListE!=null) ProgramDeclListE.setParent(this);
-        this.VarDecl=VarDecl;
-        if(VarDecl!=null) VarDecl.setParent(this);
+        this.VarDeclGlobal=VarDeclGlobal;
+        if(VarDeclGlobal!=null) VarDeclGlobal.setParent(this);
     }
 
     public ProgramDeclListE getProgramDeclListE() {
@@ -25,12 +25,12 @@ public class ProgramDeclListEVar extends ProgramDeclListE {
         this.ProgramDeclListE=ProgramDeclListE;
     }
 
-    public VarDecl getVarDecl() {
-        return VarDecl;
+    public VarDeclGlobal getVarDeclGlobal() {
+        return VarDeclGlobal;
     }
 
-    public void setVarDecl(VarDecl VarDecl) {
-        this.VarDecl=VarDecl;
+    public void setVarDeclGlobal(VarDeclGlobal VarDeclGlobal) {
+        this.VarDeclGlobal=VarDeclGlobal;
     }
 
     public void accept(Visitor visitor) {
@@ -39,18 +39,18 @@ public class ProgramDeclListEVar extends ProgramDeclListE {
 
     public void childrenAccept(Visitor visitor) {
         if(ProgramDeclListE!=null) ProgramDeclListE.accept(visitor);
-        if(VarDecl!=null) VarDecl.accept(visitor);
+        if(VarDeclGlobal!=null) VarDeclGlobal.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(ProgramDeclListE!=null) ProgramDeclListE.traverseTopDown(visitor);
-        if(VarDecl!=null) VarDecl.traverseTopDown(visitor);
+        if(VarDeclGlobal!=null) VarDeclGlobal.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(ProgramDeclListE!=null) ProgramDeclListE.traverseBottomUp(visitor);
-        if(VarDecl!=null) VarDecl.traverseBottomUp(visitor);
+        if(VarDeclGlobal!=null) VarDeclGlobal.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -65,8 +65,8 @@ public class ProgramDeclListEVar extends ProgramDeclListE {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(VarDecl!=null)
-            buffer.append(VarDecl.toString("  "+tab));
+        if(VarDeclGlobal!=null)
+            buffer.append(VarDeclGlobal.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

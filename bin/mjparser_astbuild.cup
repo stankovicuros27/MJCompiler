@@ -21,8 +21,8 @@ parser code {:
       report_error(message, info);
     }
   
-    public void syntax_error(Symbol cur_token) {
-        report_error("\nSintaksna greska", cur_token);
+    public void syntax_error(String message, Symbol cur_token) {
+        report_error("\nSyntax error: " + message, cur_token);
     }
   
     public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
@@ -34,6 +34,13 @@ parser code {:
     	if (info instanceof Symbol)
             msg.append (" na liniji ").append(((Symbol)info).left);
         log.error(msg.toString());
+    }
+    
+    public void report_info(String message, Object info) {
+    	StringBuilder msg = new StringBuilder(message); 
+    	if (info instanceof Symbol)
+            msg.append (" na liniji ").append(((Symbol)info).left);
+        log.info(msg.toString());
     }
 
 :}
@@ -104,9 +111,18 @@ nonterminal Factor Factor;
 nonterminal ParenActParsOptional ParenActParsOptional;
 nonterminal NewTypeSuffix NewTypeSuffix;
 nonterminal Label Label;
+nonterminal VarDeclGlobal VarDeclGlobal;
+nonterminal VarDeclInnerListGlobal VarDeclInnerListGlobal;
+nonterminal DesignatorAssignopExpr DesignatorAssignopExpr;
 
 nonterminal ProgramName ProgramName;
 
+nonterminal ConstDeclInnerListElement ConstDeclInnerListElement;
+nonterminal VarDeclInnerListElement VarDeclInnerListElement;
+nonterminal FormParam FormParam;
+nonterminal DesignatorOptional DesignatorOptional;
+nonterminal ForeachStatement ForeachStatement;
+nonterminal ConditionInIf ConditionInIf;
 
 
 
@@ -123,6 +139,10 @@ terminal INC, DEC, SEMI_COLON, COLON, COMMA, DOT, L_PAREN, R_PAREN, L_SQUARE_BRA
 // Token types
 terminal CHAR_CONST, BOOL_CONST, NUM_CONST, IDENT;
 
+
+
+// ~~~~~~~~~~~~~~~~PRECEDENCE~~~~~~~~~~~~~~~~
+
 precedence left ELSE;
 
 
@@ -136,19 +156,21 @@ ProgramName ::= (ProgramName) IDENT:programName {: RESULT=new ProgramName(); :};
 
 ProgramDeclListE ::= (ProgramDeclListEConst) ProgramDeclListE:P1 ConstDecl:C2 {: RESULT=new ProgramDeclListEConst(P1, C2); RESULT.setLine(P1left); :}
 				|
-				(ProgramDeclListEVar) ProgramDeclListE:P1 VarDecl:V2 {: RESULT=new ProgramDeclListEVar(P1, V2); RESULT.setLine(P1left); :}
+				(ProgramDeclListEVar) ProgramDeclListE:P1 VarDeclGlobal:V2 {: RESULT=new ProgramDeclListEVar(P1, V2); RESULT.setLine(P1left); :}
 				|
 				(ProgramDeclListEClass) ProgramDeclListE:P1 ClassDecl:C2 {: RESULT=new ProgramDeclListEClass(P1, C2); RESULT.setLine(P1left); :}
 				|
 				(ProgramDeclListEEmpty) {: RESULT=new ProgramDeclListEEmpty(); :} /* e */
 				;
-
+				
 ConstDecl ::= (ConstDecl) CONST Type:T1 ConstDeclInnerList:C2 SEMI_COLON {: RESULT=new ConstDecl(T1, C2); RESULT.setLine(T1left); :};
 
-ConstDeclInnerList ::= (ConstDeclInnerListSingle) IDENT ASSIGN Const:C1 {: RESULT=new ConstDeclInnerListSingle(C1); RESULT.setLine(C1left); :}
+ConstDeclInnerList ::= (ConstDeclInnerListSingle) ConstDeclInnerListElement:C1 {: RESULT=new ConstDeclInnerListSingle(C1); RESULT.setLine(C1left); :}
 			|
-			(ConstDeclInnerListMultiple) ConstDeclInnerList:C1 COMMA IDENT ASSIGN Const:C2 {: RESULT=new ConstDeclInnerListMultiple(C1, C2); RESULT.setLine(C1left); :}
+			(ConstDeclInnerListMultiple) ConstDeclInnerList:C1 COMMA ConstDeclInnerListElement:C2 {: RESULT=new ConstDeclInnerListMultiple(C1, C2); RESULT.setLine(C1left); :}
 			;
+
+ConstDeclInnerListElement ::= (ConstDeclInnerListElement) IDENT ASSIGN Const:C1 {: RESULT=new ConstDeclInnerListElement(C1); RESULT.setLine(C1left); :};
 
 Const ::= (NumConst) NUM_CONST {: RESULT=new NumConst(); :}
 		|
@@ -156,24 +178,50 @@ Const ::= (NumConst) NUM_CONST {: RESULT=new NumConst(); :}
 		|
 		(BoolConst) BOOL_CONST {: RESULT=new BoolConst(); :}
 		;
+		
+VarDeclGlobal ::= (VarDeclGlobalExists) VarDecl:V1 {: RESULT=new VarDeclGlobalExists(V1); RESULT.setLine(V1left); :}
+				|
+				(VarDeclGlobalError) error:e 
+					{: 
+						parser.syntax_error("Globar var declaration error at line: " + eleft, null); 
+						parser.log.info("Global var declaration error recovery successful."); 
+					:} {: RESULT=new VarDeclGlobalError(); :}
+				;
 
 VarDecl ::= (VarDecl) Type:T1 VarDeclInnerList:V2 SEMI_COLON {: RESULT=new VarDecl(T1, V2); RESULT.setLine(T1left); :};
 
-VarDeclInnerList ::= (VarDeclInnerListSingle) IDENT SquareBracketsOptional:S1 {: RESULT=new VarDeclInnerListSingle(S1); RESULT.setLine(S1left); :}
+//VarDeclInnerListGlobal ::= (VarDeclInnerListGlobalSingle) IDENT SquareBracketsOptional
+//				|
+//				(VarDeclInnerListGlobalMultiple) VarDeclInnerListGlobal COMMA IDENT SquareBracketsOptional
+//				|
+//				(VarDeclInnerListGlobalError) error:e {: parser.report_error("Globar var declaration error at line: " + eleft, null); :}
+//				;
+
+VarDeclInnerList ::= (VarDeclInnerListSingle) VarDeclInnerListElement:V1 {: RESULT=new VarDeclInnerListSingle(V1); RESULT.setLine(V1left); :}
 				|
-				(VarDeclInnerListMultiple) VarDeclInnerList:V1 COMMA IDENT SquareBracketsOptional:S2 {: RESULT=new VarDeclInnerListMultiple(V1, S2); RESULT.setLine(V1left); :}
+				(VarDeclInnerListMultiple) VarDeclInnerList:V1 COMMA VarDeclInnerListElement:V2 {: RESULT=new VarDeclInnerListMultiple(V1, V2); RESULT.setLine(V1left); :}
 				;
+				
+VarDeclInnerListElement ::= IDENT SquareBracketsOptional:S1 {: RESULT=new VarDeclInnerListElementDerived1(S1); RESULT.setLine(S1left); :};
 
 SquareBracketsOptional ::= (SquareBracketsExists) L_SQUARE_BRACKET R_SQUARE_BRACKET {: RESULT=new SquareBracketsExists(); :}
 						|
 						(SquareBracketsEmpty) {: RESULT=new SquareBracketsEmpty(); :} /* e */ 
 						;
-
+						
+						
+						
 ClassDecl ::= (ClassDecl) CLASS IDENT ExtendsTypeOptional:E1 L_BRACE ClassBody:C2 R_BRACE {: RESULT=new ClassDecl(E1, C2); RESULT.setLine(E1left); :};
 
 ExtendsTypeOptional ::= (ExtendsTypeExists) EXTENDS Type:T1 {: RESULT=new ExtendsTypeExists(T1); RESULT.setLine(T1left); :}
 					|
 					(ExtendsTypeEmpty) {: RESULT=new ExtendsTypeEmpty(); :} /* e */
+					|
+					(ExtendsTypeError) error:e 
+						{: 
+							parser.syntax_error("Class extends type error at line: " + eleft, null); 
+							parser.log.info("Class extends type error recovery successful."); 
+						:} {: RESULT=new ExtendsTypeError(); :}
 					;
 
 ClassBody ::= (ClassBody) VarDeclListE:V1 ClassConstructorsAndMethodsDeclOptional:C2 {: RESULT=new ClassBody(V1, C2); RESULT.setLine(V1left); :};
@@ -214,10 +262,18 @@ FormParsOptional ::= (FormParsExists) FormPars:F1 {: RESULT=new FormParsExists(F
 					(FormParsEmpty) {: RESULT=new FormParsEmpty(); :} /* e */
 					;
 					
-FormPars ::= (FormParsSignle) Type:T1 IDENT SquareBracketsOptional:S2 {: RESULT=new FormParsSignle(T1, S2); RESULT.setLine(T1left); :}
+FormPars ::= (FormParsSignle) FormParam:F1 {: RESULT=new FormParsSignle(F1); RESULT.setLine(F1left); :}
 			|
-			(FormParsMultiple) FormPars:F1 COMMA Type:T2 IDENT SquareBracketsOptional:S3 {: RESULT=new FormParsMultiple(F1, T2, S3); RESULT.setLine(F1left); :}
+			(FormParsMultiple) FormPars:F1 COMMA FormParam:F2 {: RESULT=new FormParsMultiple(F1, F2); RESULT.setLine(F1left); :}
+			|	
+			(FormParsError) error:e 
+				{: 
+					parser.syntax_error("Formal parameter declaration error at line: " + eleft, null); 
+					parser.log.info("Formal parameter declaration error recovery successful."); 
+				:} {: RESULT=new FormParsError(); :}
 			;
+			
+FormParam ::= Type:T1 IDENT SquareBracketsOptional:S2 {: RESULT=new FormParamDerived1(T1, S2); RESULT.setLine(T1left); :};
 
 Type ::= (Type) IDENT {: RESULT=new Type(); :};
 
@@ -231,15 +287,14 @@ Statement ::= (StatementMatched) MatchedStatement:M1 {: RESULT=new StatementMatc
 			(StatementUnmatched) UnmatchedStatement:U1 {: RESULT=new StatementUnmatched(U1); RESULT.setLine(U1left); :}
 			;
 			
-UnmatchedStatement ::= (UnmatchedStatementIf) IF L_PAREN Condition:C1 R_PAREN Statement:S2 {: RESULT=new UnmatchedStatementIf(C1, S2); RESULT.setLine(C1left); :}
+UnmatchedStatement ::= (UnmatchedStatementIf) IF L_PAREN ConditionInIf:C1 R_PAREN Statement:S2 {: RESULT=new UnmatchedStatementIf(C1, S2); RESULT.setLine(C1left); :}
 					|
-					(UnmatchedStatementIfElse) IF L_PAREN Condition:C1 R_PAREN MatchedStatement:M2 ELSE UnmatchedStatement:U3 {: RESULT=new UnmatchedStatementIfElse(C1, M2, U3); RESULT.setLine(C1left); :}
+					(UnmatchedStatementIfElse) IF L_PAREN ConditionInIf:C1 R_PAREN MatchedStatement:M2 ELSE UnmatchedStatement:U3 {: RESULT=new UnmatchedStatementIfElse(C1, M2, U3); RESULT.setLine(C1left); :}
 					;
 
-// FOREACH missing - level B, C
 MatchedStatement ::= (MatchedStatementDesignator) DesignatorStatement:D1 SEMI_COLON {: RESULT=new MatchedStatementDesignator(D1); RESULT.setLine(D1left); :}
 					|
-					(MatchedStatementIfElse) IF L_PAREN Condition:C1 R_PAREN MatchedStatement:M2 ELSE MatchedStatement:M3 {: RESULT=new MatchedStatementIfElse(C1, M2, M3); RESULT.setLine(C1left); :} 
+					(MatchedStatementIfElse) IF L_PAREN ConditionInIf:C1 R_PAREN MatchedStatement:M2 ELSE MatchedStatement:M3 {: RESULT=new MatchedStatementIfElse(C1, M2, M3); RESULT.setLine(C1left); :} 
 					|
 					(MatchedStatementWhile) WHILE L_PAREN Condition:C1 R_PAREN Statement:S2 {: RESULT=new MatchedStatementWhile(C1, S2); RESULT.setLine(C1left); :}
 					|
@@ -253,8 +308,12 @@ MatchedStatement ::= (MatchedStatementDesignator) DesignatorStatement:D1 SEMI_CO
 					|
 					(MatchedStatementPrint) PRINT L_PAREN Expr:E1 PrintNumConstOptional:P2 R_PAREN SEMI_COLON {: RESULT=new MatchedStatementPrint(E1, P2); RESULT.setLine(E1left); :}
 					|
+					(MatchedStatementForeach) ForeachStatement:F1 SEMI_COLON {: RESULT=new MatchedStatementForeach(F1); RESULT.setLine(F1left); :}
+					|
 					(MatchedStatementSection) L_BRACE StatementListE:S1 R_BRACE {: RESULT=new MatchedStatementSection(S1); RESULT.setLine(S1left); :}
 					;
+					
+ForeachStatement ::= (ForeachStatement) Designator:D1 DOT FOREACH L_PAREN IDENT ARROW Statement:S2 R_PAREN {: RESULT=new ForeachStatement(D1, S2); RESULT.setLine(D1left); :};
 
 ExprOptional ::= (ExprOptionalExists) Expr:E1 {: RESULT=new ExprOptionalExists(E1); RESULT.setLine(E1left); :}
 				|
@@ -273,7 +332,7 @@ DesignatorStatement ::= (DesignatorStatementAction) Designator:D1 DesignatorActi
 					;
 					
 					
-DesignatorAction ::= (DesignatorActionAssignop) Assignop:A1 Expr:E2 {: RESULT=new DesignatorActionAssignop(A1, E2); RESULT.setLine(A1left); :}
+DesignatorAction ::= (DesignatorActionAssignop) DesignatorAssignopExpr:D1 {: RESULT=new DesignatorActionAssignop(D1); RESULT.setLine(D1left); :}
 					|
 					(DesignatorActionActPars) L_PAREN ActParsOptional:A1 R_PAREN {: RESULT=new DesignatorActionActPars(A1); RESULT.setLine(A1left); :}
 					|
@@ -282,16 +341,21 @@ DesignatorAction ::= (DesignatorActionAssignop) Assignop:A1 Expr:E2 {: RESULT=ne
 					(DesignatorActionDec) DEC {: RESULT=new DesignatorActionDec(); :}
 					;
 					
-					
-DesignatorListOptionalES ::= (DesignatorListOptionalESExist) DesignatorList:D1 {: RESULT=new DesignatorListOptionalESExist(D1); RESULT.setLine(D1left); :}
+DesignatorAssignopExpr ::= (DesignatorAssignopExpression) Assignop:A1 Expr:E2 {: RESULT=new DesignatorAssignopExpression(A1, E2); RESULT.setLine(A1left); :}
 						|
-						(DesignatorListOptionalESEmpty) {: RESULT=new DesignatorListOptionalESEmpty(); :} /* e */
+						(DesignatorAssignopExprError) error:e {: parser.report_error("Assignment operation error at line: " + eleft, null); :} {: RESULT=new DesignatorAssignopExprError(); :}
 						;
-						
-DesignatorList ::= (DesignatorListMultiple) DesignatorList:D1 COMMA Designator:D2 {: RESULT=new DesignatorListMultiple(D1, D2); RESULT.setLine(D1left); :}
-				|
-				(DesignatorListSingle) Designator:D1 {: RESULT=new DesignatorListSingle(D1); RESULT.setLine(D1left); :}
-				;
+					
+					
+DesignatorListOptionalES ::= (DesignatorListOptionalESExist) DesignatorOptional:D1 {: RESULT=new DesignatorListOptionalESExist(D1); RESULT.setLine(D1left); :}
+						|
+						(DesignatorListOptionalESEmpty) DesignatorListOptionalES:D1 COMMA DesignatorOptional:D2 {: RESULT=new DesignatorListOptionalESEmpty(D1, D2); RESULT.setLine(D1left); :}
+						;
+										
+DesignatorOptional ::= (DesignatorOptionalExist) Designator:D1 {: RESULT=new DesignatorOptionalExist(D1); RESULT.setLine(D1left); :}
+					|
+					(DesignatorOptionalEmpty) {: RESULT=new DesignatorOptionalEmpty(); :} /* e */
+					;
 				
 ActPars ::= (ActParsMultiple) ActPars:A1 COMMA Expr:E2 {: RESULT=new ActParsMultiple(A1, E2); RESULT.setLine(A1left); :}
 		|
@@ -301,6 +365,15 @@ ActPars ::= (ActParsMultiple) ActPars:A1 COMMA Expr:E2 {: RESULT=new ActParsMult
 ActParsOptional ::= (ActParsOptionalExist) ActPars:A1 {: RESULT=new ActParsOptionalExist(A1); RESULT.setLine(A1left); :}
 				|
 				(ActParsOptionalEmpty) {: RESULT=new ActParsOptionalEmpty(); :} /* e */
+				;
+
+ConditionInIf ::= (ConditionInIfSucess) Condition:C1 {: RESULT=new ConditionInIfSucess(C1); RESULT.setLine(C1left); :}
+				|
+				(ConditionInIfError) error:e 
+					{: 
+						parser.syntax_error("Statement in If Condition error at line: " + eleft, null); 
+						parser.log.info("Statement in If Condition error recovery successful."); 
+					:} {: RESULT=new ConditionInIfError(); :}
 				;
 
 Condition ::= (ConditionMultiple) Condition:C1 OR CondTerm:C2 {: RESULT=new ConditionMultiple(C1, C2); RESULT.setLine(C1left); :}

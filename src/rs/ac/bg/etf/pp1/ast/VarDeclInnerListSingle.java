@@ -1,25 +1,25 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 23:8:13
+// 2/0/2023 17:7:52
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class VarDeclInnerListSingle extends VarDeclInnerList {
 
-    private SquareBracketsOptional SquareBracketsOptional;
+    private VarDeclInnerListElement VarDeclInnerListElement;
 
-    public VarDeclInnerListSingle (SquareBracketsOptional SquareBracketsOptional) {
-        this.SquareBracketsOptional=SquareBracketsOptional;
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.setParent(this);
+    public VarDeclInnerListSingle (VarDeclInnerListElement VarDeclInnerListElement) {
+        this.VarDeclInnerListElement=VarDeclInnerListElement;
+        if(VarDeclInnerListElement!=null) VarDeclInnerListElement.setParent(this);
     }
 
-    public SquareBracketsOptional getSquareBracketsOptional() {
-        return SquareBracketsOptional;
+    public VarDeclInnerListElement getVarDeclInnerListElement() {
+        return VarDeclInnerListElement;
     }
 
-    public void setSquareBracketsOptional(SquareBracketsOptional SquareBracketsOptional) {
-        this.SquareBracketsOptional=SquareBracketsOptional;
+    public void setVarDeclInnerListElement(VarDeclInnerListElement VarDeclInnerListElement) {
+        this.VarDeclInnerListElement=VarDeclInnerListElement;
     }
 
     public void accept(Visitor visitor) {
@@ -27,16 +27,16 @@ public class VarDeclInnerListSingle extends VarDeclInnerList {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.accept(visitor);
+        if(VarDeclInnerListElement!=null) VarDeclInnerListElement.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.traverseTopDown(visitor);
+        if(VarDeclInnerListElement!=null) VarDeclInnerListElement.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(SquareBracketsOptional!=null) SquareBracketsOptional.traverseBottomUp(visitor);
+        if(VarDeclInnerListElement!=null) VarDeclInnerListElement.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -45,8 +45,8 @@ public class VarDeclInnerListSingle extends VarDeclInnerList {
         buffer.append(tab);
         buffer.append("VarDeclInnerListSingle(\n");
 
-        if(SquareBracketsOptional!=null)
-            buffer.append(SquareBracketsOptional.toString("  "+tab));
+        if(VarDeclInnerListElement!=null)
+            buffer.append(VarDeclInnerListElement.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

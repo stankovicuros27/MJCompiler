@@ -1,25 +1,25 @@
 // generated with ast extension for cup
 // version 0.8
-// 30/11/2022 23:8:13
+// 2/0/2023 17:7:52
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class ConstDeclInnerListSingle extends ConstDeclInnerList {
 
-    private Const Const;
+    private ConstDeclInnerListElement ConstDeclInnerListElement;
 
-    public ConstDeclInnerListSingle (Const Const) {
-        this.Const=Const;
-        if(Const!=null) Const.setParent(this);
+    public ConstDeclInnerListSingle (ConstDeclInnerListElement ConstDeclInnerListElement) {
+        this.ConstDeclInnerListElement=ConstDeclInnerListElement;
+        if(ConstDeclInnerListElement!=null) ConstDeclInnerListElement.setParent(this);
     }
 
-    public Const getConst() {
-        return Const;
+    public ConstDeclInnerListElement getConstDeclInnerListElement() {
+        return ConstDeclInnerListElement;
     }
 
-    public void setConst(Const Const) {
-        this.Const=Const;
+    public void setConstDeclInnerListElement(ConstDeclInnerListElement ConstDeclInnerListElement) {
+        this.ConstDeclInnerListElement=ConstDeclInnerListElement;
     }
 
     public void accept(Visitor visitor) {
@@ -27,16 +27,16 @@ public class ConstDeclInnerListSingle extends ConstDeclInnerList {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(Const!=null) Const.accept(visitor);
+        if(ConstDeclInnerListElement!=null) ConstDeclInnerListElement.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(Const!=null) Const.traverseTopDown(visitor);
+        if(ConstDeclInnerListElement!=null) ConstDeclInnerListElement.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(Const!=null) Const.traverseBottomUp(visitor);
+        if(ConstDeclInnerListElement!=null) ConstDeclInnerListElement.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -45,8 +45,8 @@ public class ConstDeclInnerListSingle extends ConstDeclInnerList {
         buffer.append(tab);
         buffer.append("ConstDeclInnerListSingle(\n");
 
-        if(Const!=null)
-            buffer.append(Const.toString("  "+tab));
+        if(ConstDeclInnerListElement!=null)
+            buffer.append(ConstDeclInnerListElement.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
