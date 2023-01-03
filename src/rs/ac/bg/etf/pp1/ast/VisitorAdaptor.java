@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/0/2023 19:20:51
+// 4/0/2023 0:11:3
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -36,7 +36,6 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ProgramDeclListE ProgramDeclListE) { }
     public void visit(Condition Condition) { }
     public void visit(FormParsOptional FormParsOptional) { }
-    public void visit(MinusOptional MinusOptional) { }
     public void visit(DesignatorOptional DesignatorOptional) { }
     public void visit(MethodDeclListE MethodDeclListE) { }
     public void visit(VarDeclListE VarDeclListE) { }
@@ -68,24 +67,22 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(Assignop Assignop) { visit(); }
     public void visit(Label Label) { visit(); }
     public void visit(DesignatorSingle DesignatorSingle) { visit(); }
-    public void visit(DesignatorMultipleExpr DesignatorMultipleExpr) { visit(); }
-    public void visit(DesignatorMultipleIdent DesignatorMultipleIdent) { visit(); }
+    public void visit(DesignatorSquareBrackets DesignatorSquareBrackets) { visit(); }
+    public void visit(DesignatorDot DesignatorDot) { visit(); }
     public void visit(NewTypeSuffixActPars NewTypeSuffixActPars) { visit(); }
     public void visit(NewTypeSuffixSquareBracket NewTypeSuffixSquareBracket) { visit(); }
-    public void visit(ParenActParsOptionalEmpty ParenActParsOptionalEmpty) { visit(); }
-    public void visit(ParenActParsOptionalExist ParenActParsOptionalExist) { visit(); }
     public void visit(FactorExpr FactorExpr) { visit(); }
     public void visit(FactorNew FactorNew) { visit(); }
     public void visit(FactorBoolConst FactorBoolConst) { visit(); }
     public void visit(FactorCharConst FactorCharConst) { visit(); }
     public void visit(FactorNumConst FactorNumConst) { visit(); }
+    public void visit(FactorDesignatorMethodCall FactorDesignatorMethodCall) { visit(); }
     public void visit(FactorDesignator FactorDesignator) { visit(); }
     public void visit(TermSingle TermSingle) { visit(); }
     public void visit(TermMultiple TermMultiple) { visit(); }
-    public void visit(MinusOptionalEmpty MinusOptionalEmpty) { visit(); }
-    public void visit(MinusOptionalExist MinusOptionalExist) { visit(); }
     public void visit(ExprMultiple ExprMultiple) { visit(); }
     public void visit(ExprSingle ExprSingle) { visit(); }
+    public void visit(ExprSingleMinus ExprSingleMinus) { visit(); }
     public void visit(RelopExprOptionalEmpty RelopExprOptionalEmpty) { visit(); }
     public void visit(RelopExprOptionalExist RelopExprOptionalExist) { visit(); }
     public void visit(CondFact CondFact) { visit(); }
@@ -108,29 +105,27 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(DesignatorActionDec DesignatorActionDec) { visit(); }
     public void visit(DesignatorActionInc DesignatorActionInc) { visit(); }
     public void visit(DesignatorActionActPars DesignatorActionActPars) { visit(); }
-    public void visit(DesignatorActionAssignop DesignatorActionAssignop) { visit(); }
-    public void visit(DesignatorStatementError DesignatorStatementError) { visit(); }
     public void visit(DesignatorStatementSquareBracket DesignatorStatementSquareBracket) { visit(); }
     public void visit(DesignatorStatementAction DesignatorStatementAction) { visit(); }
+    public void visit(DesignatorStatementAssign DesignatorStatementAssign) { visit(); }
     public void visit(PrintNumConstOptionalEmpty PrintNumConstOptionalEmpty) { visit(); }
     public void visit(PrintNumConstOptionalExists PrintNumConstOptionalExists) { visit(); }
     public void visit(ExprOptionalEmpty ExprOptionalEmpty) { visit(); }
     public void visit(ExprOptionalExists ExprOptionalExists) { visit(); }
     public void visit(ForeachStatement ForeachStatement) { visit(); }
-    public void visit(MatchedStatementSection MatchedStatementSection) { visit(); }
-    public void visit(MatchedStatementForeach MatchedStatementForeach) { visit(); }
-    public void visit(MatchedStatementPrint MatchedStatementPrint) { visit(); }
-    public void visit(MatchedStatementRead MatchedStatementRead) { visit(); }
-    public void visit(MatchedStatementReturn MatchedStatementReturn) { visit(); }
-    public void visit(MatchedStatementContinue MatchedStatementContinue) { visit(); }
-    public void visit(MatchedStatementBreak MatchedStatementBreak) { visit(); }
-    public void visit(MatchedStatementWhile MatchedStatementWhile) { visit(); }
-    public void visit(MatchedStatementIfElse MatchedStatementIfElse) { visit(); }
-    public void visit(MatchedStatementDesignator MatchedStatementDesignator) { visit(); }
-    public void visit(UnmatchedStatementIfElse UnmatchedStatementIfElse) { visit(); }
-    public void visit(UnmatchedStatementIf UnmatchedStatementIf) { visit(); }
-    public void visit(StatementUnmatched StatementUnmatched) { visit(); }
-    public void visit(StatementMatched StatementMatched) { visit(); }
+    public void visit(ElseStatement ElseStatement) { visit(); }
+    public void visit(IfStatement IfStatement) { visit(); }
+    public void visit(StatementSection StatementSection) { visit(); }
+    public void visit(StatementForeach StatementForeach) { visit(); }
+    public void visit(StatementPrint StatementPrint) { visit(); }
+    public void visit(StatementRead StatementRead) { visit(); }
+    public void visit(StatementReturn StatementReturn) { visit(); }
+    public void visit(StatementContinue StatementContinue) { visit(); }
+    public void visit(StatementBreak StatementBreak) { visit(); }
+    public void visit(StatementWhile StatementWhile) { visit(); }
+    public void visit(StatementIf StatementIf) { visit(); }
+    public void visit(StatementIfElse StatementIfElse) { visit(); }
+    public void visit(StatementDesignator StatementDesignator) { visit(); }
     public void visit(StatementListEEmpty StatementListEEmpty) { visit(); }
     public void visit(StatementListEExists StatementListEExists) { visit(); }
     public void visit(Type Type) { visit(); }

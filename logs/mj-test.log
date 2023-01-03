@@ -1,71 +1,111 @@
-INFO  18:28:23,596 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
-INFO  18:28:23,605 - #2 program
-INFO  18:28:23,607 - #44 test302
-INFO  18:28:23,607 - #6 const
-INFO  18:28:23,607 - #44 int
-INFO  18:28:23,607 - #44 i
-INFO  18:28:23,607 - #30 =
-INFO  18:28:23,607 - #45 3
-INFO  18:28:23,607 - #33 ;
-INFO  18:28:23,607 - #6 const
-INFO  18:28:23,608 - #44 bool
-INFO  18:28:23,608 - #44 bt
-INFO  18:28:23,608 - #30 =
-INFO  18:28:23,608 - #46 true
-INFO  18:28:23,608 - #33 ;
-INFO  18:28:23,608 - #6 const
-INFO  18:28:23,608 - #44 bool
-INFO  18:28:23,608 - #44 bf
-INFO  18:28:23,608 - #30 =
-INFO  18:28:23,608 - #46 false
-INFO  18:28:23,608 - #33 ;
-INFO  18:28:23,608 - #6 const
-INFO  18:28:23,608 - #44 char
-INFO  18:28:23,608 - #44 c
-INFO  18:28:23,608 - #30 =
-INFO  18:28:23,608 - #47 c
-INFO  18:28:23,608 - #33 ;
-INFO  18:28:23,608 - #44 int
-INFO  18:28:23,608 - #44 niz
-INFO  18:28:23,608 - #39 [
-INFO  18:28:23,608 - #40 ]
-INFO  18:28:23,608 - #35 ,
-INFO  18:28:23,608 - #44 niz2
-INFO  18:28:23,608 - #39 [
-INFO  18:28:23,609 - #40 ]
-INFO  18:28:23,609 - #35 ,
-INFO  18:28:23,609 - #44 a
-INFO  18:28:23,609 - #35 ,
-INFO  18:28:23,609 - #44 b
-INFO  18:28:23,609 - #33 ;
-INFO  18:28:23,609 - #44 char
-INFO  18:28:23,609 - #44 nizch
-INFO  18:28:23,609 - #39 [
-INFO  18:28:23,609 - #40 ]
-INFO  18:28:23,609 - #33 ;
-INFO  18:28:23,609 - #41 {
-INFO  18:28:23,609 - #44 int
-INFO  18:28:23,609 - #44 main
-INFO  18:28:23,609 - #37 (
-INFO  18:28:23,609 - #44 int
-INFO  18:28:23,610 - #44 fp1
-INFO  18:28:23,610 - #35 ,
-INFO  18:28:23,610 - #44 char
-INFO  18:28:23,610 - #44 fp2
-INFO  18:28:23,610 - #35 ,
-INFO  18:28:23,610 - #44 bool
-INFO  18:28:23,610 - #44 fp3
-INFO  18:28:23,610 - #38 )
-INFO  18:28:23,610 - #44 int
-INFO  18:28:23,610 - #44 aa
-INFO  18:28:23,610 - #33 ;
-INFO  18:28:23,610 - #44 char
-INFO  18:28:23,610 - #44 bb
-INFO  18:28:23,610 - #33 ;
-INFO  18:28:23,610 - #41 {
-INFO  18:28:23,610 - #42 }
-INFO  18:28:23,611 - #42 }
-INFO  18:28:23,613 - Program(
+INFO  00:18:35,241 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  00:18:35,251 - #2 program
+INFO  00:18:35,252 - #44 test302
+INFO  00:18:35,252 - #6 const
+INFO  00:18:35,253 - #44 int
+INFO  00:18:35,253 - #44 i
+INFO  00:18:35,253 - #30 =
+INFO  00:18:35,253 - #45 3
+INFO  00:18:35,253 - #33 ;
+INFO  00:18:35,253 - #6 const
+INFO  00:18:35,253 - #44 bool
+INFO  00:18:35,253 - #44 bt
+INFO  00:18:35,253 - #30 =
+INFO  00:18:35,253 - #46 true
+INFO  00:18:35,253 - #33 ;
+INFO  00:18:35,254 - #6 const
+INFO  00:18:35,254 - #44 bool
+INFO  00:18:35,254 - #44 bf
+INFO  00:18:35,254 - #30 =
+INFO  00:18:35,254 - #46 false
+INFO  00:18:35,254 - #33 ;
+INFO  00:18:35,254 - #6 const
+INFO  00:18:35,254 - #44 char
+INFO  00:18:35,254 - #44 c
+INFO  00:18:35,254 - #30 =
+INFO  00:18:35,254 - #47 c
+INFO  00:18:35,254 - #33 ;
+INFO  00:18:35,254 - #44 int
+INFO  00:18:35,254 - #44 niz
+INFO  00:18:35,254 - #39 [
+INFO  00:18:35,254 - #40 ]
+INFO  00:18:35,254 - #35 ,
+INFO  00:18:35,254 - #44 niz2
+INFO  00:18:35,254 - #39 [
+INFO  00:18:35,254 - #40 ]
+INFO  00:18:35,254 - #35 ,
+INFO  00:18:35,254 - #44 a
+INFO  00:18:35,255 - #35 ,
+INFO  00:18:35,255 - #44 b
+INFO  00:18:35,255 - #33 ;
+INFO  00:18:35,255 - #44 char
+INFO  00:18:35,255 - #44 nizch
+INFO  00:18:35,255 - #39 [
+INFO  00:18:35,255 - #40 ]
+INFO  00:18:35,255 - #33 ;
+INFO  00:18:35,255 - #41 {
+INFO  00:18:35,255 - #44 int
+INFO  00:18:35,255 - #44 main
+INFO  00:18:35,255 - #37 (
+INFO  00:18:35,255 - #44 int
+INFO  00:18:35,255 - #44 fp1
+INFO  00:18:35,255 - #35 ,
+INFO  00:18:35,256 - #44 char
+INFO  00:18:35,256 - #44 fp2
+INFO  00:18:35,256 - #35 ,
+INFO  00:18:35,256 - #44 bool
+INFO  00:18:35,256 - #44 fp3
+INFO  00:18:35,256 - #38 )
+INFO  00:18:35,256 - #44 int
+INFO  00:18:35,256 - #44 aa
+INFO  00:18:35,256 - #33 ;
+INFO  00:18:35,256 - #44 char
+INFO  00:18:35,256 - #44 bb
+INFO  00:18:35,256 - #33 ;
+INFO  00:18:35,256 - #41 {
+INFO  00:18:35,256 - #44 aa
+INFO  00:18:35,256 - #30 =
+INFO  00:18:35,256 - #45 1
+INFO  00:18:35,256 - #33 ;
+INFO  00:18:35,257 - #44 bb
+INFO  00:18:35,257 - #30 =
+INFO  00:18:35,257 - #47 c
+INFO  00:18:35,257 - #33 ;
+INFO  00:18:35,257 - #44 fp1
+INFO  00:18:35,257 - #30 =
+INFO  00:18:35,257 - #45 2
+INFO  00:18:35,257 - #33 ;
+INFO  00:18:35,257 - #44 fp2
+INFO  00:18:35,257 - #30 =
+INFO  00:18:35,257 - #44 bb
+INFO  00:18:35,257 - #33 ;
+INFO  00:18:35,257 - #44 fp3
+INFO  00:18:35,257 - #30 =
+INFO  00:18:35,257 - #46 true
+INFO  00:18:35,257 - #33 ;
+INFO  00:18:35,257 - #44 aa
+INFO  00:18:35,257 - #30 =
+INFO  00:18:35,257 - #37 (
+INFO  00:18:35,257 - #45 1
+INFO  00:18:35,257 - #38 )
+INFO  00:18:35,257 - #33 ;
+INFO  00:18:35,257 - #44 aa
+INFO  00:18:35,257 - #30 =
+INFO  00:18:35,257 - #37 (
+INFO  00:18:35,257 - #44 fp1
+INFO  00:18:35,257 - #38 )
+INFO  00:18:35,258 - #33 ;
+INFO  00:18:35,258 - #44 aa
+INFO  00:18:35,258 - #30 =
+INFO  00:18:35,258 - #45 5
+INFO  00:18:35,258 - #19 *
+INFO  00:18:35,258 - #45 2
+INFO  00:18:35,258 - #19 *
+INFO  00:18:35,258 - #44 a
+INFO  00:18:35,258 - #33 ;
+INFO  00:18:35,258 - #42 }
+INFO  00:18:35,258 - #42 }
+INFO  00:18:35,260 - Program(
   ProgramName(
    test302
   ) [ProgramName]
@@ -238,46 +278,291 @@ INFO  18:28:23,613 - Program(
           ) [VarDeclInnerListSingle]
         ) [VarDecl]
       ) [VarDeclListEExists]
-      StatementListEEmpty(
-      ) [StatementListEEmpty]
+      StatementListEExists(
+        StatementListEExists(
+          StatementListEExists(
+            StatementListEExists(
+              StatementListEExists(
+                StatementListEExists(
+                  StatementListEExists(
+                    StatementListEExists(
+                      StatementListEEmpty(
+                      ) [StatementListEEmpty]
+                      StatementDesignator(
+                        DesignatorStatementAssign(
+                          DesignatorAssignopExpression(
+                            DesignatorSingle(
+                             aa
+                            ) [DesignatorSingle]
+                            Assignop(
+                            ) [Assignop]
+                            ExprSingle(
+                              TermSingle(
+                                FactorNumConst(
+                                 1
+                                ) [FactorNumConst]
+                              ) [TermSingle]
+                            ) [ExprSingle]
+                          ) [DesignatorAssignopExpression]
+                        ) [DesignatorStatementAssign]
+                      ) [StatementDesignator]
+                    ) [StatementListEExists]
+                    StatementDesignator(
+                      DesignatorStatementAssign(
+                        DesignatorAssignopExpression(
+                          DesignatorSingle(
+                           bb
+                          ) [DesignatorSingle]
+                          Assignop(
+                          ) [Assignop]
+                          ExprSingle(
+                            TermSingle(
+                              FactorCharConst(
+                               c
+                              ) [FactorCharConst]
+                            ) [TermSingle]
+                          ) [ExprSingle]
+                        ) [DesignatorAssignopExpression]
+                      ) [DesignatorStatementAssign]
+                    ) [StatementDesignator]
+                  ) [StatementListEExists]
+                  StatementDesignator(
+                    DesignatorStatementAssign(
+                      DesignatorAssignopExpression(
+                        DesignatorSingle(
+                         fp1
+                        ) [DesignatorSingle]
+                        Assignop(
+                        ) [Assignop]
+                        ExprSingle(
+                          TermSingle(
+                            FactorNumConst(
+                             2
+                            ) [FactorNumConst]
+                          ) [TermSingle]
+                        ) [ExprSingle]
+                      ) [DesignatorAssignopExpression]
+                    ) [DesignatorStatementAssign]
+                  ) [StatementDesignator]
+                ) [StatementListEExists]
+                StatementDesignator(
+                  DesignatorStatementAssign(
+                    DesignatorAssignopExpression(
+                      DesignatorSingle(
+                       fp2
+                      ) [DesignatorSingle]
+                      Assignop(
+                      ) [Assignop]
+                      ExprSingle(
+                        TermSingle(
+                          FactorDesignator(
+                            DesignatorSingle(
+                             bb
+                            ) [DesignatorSingle]
+                          ) [FactorDesignator]
+                        ) [TermSingle]
+                      ) [ExprSingle]
+                    ) [DesignatorAssignopExpression]
+                  ) [DesignatorStatementAssign]
+                ) [StatementDesignator]
+              ) [StatementListEExists]
+              StatementDesignator(
+                DesignatorStatementAssign(
+                  DesignatorAssignopExpression(
+                    DesignatorSingle(
+                     fp3
+                    ) [DesignatorSingle]
+                    Assignop(
+                    ) [Assignop]
+                    ExprSingle(
+                      TermSingle(
+                        FactorBoolConst(
+                         true
+                        ) [FactorBoolConst]
+                      ) [TermSingle]
+                    ) [ExprSingle]
+                  ) [DesignatorAssignopExpression]
+                ) [DesignatorStatementAssign]
+              ) [StatementDesignator]
+            ) [StatementListEExists]
+            StatementDesignator(
+              DesignatorStatementAssign(
+                DesignatorAssignopExpression(
+                  DesignatorSingle(
+                   aa
+                  ) [DesignatorSingle]
+                  Assignop(
+                  ) [Assignop]
+                  ExprSingle(
+                    TermSingle(
+                      FactorExpr(
+                        ExprSingle(
+                          TermSingle(
+                            FactorNumConst(
+                             1
+                            ) [FactorNumConst]
+                          ) [TermSingle]
+                        ) [ExprSingle]
+                      ) [FactorExpr]
+                    ) [TermSingle]
+                  ) [ExprSingle]
+                ) [DesignatorAssignopExpression]
+              ) [DesignatorStatementAssign]
+            ) [StatementDesignator]
+          ) [StatementListEExists]
+          StatementDesignator(
+            DesignatorStatementAssign(
+              DesignatorAssignopExpression(
+                DesignatorSingle(
+                 aa
+                ) [DesignatorSingle]
+                Assignop(
+                ) [Assignop]
+                ExprSingle(
+                  TermSingle(
+                    FactorExpr(
+                      ExprSingle(
+                        TermSingle(
+                          FactorDesignator(
+                            DesignatorSingle(
+                             fp1
+                            ) [DesignatorSingle]
+                          ) [FactorDesignator]
+                        ) [TermSingle]
+                      ) [ExprSingle]
+                    ) [FactorExpr]
+                  ) [TermSingle]
+                ) [ExprSingle]
+              ) [DesignatorAssignopExpression]
+            ) [DesignatorStatementAssign]
+          ) [StatementDesignator]
+        ) [StatementListEExists]
+        StatementDesignator(
+          DesignatorStatementAssign(
+            DesignatorAssignopExpression(
+              DesignatorSingle(
+               aa
+              ) [DesignatorSingle]
+              Assignop(
+              ) [Assignop]
+              ExprSingle(
+                TermMultiple(
+                  TermMultiple(
+                    TermSingle(
+                      FactorNumConst(
+                       5
+                      ) [FactorNumConst]
+                    ) [TermSingle]
+                    AddopMul(
+                    ) [AddopMul]
+                    FactorNumConst(
+                     2
+                    ) [FactorNumConst]
+                  ) [TermMultiple]
+                  AddopMul(
+                  ) [AddopMul]
+                  FactorDesignator(
+                    DesignatorSingle(
+                     a
+                    ) [DesignatorSingle]
+                  ) [FactorDesignator]
+                ) [TermMultiple]
+              ) [ExprSingle]
+            ) [DesignatorAssignopExpression]
+          ) [DesignatorStatementAssign]
+        ) [StatementDesignator]
+      ) [StatementListEExists]
     ) [MethodDecl]
   ) [MethodDeclListEExists]
 ) [Program]
-INFO  18:28:23,613 - ===================================
-INFO  18:28:23,614 - ProgramName -> line 3
-INFO  18:28:23,614 - Type -> line 5
-INFO  18:28:23,614 - ConstNum -> line 5
-INFO  18:28:23,614 - ConstDeclInnerListElement -> line 5
-INFO  18:28:23,614 - Type -> line 6
-INFO  18:28:23,614 - ConstBool -> line 6
-INFO  18:28:23,614 - ConstDeclInnerListElement -> line 6
-INFO  18:28:23,614 - Type -> line 7
-INFO  18:28:23,614 - ConstBool -> line 7
-INFO  18:28:23,614 - ConstDeclInnerListElement -> line 7
-INFO  18:28:23,614 - Type -> line 8
-INFO  18:28:23,614 - ConstChar -> line 8
-INFO  18:28:23,614 - ConstDeclInnerListElement -> line 8
-INFO  18:28:23,614 - Type -> line 10
-INFO  18:28:23,614 - VarDeclInnerListElementArray -> line 10
-INFO  18:28:23,614 - VarDeclInnerListElementArray -> line 10
-INFO  18:28:23,614 - VarDeclInnerListElementVar -> line 10
-INFO  18:28:23,614 - VarDeclInnerListElementVar -> line 10
-INFO  18:28:23,614 - Type -> line 11
-INFO  18:28:23,614 - VarDeclInnerListElementArray -> line 11
-INFO  18:28:23,614 - Type -> line 15
-INFO  18:28:23,614 - MethodReturnTypeHasType -> line 15
-INFO  18:28:23,614 - MethodName -> line 15
-INFO  18:28:23,614 - Type -> line 15
-INFO  18:28:23,614 - FormParamVar -> line 15
-INFO  18:28:23,614 - Type -> line 15
-INFO  18:28:23,615 - FormParamVar -> line 15
-INFO  18:28:23,615 - Type -> line 15
-INFO  18:28:23,615 - FormParamVar -> line 15
-INFO  18:28:23,615 - Type -> line 16
-INFO  18:28:23,615 - VarDeclInnerListElementVar -> line 16
-INFO  18:28:23,615 - Type -> line 17
-INFO  18:28:23,615 - VarDeclInnerListElementVar -> line 17
-INFO  18:28:23,615 - MethodDecl -> line 15
-INFO  18:28:23,615 - Program -> line 3
-INFO  18:28:23,615 - ===================================
-INFO  18:28:23,615 - Parsiranje uspesno zavrseno!
+INFO  00:18:35,261 - ===================================
+INFO  00:18:35,261 - ProgramName -> line 3
+INFO  00:18:35,261 - Type -> line 5
+INFO  00:18:35,261 - ConstNum -> line 5
+INFO  00:18:35,262 - ConstDeclInnerListElement -> line 5
+INFO  00:18:35,262 - Type -> line 6
+INFO  00:18:35,262 - ConstBool -> line 6
+INFO  00:18:35,262 - ConstDeclInnerListElement -> line 6
+INFO  00:18:35,262 - Type -> line 7
+INFO  00:18:35,262 - ConstBool -> line 7
+INFO  00:18:35,262 - ConstDeclInnerListElement -> line 7
+INFO  00:18:35,262 - Type -> line 8
+INFO  00:18:35,262 - ConstChar -> line 8
+INFO  00:18:35,262 - ConstDeclInnerListElement -> line 8
+INFO  00:18:35,262 - Type -> line 10
+INFO  00:18:35,262 - VarDeclInnerListElementArray -> line 10
+INFO  00:18:35,262 - VarDeclInnerListElementArray -> line 10
+INFO  00:18:35,262 - VarDeclInnerListElementVar -> line 10
+INFO  00:18:35,262 - VarDeclInnerListElementVar -> line 10
+INFO  00:18:35,262 - Type -> line 11
+INFO  00:18:35,262 - VarDeclInnerListElementArray -> line 11
+INFO  00:18:35,262 - Type -> line 15
+INFO  00:18:35,262 - MethodReturnTypeHasType -> line 15
+INFO  00:18:35,262 - MethodName -> line 15
+INFO  00:18:35,262 - Type -> line 15
+INFO  00:18:35,262 - FormParamVar -> line 15
+INFO  00:18:35,262 - Type -> line 15
+INFO  00:18:35,262 - FormParamVar -> line 15
+INFO  00:18:35,262 - Type -> line 15
+INFO  00:18:35,262 - FormParamVar -> line 15
+INFO  00:18:35,262 - Type -> line 16
+INFO  00:18:35,262 - VarDeclInnerListElementVar -> line 16
+INFO  00:18:35,262 - Type -> line 17
+INFO  00:18:35,262 - VarDeclInnerListElementVar -> line 17
+INFO  00:18:35,262 - DesignatorSingle -> line 20
+INFO  00:18:35,262 - FactorNumConst -> line 20
+INFO  00:18:35,262 - TermSingle -> line 20
+INFO  00:18:35,262 - ExprSingle -> line 20
+INFO  00:18:35,262 - DesignatorAssignopExpression -> line 20
+INFO  00:18:35,262 - DesignatorSingle -> line 21
+INFO  00:18:35,262 - FactorCharConst -> line 21
+INFO  00:18:35,263 - TermSingle -> line 21
+INFO  00:18:35,263 - ExprSingle -> line 21
+INFO  00:18:35,263 - DesignatorAssignopExpression -> line 21
+INFO  00:18:35,263 - DesignatorSingle -> line 22
+INFO  00:18:35,263 - FactorNumConst -> line 22
+INFO  00:18:35,263 - TermSingle -> line 22
+INFO  00:18:35,263 - ExprSingle -> line 22
+INFO  00:18:35,263 - DesignatorAssignopExpression -> line 22
+INFO  00:18:35,263 - DesignatorSingle -> line 23
+INFO  00:18:35,263 - DesignatorSingle -> line 23
+INFO  00:18:35,263 - FactorDesignator -> line 23
+INFO  00:18:35,263 - TermSingle -> line 23
+INFO  00:18:35,263 - ExprSingle -> line 23
+INFO  00:18:35,263 - DesignatorAssignopExpression -> line 23
+INFO  00:18:35,263 - DesignatorSingle -> line 24
+INFO  00:18:35,263 - FactorBoolConst -> line 24
+INFO  00:18:35,263 - TermSingle -> line 24
+INFO  00:18:35,263 - ExprSingle -> line 24
+INFO  00:18:35,263 - DesignatorAssignopExpression -> line 24
+INFO  00:18:35,263 - DesignatorSingle -> line 25
+INFO  00:18:35,263 - FactorNumConst -> line 25
+INFO  00:18:35,263 - TermSingle -> line 25
+INFO  00:18:35,263 - ExprSingle -> line 25
+INFO  00:18:35,263 - FactorExpr -> line 25
+INFO  00:18:35,263 - TermSingle -> line 25
+INFO  00:18:35,263 - ExprSingle -> line 25
+INFO  00:18:35,263 - DesignatorAssignopExpression -> line 25
+INFO  00:18:35,263 - DesignatorSingle -> line 26
+INFO  00:18:35,263 - DesignatorSingle -> line 26
+INFO  00:18:35,263 - FactorDesignator -> line 26
+INFO  00:18:35,263 - TermSingle -> line 26
+INFO  00:18:35,263 - ExprSingle -> line 26
+INFO  00:18:35,263 - FactorExpr -> line 26
+INFO  00:18:35,263 - TermSingle -> line 26
+INFO  00:18:35,263 - ExprSingle -> line 26
+INFO  00:18:35,263 - DesignatorAssignopExpression -> line 26
+INFO  00:18:35,263 - DesignatorSingle -> line 27
+INFO  00:18:35,263 - FactorNumConst -> line 27
+INFO  00:18:35,263 - TermSingle -> line 27
+INFO  00:18:35,263 - FactorNumConst -> line 27
+INFO  00:18:35,263 - TermMultiple -> line 27
+INFO  00:18:35,263 - DesignatorSingle -> line 27
+INFO  00:18:35,263 - FactorDesignator -> line 27
+INFO  00:18:35,263 - TermMultiple -> line 27
+INFO  00:18:35,263 - ExprSingle -> line 27
+INFO  00:18:35,263 - DesignatorAssignopExpression -> line 27
+INFO  00:18:35,263 - MethodDecl -> line 15
+INFO  00:18:35,263 - Program -> line 3
+INFO  00:18:35,263 - ===================================
+INFO  00:18:35,263 - Parsiranje uspesno zavrseno!

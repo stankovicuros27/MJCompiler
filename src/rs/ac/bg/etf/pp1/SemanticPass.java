@@ -46,9 +46,17 @@ public class SemanticPass extends VisitorAdaptor {
     	return false;
     }
     
-    public boolean checkIfTypeIsAssignableToCurrentType(Struct structToAssign, SyntaxNode info) {
-    	if (!structToAssign.assignableTo(currentType)) {
+    public boolean checkIfTypeIsAssignableToCurrentType(Struct typeToAssign, SyntaxNode info) {
+    	if (!typeToAssign.assignableTo(currentType)) {
     		report_error("Type is not assignable to current type!", info);
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public boolean checkIfTypeIsAssignableToGivenType(Struct typeToAssign, Struct givenType, SyntaxNode info) {
+    	if (!typeToAssign.assignableTo(givenType)) {
+    		report_error("Type is not assignable to given type!", info);
     		return false;
     	}
     	return true;
@@ -170,20 +178,9 @@ public class SemanticPass extends VisitorAdaptor {
 	
 	// ~~~~~~~~~~~~~~~~~~~ Method Return ~~~~~~~~~~~~~~~~~~~
 	
-	public void visit(MatchedStatementReturn matchedStatementReturn) {
+	//public void visit(MatchedStatementReturn matchedStatementReturn) {
 		
-	}
-	
-	// ~~~~~~~~~~~~~~~~~~~ Designator ~~~~~~~~~~~~~~~~~~~
-	
-	public void visit(DesignatorSingle designatorSingle) {
-		Obj designatorObj = Tab.find(designatorSingle.getDesignatorName());
-		if (designatorObj == Tab.noObj) {
-			report_error("Designator " + designatorSingle.getDesignatorName() + " was not declared!", designatorSingle);
-			return;
-		}
-		designatorSingle.obj = designatorObj;
-	}
+	//}
 	
 	// ~~~~~~~~~~~~~~~~~~~ Type ~~~~~~~~~~~~~~~~~~~
 	
@@ -202,6 +199,102 @@ public class SemanticPass extends VisitorAdaptor {
 		}
 		currentType = type.struct;
 		report_info("Type", type);
+	}
+	
+	
+	// ~~~~~~~~~~~~~~~~~~~ Designator Statement ~~~~~~~~~~~~~~~~~~~
+		
+	public void visit(DesignatorAssignopExpression designatorAssignopExpression) {
+		Obj designatorObj = designatorAssignopExpression.getDesignator().obj;
+		Struct exprStruct = designatorAssignopExpression.getExpr().struct;
+		if (designatorObj.getKind() != Obj.Var && designatorObj.getKind() != Obj.Elem && designatorObj.getKind() != Obj.Fld) {
+			report_error("Designator " + designatorObj.getName() + " can't be assigned a value!", designatorAssignopExpression);
+			return;
+		}
+		if (!checkIfTypeIsAssignableToGivenType(exprStruct, designatorObj.getType(), designatorAssignopExpression)) {
+			return;
+		}
+		report_info("DesignatorAssignopExpression", designatorAssignopExpression);
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Designator ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(DesignatorSingle designatorSingle) {
+		Obj designatorObj = Tab.find(designatorSingle.getDesignatorName());
+		if (designatorObj == Tab.noObj) {
+			report_error("Designator " + designatorSingle.getDesignatorName() + " was not declared!", designatorSingle);
+			return;
+		}
+		designatorSingle.obj = designatorObj;
+		report_info("DesignatorSingle", designatorSingle);
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Expr ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(ExprSingleMinus exprSingleMinus) {
+		// TODO
+	}
+	
+	public void visit(ExprSingle exprSingle) {
+		exprSingle.struct = exprSingle.getTerm().struct;
+		report_info("ExprSingle", exprSingle);
+	}
+	
+	public void visit(ExprMultiple exprMultiple) {
+		// TODO
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Term ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(TermSingle termSingle) {
+		termSingle.struct = termSingle.getFactor().struct;
+		report_info("TermSingle", termSingle);
+	}
+	
+	public void visit(TermMultiple termMultiple) {
+		if (termMultiple.getFactor().struct != Tab.intType || termMultiple.getTerm().struct != Tab.intType) {
+			report_error("All factors must be numberic values in order to form TermMultiple!", termMultiple);
+			termMultiple.struct = Tab.noType;
+			return;
+		}
+		termMultiple.struct = termMultiple.getTerm().struct;
+		report_info("TermMultiple", termMultiple);
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Factor ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(FactorNumConst factorNumConst) {
+		factorNumConst.struct = Tab.intType;
+		report_info("FactorNumConst", factorNumConst);
+	}
+	
+	public void visit(FactorCharConst factorCharConst) {
+		factorCharConst.struct = Tab.charType;
+		report_info("FactorCharConst", factorCharConst);
+	}
+	
+	public void visit(FactorBoolConst factorBoolConst) {
+		factorBoolConst.struct = TabWrapper.boolType;
+		report_info("FactorBoolConst", factorBoolConst);
+	}
+	
+	
+	public void visit(FactorNew factorNew) {
+		// TODO obj and array
+	}
+	
+	public void visit(FactorExpr factorExpr) {
+		factorExpr.struct = factorExpr.getExpr().struct;
+		report_info("FactorExpr", factorExpr);
+	}
+	
+	public void visit(FactorDesignator factorDesignator) {
+		factorDesignator.struct = factorDesignator.getDesignator().obj.getType();
+		report_info("FactorDesignator", factorDesignator);
+	}
+	
+	public void visit(FactorDesignatorMethodCall factorDesignatorMethodCall) {
+		// TODO
 	}
 	
 }

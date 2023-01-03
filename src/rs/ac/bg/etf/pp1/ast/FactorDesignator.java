@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/0/2023 19:20:51
+// 4/0/2023 0:11:3
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,13 +8,10 @@ package rs.ac.bg.etf.pp1.ast;
 public class FactorDesignator extends Factor {
 
     private Designator Designator;
-    private ParenActParsOptional ParenActParsOptional;
 
-    public FactorDesignator (Designator Designator, ParenActParsOptional ParenActParsOptional) {
+    public FactorDesignator (Designator Designator) {
         this.Designator=Designator;
         if(Designator!=null) Designator.setParent(this);
-        this.ParenActParsOptional=ParenActParsOptional;
-        if(ParenActParsOptional!=null) ParenActParsOptional.setParent(this);
     }
 
     public Designator getDesignator() {
@@ -25,32 +22,21 @@ public class FactorDesignator extends Factor {
         this.Designator=Designator;
     }
 
-    public ParenActParsOptional getParenActParsOptional() {
-        return ParenActParsOptional;
-    }
-
-    public void setParenActParsOptional(ParenActParsOptional ParenActParsOptional) {
-        this.ParenActParsOptional=ParenActParsOptional;
-    }
-
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
     public void childrenAccept(Visitor visitor) {
         if(Designator!=null) Designator.accept(visitor);
-        if(ParenActParsOptional!=null) ParenActParsOptional.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Designator!=null) Designator.traverseTopDown(visitor);
-        if(ParenActParsOptional!=null) ParenActParsOptional.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Designator!=null) Designator.traverseBottomUp(visitor);
-        if(ParenActParsOptional!=null) ParenActParsOptional.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -61,12 +47,6 @@ public class FactorDesignator extends Factor {
 
         if(Designator!=null)
             buffer.append(Designator.toString("  "+tab));
-        else
-            buffer.append(tab+"  null");
-        buffer.append("\n");
-
-        if(ParenActParsOptional!=null)
-            buffer.append(ParenActParsOptional.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

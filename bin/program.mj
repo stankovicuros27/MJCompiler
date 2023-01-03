@@ -17,7 +17,15 @@ program test302
 	char bb;
 	{
 	
-		
+		aa = 1;
+		bb = 'c';
+	    fp1 = 2;
+	    fp2 = bb;
+	    fp3 = true;
+	    aa = (1);
+	    aa = (fp1);
+		aa = 5 * 2 * a;
+		//aa = 3 * bb;
 	
 	}
 
