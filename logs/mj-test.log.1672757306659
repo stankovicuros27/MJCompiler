@@ -1,0 +1,43 @@
+INFO  15:46:35,412 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  15:46:35,424 - #2 program
+INFO  15:46:35,424 - #44 test302
+INFO  15:46:35,424 - #6 const
+INFO  15:46:35,424 - #44 int
+INFO  15:46:35,424 - #44 k
+INFO  15:46:35,425 - #30 =
+INFO  15:46:35,426 - #45 3
+INFO  15:46:35,426 - #33 ;
+INFO  15:46:35,426 - #41 {
+INFO  15:46:35,426 - #42 }
+INFO  15:46:35,428 - Program(
+  ProgramName(
+   test302
+  ) [ProgramName]
+  ProgramDeclListEConst(
+    ProgramDeclListEEmpty(
+    ) [ProgramDeclListEEmpty]
+    ConstDecl(
+      Type(
+       int
+      ) [Type]
+      ConstDeclInnerListSingle(
+        ConstDeclInnerListElement(
+         k
+          ConstNum(
+           3
+          ) [ConstNum]
+        ) [ConstDeclInnerListElement]
+      ) [ConstDeclInnerListSingle]
+    ) [ConstDecl]
+  ) [ProgramDeclListEConst]
+  MethodDeclListEEmpty(
+  ) [MethodDeclListEEmpty]
+) [Program]
+INFO  15:46:35,428 - ===================================
+INFO  15:46:35,429 - ProgramName -> line 3
+INFO  15:46:35,429 - Type -> line 5
+INFO  15:46:35,429 - ConstNum -> line 5
+INFO  15:46:35,429 - ConstDeclInnerListElement -> line 5
+INFO  15:46:35,429 - Program -> line 3
+INFO  15:46:35,430 - ===================================
+INFO  15:46:35,430 - Parsiranje uspesno zavrseno!

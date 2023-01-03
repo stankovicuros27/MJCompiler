@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/0/2023 2:22:1
+// 3/0/2023 17:26:13
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -12,6 +12,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ClassConstructorsAndMethodsDeclOptional ClassConstructorsAndMethodsDeclOptional) { }
     public void visit(ExprOptional ExprOptional) { }
     public void visit(Mulop Mulop) { }
+    public void visit(VarDeclInnerListElement VarDeclInnerListElement) { }
     public void visit(VarDeclInnerList VarDeclInnerList) { }
     public void visit(MatchedStatement MatchedStatement) { }
     public void visit(ConstructorDecl ConstructorDecl) { }
@@ -140,6 +141,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(FormParsOptionalExists FormParsOptionalExists) { visit(); }
     public void visit(MethodReturnTypeIsVoid MethodReturnTypeIsVoid) { visit(); }
     public void visit(MethodReturnTypeHasType MethodReturnTypeHasType) { visit(); }
+    public void visit(MethodName MethodName) { visit(); }
     public void visit(MethodDecl MethodDecl) { visit(); }
     public void visit(MethodDeclListEEmpty MethodDeclListEEmpty) { visit(); }
     public void visit(MethodDeclListEExists MethodDeclListEExists) { visit(); }
@@ -151,10 +153,12 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ExtendsTypeOptionalError ExtendsTypeOptionalError) { visit(); }
     public void visit(ExtendsTypeOptionalEmpty ExtendsTypeOptionalEmpty) { visit(); }
     public void visit(ExtendsTypeOptionalExists ExtendsTypeOptionalExists) { visit(); }
+    public void visit(ClassName ClassName) { visit(); }
     public void visit(ClassDecl ClassDecl) { visit(); }
     public void visit(SquareBracketsOptionalEmpty SquareBracketsOptionalEmpty) { visit(); }
     public void visit(SquareBracketsOptionalExists SquareBracketsOptionalExists) { visit(); }
-    public void visit(VarDeclInnerListElement VarDeclInnerListElement) { visit(); }
+    public void visit(VarDeclInnerListElementArray VarDeclInnerListElementArray) { visit(); }
+    public void visit(VarDeclInnerListElementVar VarDeclInnerListElementVar) { visit(); }
     public void visit(VarDeclInnerListMultiple VarDeclInnerListMultiple) { visit(); }
     public void visit(VarDeclInnerListSingle VarDeclInnerListSingle) { visit(); }
     public void visit(VarDecl VarDecl) { visit(); }

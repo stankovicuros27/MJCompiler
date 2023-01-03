@@ -1,0 +1,178 @@
+INFO  16:30:07,607 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  16:30:07,616 - #2 program
+INFO  16:30:07,617 - #44 test302
+INFO  16:30:07,617 - #6 const
+INFO  16:30:07,617 - #44 int
+INFO  16:30:07,617 - #44 i
+INFO  16:30:07,618 - #30 =
+INFO  16:30:07,618 - #45 3
+INFO  16:30:07,618 - #33 ;
+INFO  16:30:07,619 - #6 const
+INFO  16:30:07,619 - #44 bool
+INFO  16:30:07,619 - #44 bt
+INFO  16:30:07,619 - #30 =
+INFO  16:30:07,619 - #46 true
+INFO  16:30:07,619 - #33 ;
+INFO  16:30:07,619 - #6 const
+INFO  16:30:07,619 - #44 bool
+INFO  16:30:07,619 - #44 bf
+INFO  16:30:07,619 - #30 =
+INFO  16:30:07,619 - #46 false
+INFO  16:30:07,619 - #33 ;
+INFO  16:30:07,619 - #6 const
+INFO  16:30:07,619 - #44 char
+INFO  16:30:07,619 - #44 c
+INFO  16:30:07,619 - #30 =
+INFO  16:30:07,619 - #47 c
+INFO  16:30:07,620 - #33 ;
+INFO  16:30:07,620 - #44 int
+INFO  16:30:07,620 - #44 niz
+INFO  16:30:07,620 - #39 [
+INFO  16:30:07,620 - #40 ]
+INFO  16:30:07,620 - #35 ,
+INFO  16:30:07,620 - #44 niz2
+INFO  16:30:07,620 - #39 [
+INFO  16:30:07,620 - #40 ]
+INFO  16:30:07,620 - #35 ,
+INFO  16:30:07,620 - #44 a
+INFO  16:30:07,620 - #35 ,
+INFO  16:30:07,620 - #44 b
+INFO  16:30:07,620 - #33 ;
+INFO  16:30:07,620 - #44 char
+INFO  16:30:07,620 - #44 nizch
+INFO  16:30:07,620 - #39 [
+INFO  16:30:07,620 - #40 ]
+INFO  16:30:07,620 - #33 ;
+INFO  16:30:07,621 - #41 {
+INFO  16:30:07,621 - #42 }
+INFO  16:30:07,622 - Program(
+  ProgramName(
+   test302
+  ) [ProgramName]
+  ProgramDeclListEVar(
+    ProgramDeclListEVar(
+      ProgramDeclListEConst(
+        ProgramDeclListEConst(
+          ProgramDeclListEConst(
+            ProgramDeclListEConst(
+              ProgramDeclListEEmpty(
+              ) [ProgramDeclListEEmpty]
+              ConstDecl(
+                Type(
+                 int
+                ) [Type]
+                ConstDeclInnerListSingle(
+                  ConstDeclInnerListElement(
+                   i
+                    ConstNum(
+                     3
+                    ) [ConstNum]
+                  ) [ConstDeclInnerListElement]
+                ) [ConstDeclInnerListSingle]
+              ) [ConstDecl]
+            ) [ProgramDeclListEConst]
+            ConstDecl(
+              Type(
+               bool
+              ) [Type]
+              ConstDeclInnerListSingle(
+                ConstDeclInnerListElement(
+                 bt
+                  ConstBool(
+                   true
+                  ) [ConstBool]
+                ) [ConstDeclInnerListElement]
+              ) [ConstDeclInnerListSingle]
+            ) [ConstDecl]
+          ) [ProgramDeclListEConst]
+          ConstDecl(
+            Type(
+             bool
+            ) [Type]
+            ConstDeclInnerListSingle(
+              ConstDeclInnerListElement(
+               bf
+                ConstBool(
+                 false
+                ) [ConstBool]
+              ) [ConstDeclInnerListElement]
+            ) [ConstDeclInnerListSingle]
+          ) [ConstDecl]
+        ) [ProgramDeclListEConst]
+        ConstDecl(
+          Type(
+           char
+          ) [Type]
+          ConstDeclInnerListSingle(
+            ConstDeclInnerListElement(
+             c
+              ConstChar(
+               c
+              ) [ConstChar]
+            ) [ConstDeclInnerListElement]
+          ) [ConstDeclInnerListSingle]
+        ) [ConstDecl]
+      ) [ProgramDeclListEConst]
+      VarDeclGlobalExists(
+        VarDecl(
+          Type(
+           int
+          ) [Type]
+          VarDeclInnerListMultiple(
+            VarDeclInnerListMultiple(
+              VarDeclInnerListMultiple(
+                VarDeclInnerListSingle(
+                  VarDeclInnerListElementArray(
+                   niz
+                  ) [VarDeclInnerListElementArray]
+                ) [VarDeclInnerListSingle]
+                VarDeclInnerListElementArray(
+                 niz2
+                ) [VarDeclInnerListElementArray]
+              ) [VarDeclInnerListMultiple]
+              VarDeclInnerListElementVar(
+               a
+              ) [VarDeclInnerListElementVar]
+            ) [VarDeclInnerListMultiple]
+            VarDeclInnerListElementVar(
+             b
+            ) [VarDeclInnerListElementVar]
+          ) [VarDeclInnerListMultiple]
+        ) [VarDecl]
+      ) [VarDeclGlobalExists]
+    ) [ProgramDeclListEVar]
+    VarDeclGlobalExists(
+      VarDecl(
+        Type(
+         char
+        ) [Type]
+        VarDeclInnerListSingle(
+          VarDeclInnerListElementArray(
+           nizch
+          ) [VarDeclInnerListElementArray]
+        ) [VarDeclInnerListSingle]
+      ) [VarDecl]
+    ) [VarDeclGlobalExists]
+  ) [ProgramDeclListEVar]
+  MethodDeclListEEmpty(
+  ) [MethodDeclListEEmpty]
+) [Program]
+INFO  16:30:07,622 - ===================================
+INFO  16:30:07,623 - ProgramName -> line 3
+INFO  16:30:07,623 - Type -> line 5
+INFO  16:30:07,623 - ConstNum -> line 5
+INFO  16:30:07,623 - ConstDeclInnerListElement -> line 5
+INFO  16:30:07,623 - Type -> line 6
+INFO  16:30:07,623 - ConstBool -> line 6
+INFO  16:30:07,623 - ConstDeclInnerListElement -> line 6
+INFO  16:30:07,623 - Type -> line 7
+INFO  16:30:07,623 - ConstBool -> line 7
+INFO  16:30:07,623 - ConstDeclInnerListElement -> line 7
+INFO  16:30:07,623 - Type -> line 8
+INFO  16:30:07,623 - ConstChar -> line 8
+INFO  16:30:07,623 - ConstDeclInnerListElement -> line 8
+INFO  16:30:07,624 - Type -> line 10
+INFO  16:30:07,624 - Type -> line 11
+INFO  16:30:07,624 - Program -> line 3
+INFO  16:30:07,624 - ===================================
+INFO  16:30:07,624 - Parsiranje uspesno zavrseno!

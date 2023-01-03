@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/0/2023 2:22:1
+// 3/0/2023 17:26:13
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -12,6 +12,7 @@ public interface Visitor {
     public void visit(ClassConstructorsAndMethodsDeclOptional ClassConstructorsAndMethodsDeclOptional);
     public void visit(ExprOptional ExprOptional);
     public void visit(Mulop Mulop);
+    public void visit(VarDeclInnerListElement VarDeclInnerListElement);
     public void visit(VarDeclInnerList VarDeclInnerList);
     public void visit(MatchedStatement MatchedStatement);
     public void visit(ConstructorDecl ConstructorDecl);
@@ -140,6 +141,7 @@ public interface Visitor {
     public void visit(FormParsOptionalExists FormParsOptionalExists);
     public void visit(MethodReturnTypeIsVoid MethodReturnTypeIsVoid);
     public void visit(MethodReturnTypeHasType MethodReturnTypeHasType);
+    public void visit(MethodName MethodName);
     public void visit(MethodDecl MethodDecl);
     public void visit(MethodDeclListEEmpty MethodDeclListEEmpty);
     public void visit(MethodDeclListEExists MethodDeclListEExists);
@@ -151,10 +153,12 @@ public interface Visitor {
     public void visit(ExtendsTypeOptionalError ExtendsTypeOptionalError);
     public void visit(ExtendsTypeOptionalEmpty ExtendsTypeOptionalEmpty);
     public void visit(ExtendsTypeOptionalExists ExtendsTypeOptionalExists);
+    public void visit(ClassName ClassName);
     public void visit(ClassDecl ClassDecl);
     public void visit(SquareBracketsOptionalEmpty SquareBracketsOptionalEmpty);
     public void visit(SquareBracketsOptionalExists SquareBracketsOptionalExists);
-    public void visit(VarDeclInnerListElement VarDeclInnerListElement);
+    public void visit(VarDeclInnerListElementArray VarDeclInnerListElementArray);
+    public void visit(VarDeclInnerListElementVar VarDeclInnerListElementVar);
     public void visit(VarDeclInnerListMultiple VarDeclInnerListMultiple);
     public void visit(VarDeclInnerListSingle VarDeclInnerListSingle);
     public void visit(VarDecl VarDecl);

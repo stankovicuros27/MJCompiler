@@ -12,4 +12,5 @@ public class TabWrapper {
 		Tab.init();
 		Tab.currentScope.addToLocals(new Obj(Obj.Type, "bool", boolType));
 	}
+	
 }

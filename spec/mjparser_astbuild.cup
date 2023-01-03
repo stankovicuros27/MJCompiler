@@ -13,20 +13,24 @@ import rs.ac.bg.etf.pp1.ast.*;
 parser code {:
 
 	Logger log = Logger.getLogger(getClass());
+	boolean errorDetected;
    
     // Redefined error handling methods
      
     public void report_fatal_error(String message, Object info) throws java.lang.Exception {
       done_parsing();
       report_error(message, info);
+      errorDetected = true;
     }
   
     public void syntax_error(String message, Symbol cur_token) {
         report_error("\nSyntax error: " + message, cur_token);
+        errorDetected = true;
     }
   
     public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
         report_fatal_error("Fatalna greska, parsiranje se ne moze nastaviti", cur_token);
+        errorDetected = true;
     }
 
     public void report_error(String message, Object info) {
@@ -34,6 +38,7 @@ parser code {:
     	if (info instanceof Symbol)
             msg.append (" na liniji ").append(((Symbol)info).left);
         log.error(msg.toString());
+        errorDetected = true;
     }
     
     public void report_info(String message, Object info) {
@@ -52,6 +57,9 @@ scan with {:
 	return s;
 :}
 
+init with {:
+	errorDetected = false;
+:}
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GRAMMAR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -67,7 +75,6 @@ nonterminal ConstDecl ConstDecl;
 nonterminal VarDecl VarDecl;
 nonterminal ClassDecl ClassDecl;
 nonterminal ConstDeclInnerList ConstDeclInnerList;
-nonterminal Const Const;
 nonterminal VarDeclInnerList VarDeclInnerList;
 nonterminal SquareBracketsOptional SquareBracketsOptional;
 nonterminal ExtendsTypeOptional ExtendsTypeOptional;
@@ -113,7 +120,8 @@ nonterminal VarDeclGlobal VarDeclGlobal;
 nonterminal VarDeclInnerListGlobal VarDeclInnerListGlobal;
 nonterminal DesignatorAssignopExpr DesignatorAssignopExpr;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program;
+// Everything that needs to go inside Tab
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type;
 
 nonterminal ConstDeclInnerListElement ConstDeclInnerListElement;
@@ -152,7 +160,7 @@ precedence left ELSE;
 
 // ~~~~~~~~~~~~~~~~RULES~~~~~~~~~~~~~~~~
 
-Program ::= (Program) PROGRAM ProgramName:P1 ProgramDeclListE:P2 L_BRACE MethodDeclListE:M3 R_BRACE {: RESULT=new Program(P1, P2, M3); RESULT.setLine(P1left); :};
+Program ::= (Program) PROGRAM ProgramName:programName ProgramDeclListE:P1 L_BRACE MethodDeclListE:M2 R_BRACE {: RESULT=new Program(programName, P1, M2); RESULT.setLine(programNameleft); :};
 
 ProgramName ::= (ProgramName) IDENT:programName {: RESULT=new ProgramName(programName); RESULT.setLine(programNameleft); :};
 
@@ -172,13 +180,13 @@ ConstDeclInnerList ::= (ConstDeclInnerListSingle) ConstDeclInnerListElement:C1 {
 			(ConstDeclInnerListMultiple) ConstDeclInnerList:C1 COMMA ConstDeclInnerListElement:C2 {: RESULT=new ConstDeclInnerListMultiple(C1, C2); RESULT.setLine(C1left); :}
 			;
 
-ConstDeclInnerListElement ::= (ConstDeclInnerListElement) IDENT:I1 ASSIGN Const:C2 {: RESULT=new ConstDeclInnerListElement(I1, C2); RESULT.setLine(I1left); :};
+ConstDeclInnerListElement ::= (ConstDeclInnerListElement) IDENT:constName ASSIGN Const:C1 {: RESULT=new ConstDeclInnerListElement(constName, C1); RESULT.setLine(constNameleft); :};
 
-Const ::= (ConstNum) NUM_CONST:N1 {: RESULT=new ConstNum(N1); RESULT.setLine(N1left); :}
+Const ::= (ConstNum) NUM_CONST:value {: RESULT=new ConstNum(value); RESULT.setLine(valueleft); :}
 		|
-		(ConstBool) BOOL_CONST:B1 {: RESULT=new ConstBool(B1); RESULT.setLine(B1left); :}
+		(ConstBool) BOOL_CONST:value {: RESULT=new ConstBool(value); RESULT.setLine(valueleft); :}
 		|
-		(ConstChar) CHAR_CONST:C1 {: RESULT=new ConstChar(C1); RESULT.setLine(C1left); :}
+		(ConstChar) CHAR_CONST:value {: RESULT=new ConstChar(value); RESULT.setLine(valueleft); :}
 		;
 		
 VarDeclGlobal ::= (VarDeclGlobalExists) VarDecl:V1 {: RESULT=new VarDeclGlobalExists(V1); RESULT.setLine(V1left); :}
@@ -204,16 +212,21 @@ VarDeclInnerList ::= (VarDeclInnerListSingle) VarDeclInnerListElement:V1 {: RESU
 				(VarDeclInnerListMultiple) VarDeclInnerList:V1 COMMA VarDeclInnerListElement:V2 {: RESULT=new VarDeclInnerListMultiple(V1, V2); RESULT.setLine(V1left); :}
 				;
 				
-VarDeclInnerListElement ::= (VarDeclInnerListElement) IDENT:I1 SquareBracketsOptional:S2 {: RESULT=new VarDeclInnerListElement(I1, S2); RESULT.setLine(I1left); :};
+VarDeclInnerListElement ::= (VarDeclInnerListElementVar) IDENT:varName {: RESULT=new VarDeclInnerListElementVar(varName); RESULT.setLine(varNameleft); :}
+						|
+						(VarDeclInnerListElementArray) IDENT:varName L_SQUARE_BRACKET R_SQUARE_BRACKET {: RESULT=new VarDeclInnerListElementArray(varName); RESULT.setLine(varNameleft); :}
+						;
 
 SquareBracketsOptional ::= (SquareBracketsOptionalExists) L_SQUARE_BRACKET R_SQUARE_BRACKET {: RESULT=new SquareBracketsOptionalExists(); :}
 						|
 						(SquareBracketsOptionalEmpty) {: RESULT=new SquareBracketsOptionalEmpty(); :} /* e */ 
 						;
 						
+			
 						
-						
-ClassDecl ::= (ClassDecl) CLASS IDENT:I1 ExtendsTypeOptional:E2 L_BRACE ClassBody:C3 R_BRACE {: RESULT=new ClassDecl(I1, E2, C3); RESULT.setLine(I1left); :};
+ClassDecl ::= (ClassDecl) CLASS ClassName:className ExtendsTypeOptional:E1 L_BRACE ClassBody:C2 R_BRACE {: RESULT=new ClassDecl(className, E1, C2); RESULT.setLine(classNameleft); :};
+
+ClassName ::= (ClassName) IDENT:className {: RESULT=new ClassName(className); RESULT.setLine(classNameleft); :};
 
 ExtendsTypeOptional ::= (ExtendsTypeOptionalExists) EXTENDS Type:T1 {: RESULT=new ExtendsTypeOptionalExists(T1); RESULT.setLine(T1left); :}
 					|
@@ -252,9 +265,11 @@ MethodDeclListE ::= (MethodDeclListEExists) MethodDeclListE:M1 MethodDecl:M2 {: 
 				(MethodDeclListEEmpty) {: RESULT=new MethodDeclListEEmpty(); :} /* e */
 				;
 
-MethodDecl ::= (MethodDecl) MethodReturnType:M1 IDENT:I2 L_PAREN FormParsOptional:F3 R_PAREN VarDeclListE:V4 L_BRACE StatementListE:S5 R_BRACE {: RESULT=new MethodDecl(M1, I2, F3, V4, S5); RESULT.setLine(M1left); :};
+MethodDecl ::= (MethodDecl) MethodReturnType:M1 MethodName:methodName L_PAREN FormParsOptional:F2 R_PAREN VarDeclListE:V3 L_BRACE StatementListE:S4 R_BRACE {: RESULT=new MethodDecl(M1, methodName, F2, V3, S4); RESULT.setLine(M1left); :};
 
-MethodReturnType ::= (MethodReturnTypeHasType) Type:T1 {: RESULT=new MethodReturnTypeHasType(T1); RESULT.setLine(T1left); :}
+MethodName ::= (MethodName) IDENT:MethodName {: RESULT=new MethodName(MethodName); RESULT.setLine(MethodNameleft); :};
+
+MethodReturnType ::= (MethodReturnTypeHasType) Type:returnType {: RESULT=new MethodReturnTypeHasType(returnType); RESULT.setLine(returnTypeleft); :}
 					|
 					(MethodReturnTypeIsVoid) VOID {: RESULT=new MethodReturnTypeIsVoid(); :}
 					;

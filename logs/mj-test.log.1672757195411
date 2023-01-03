@@ -1,0 +1,40 @@
+INFO  14:46:04,627 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  14:46:04,639 - #2 program
+INFO  14:46:04,639 - #44 test302
+INFO  14:46:04,639 - #44 ins
+INFO  14:46:04,640 - #44 k
+INFO  14:46:04,640 - #33 ;
+INFO  14:46:04,640 - #41 {
+INFO  14:46:04,640 - #42 }
+INFO  14:46:04,642 - Program(
+  ProgramName(
+   test302
+  ) [ProgramName]
+  ProgramDeclListEVar(
+    ProgramDeclListEEmpty(
+    ) [ProgramDeclListEEmpty]
+    VarDeclGlobalExists(
+      VarDecl(
+        Type(
+         ins
+        ) [Type]
+        VarDeclInnerListSingle(
+          VarDeclInnerListElement(
+           k
+            SquareBracketsOptionalEmpty(
+            ) [SquareBracketsOptionalEmpty]
+          ) [VarDeclInnerListElement]
+        ) [VarDeclInnerListSingle]
+      ) [VarDecl]
+    ) [VarDeclGlobalExists]
+  ) [ProgramDeclListEVar]
+  MethodDeclListEEmpty(
+  ) [MethodDeclListEEmpty]
+) [Program]
+INFO  14:46:04,642 - ===================================
+INFO  14:46:04,643 - ProgramName -> line 3
+ERROR 14:46:04,643 - Type (ins) not found in the Symbol Table -> line 5
+INFO  14:46:04,643 - Type -> line 5
+INFO  14:46:04,643 - Program -> line 3
+INFO  14:46:04,643 - ===================================
+ERROR 14:46:04,643 - Parsiranje NIJE uspesno zavrseno!

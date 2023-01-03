@@ -1,0 +1,35 @@
+INFO  02:14:22,894 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  02:14:22,915 - #2 program
+INFO  02:14:22,915 - #44 test302
+INFO  02:14:22,915 - #44 int
+INFO  02:14:22,916 - #44 k
+INFO  02:14:22,916 - #33 ;
+INFO  02:14:22,916 - #41 {
+INFO  02:14:22,917 - #42 }
+INFO  02:14:22,919 - Program(
+  ProgramName(
+   test302
+  ) [ProgramName]
+  ProgramDeclListEVar(
+    ProgramDeclListEEmpty(
+    ) [ProgramDeclListEEmpty]
+    VarDeclGlobalExists(
+      VarDecl(
+        Type(
+         int
+        ) [Type]
+        VarDeclInnerListSingle(
+          VarDeclInnerListElement(
+           k
+            SquareBracketsOptionalEmpty(
+            ) [SquareBracketsOptionalEmpty]
+          ) [VarDeclInnerListElement]
+        ) [VarDeclInnerListSingle]
+      ) [VarDecl]
+    ) [VarDeclGlobalExists]
+  ) [ProgramDeclListEVar]
+  MethodDeclListEEmpty(
+  ) [MethodDeclListEEmpty]
+) [Program]
+INFO  02:14:22,919 - ===================================
+INFO  02:14:22,920 - ===================================

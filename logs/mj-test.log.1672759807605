@@ -1,0 +1,141 @@
+INFO  15:49:37,281 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  15:49:37,292 - #2 program
+INFO  15:49:37,292 - #44 test302
+INFO  15:49:37,292 - #6 const
+INFO  15:49:37,292 - #44 int
+INFO  15:49:37,292 - #44 i
+INFO  15:49:37,292 - #30 =
+INFO  15:49:37,292 - #45 3
+INFO  15:49:37,292 - #33 ;
+INFO  15:49:37,293 - #6 const
+INFO  15:49:37,293 - #44 bool
+INFO  15:49:37,293 - #44 bt
+INFO  15:49:37,293 - #30 =
+INFO  15:49:37,293 - #46 true
+INFO  15:49:37,293 - #33 ;
+INFO  15:49:37,293 - #6 const
+INFO  15:49:37,293 - #44 bool
+INFO  15:49:37,293 - #44 bf
+INFO  15:49:37,293 - #30 =
+INFO  15:49:37,293 - #46 false
+INFO  15:49:37,293 - #33 ;
+INFO  15:49:37,293 - #6 const
+INFO  15:49:37,293 - #44 char
+INFO  15:49:37,293 - #44 c
+INFO  15:49:37,293 - #30 =
+INFO  15:49:37,293 - #47 c
+INFO  15:49:37,293 - #33 ;
+INFO  15:49:37,293 - #6 const
+INFO  15:49:37,293 - #44 err
+INFO  15:49:37,293 - #44 err
+INFO  15:49:37,293 - #30 =
+INFO  15:49:37,294 - #45 1
+INFO  15:49:37,294 - #33 ;
+INFO  15:49:37,294 - #41 {
+INFO  15:49:37,294 - #42 }
+INFO  15:49:37,295 - Program(
+  ProgramName(
+   test302
+  ) [ProgramName]
+  ProgramDeclListEConst(
+    ProgramDeclListEConst(
+      ProgramDeclListEConst(
+        ProgramDeclListEConst(
+          ProgramDeclListEConst(
+            ProgramDeclListEEmpty(
+            ) [ProgramDeclListEEmpty]
+            ConstDecl(
+              Type(
+               int
+              ) [Type]
+              ConstDeclInnerListSingle(
+                ConstDeclInnerListElement(
+                 i
+                  ConstNum(
+                   3
+                  ) [ConstNum]
+                ) [ConstDeclInnerListElement]
+              ) [ConstDeclInnerListSingle]
+            ) [ConstDecl]
+          ) [ProgramDeclListEConst]
+          ConstDecl(
+            Type(
+             bool
+            ) [Type]
+            ConstDeclInnerListSingle(
+              ConstDeclInnerListElement(
+               bt
+                ConstBool(
+                 true
+                ) [ConstBool]
+              ) [ConstDeclInnerListElement]
+            ) [ConstDeclInnerListSingle]
+          ) [ConstDecl]
+        ) [ProgramDeclListEConst]
+        ConstDecl(
+          Type(
+           bool
+          ) [Type]
+          ConstDeclInnerListSingle(
+            ConstDeclInnerListElement(
+             bf
+              ConstBool(
+               false
+              ) [ConstBool]
+            ) [ConstDeclInnerListElement]
+          ) [ConstDeclInnerListSingle]
+        ) [ConstDecl]
+      ) [ProgramDeclListEConst]
+      ConstDecl(
+        Type(
+         char
+        ) [Type]
+        ConstDeclInnerListSingle(
+          ConstDeclInnerListElement(
+           c
+            ConstChar(
+             c
+            ) [ConstChar]
+          ) [ConstDeclInnerListElement]
+        ) [ConstDeclInnerListSingle]
+      ) [ConstDecl]
+    ) [ProgramDeclListEConst]
+    ConstDecl(
+      Type(
+       err
+      ) [Type]
+      ConstDeclInnerListSingle(
+        ConstDeclInnerListElement(
+         err
+          ConstNum(
+           1
+          ) [ConstNum]
+        ) [ConstDeclInnerListElement]
+      ) [ConstDeclInnerListSingle]
+    ) [ConstDecl]
+  ) [ProgramDeclListEConst]
+  MethodDeclListEEmpty(
+  ) [MethodDeclListEEmpty]
+) [Program]
+INFO  15:49:37,296 - ===================================
+INFO  15:49:37,296 - ProgramName -> line 3
+INFO  15:49:37,296 - Type -> line 5
+INFO  15:49:37,296 - ConstNum -> line 5
+INFO  15:49:37,296 - ConstDeclInnerListElement -> line 5
+INFO  15:49:37,296 - Type -> line 6
+INFO  15:49:37,296 - ConstBool -> line 6
+INFO  15:49:37,296 - ConstDeclInnerListElement -> line 6
+INFO  15:49:37,296 - Type -> line 7
+INFO  15:49:37,296 - ConstBool -> line 7
+INFO  15:49:37,296 - ConstDeclInnerListElement -> line 7
+INFO  15:49:37,297 - Type -> line 8
+INFO  15:49:37,297 - ConstChar -> line 8
+INFO  15:49:37,297 - ConstDeclInnerListElement -> line 8
+ERROR 15:49:37,297 - Type (err) not found in the Symbol Table -> line 9
+INFO  15:49:37,298 - Type -> line 9
+INFO  15:49:37,298 - ConstNum -> line 9
+ERROR 15:49:37,298 - Value 1 is not of type rs.etf.pp1.symboltable.concepts.Struct@f4168b8 -> line 9
+INFO  15:49:37,298 - ConstDeclInnerListElement -> line 9
+INFO  15:49:37,298 - Program -> line 3
+INFO  15:49:37,298 - ===================================
+ERROR 15:49:37,298 - Parsiranje NIJE uspesno zavrseno!

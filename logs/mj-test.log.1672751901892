@@ -1,0 +1,36 @@
+INFO  14:01:22,605 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  14:01:22,616 - #2 program
+INFO  14:01:22,616 - #44 test302
+INFO  14:01:22,616 - #44 int
+INFO  14:01:22,617 - #44 k
+INFO  14:01:22,617 - #33 ;
+INFO  14:01:22,617 - #41 {
+INFO  14:01:22,617 - #42 }
+INFO  14:01:22,619 - Program(
+  ProgramName(
+   test302
+  ) [ProgramName]
+  ProgramDeclListEVar(
+    ProgramDeclListEEmpty(
+    ) [ProgramDeclListEEmpty]
+    VarDeclGlobalExists(
+      VarDecl(
+        Type(
+         int
+        ) [Type]
+        VarDeclInnerListSingle(
+          VarDeclInnerListElement(
+           k
+            SquareBracketsOptionalEmpty(
+            ) [SquareBracketsOptionalEmpty]
+          ) [VarDeclInnerListElement]
+        ) [VarDeclInnerListSingle]
+      ) [VarDecl]
+    ) [VarDeclGlobalExists]
+  ) [ProgramDeclListEVar]
+  MethodDeclListEEmpty(
+  ) [MethodDeclListEEmpty]
+) [Program]
+INFO  14:01:22,619 - ===================================
+INFO  14:01:22,620 - ===================================
+INFO  14:01:22,621 - Parsiranje uspesno zavrseno!

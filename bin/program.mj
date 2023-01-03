@@ -2,8 +2,16 @@
 
 program test302 
 
-int k;
+	const int i = 3;
+	const bool bt = true;
+	const bool bf = false;
+	const char c = 'c';
+	
+	int niz[], niz2[], a, b;
+	char nizch[];
 
 {
+
+	int main() {}
 
 }

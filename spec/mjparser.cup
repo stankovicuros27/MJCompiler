@@ -13,20 +13,24 @@ import rs.ac.bg.etf.pp1.ast.*;
 parser code {:
 
 	Logger log = Logger.getLogger(getClass());
+	boolean errorDetected;
    
     // Redefined error handling methods
      
     public void report_fatal_error(String message, Object info) throws java.lang.Exception {
       done_parsing();
       report_error(message, info);
+      errorDetected = true;
     }
   
     public void syntax_error(String message, Symbol cur_token) {
         report_error("\nSyntax error: " + message, cur_token);
+        errorDetected = true;
     }
   
     public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
         report_fatal_error("Fatalna greska, parsiranje se ne moze nastaviti", cur_token);
+        errorDetected = true;
     }
 
     public void report_error(String message, Object info) {
@@ -34,6 +38,7 @@ parser code {:
     	if (info instanceof Symbol)
             msg.append (" na liniji ").append(((Symbol)info).left);
         log.error(msg.toString());
+        errorDetected = true;
     }
     
     public void report_info(String message, Object info) {
@@ -52,6 +57,9 @@ scan with {:
 	return s;
 :}
 
+init with {:
+	errorDetected = false;
+:}
 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GRAMMAR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,7 +71,7 @@ scan with {:
 
 nonterminal ProgramDeclListE, MethodDeclListE;
 nonterminal ConstDecl, VarDecl, ClassDecl;
-nonterminal ConstDeclInnerList, Const;
+nonterminal ConstDeclInnerList;
 nonterminal VarDeclInnerList, SquareBracketsOptional;
 nonterminal ExtendsTypeOptional, ClassBody;
 nonterminal VarDeclListE, ClassConstructorsAndMethodsDeclOptional;
@@ -87,7 +95,8 @@ nonterminal Label;
 nonterminal VarDeclGlobal, VarDeclInnerListGlobal;
 nonterminal DesignatorAssignopExpr;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program;
+// Everything that needs to go inside Tab
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type;
 
 nonterminal ConstDeclInnerListElement, VarDeclInnerListElement, FormParam, DesignatorOptional, ForeachStatement, ConditionInIf;
@@ -121,7 +130,7 @@ precedence left ELSE;
 
 // ~~~~~~~~~~~~~~~~RULES~~~~~~~~~~~~~~~~
 
-Program ::= (Program) PROGRAM ProgramName ProgramDeclListE L_BRACE MethodDeclListE R_BRACE;
+Program ::= (Program) PROGRAM ProgramName:programName ProgramDeclListE L_BRACE MethodDeclListE R_BRACE;
 
 ProgramName ::= (ProgramName) IDENT:programName;
 
@@ -141,13 +150,13 @@ ConstDeclInnerList ::= (ConstDeclInnerListSingle) ConstDeclInnerListElement
 			(ConstDeclInnerListMultiple) ConstDeclInnerList COMMA ConstDeclInnerListElement
 			;
 
-ConstDeclInnerListElement ::= (ConstDeclInnerListElement) IDENT ASSIGN Const;
+ConstDeclInnerListElement ::= (ConstDeclInnerListElement) IDENT:constName ASSIGN Const;
 
-Const ::= (ConstNum) NUM_CONST
+Const ::= (ConstNum) NUM_CONST:value
 		|
-		(ConstBool) BOOL_CONST
+		(ConstBool) BOOL_CONST:value
 		|
-		(ConstChar) CHAR_CONST
+		(ConstChar) CHAR_CONST:value
 		;
 		
 VarDeclGlobal ::= (VarDeclGlobalExists) VarDecl
@@ -173,16 +182,21 @@ VarDeclInnerList ::= (VarDeclInnerListSingle) VarDeclInnerListElement
 				(VarDeclInnerListMultiple) VarDeclInnerList COMMA VarDeclInnerListElement
 				;
 				
-VarDeclInnerListElement ::= (VarDeclInnerListElement) IDENT SquareBracketsOptional;
+VarDeclInnerListElement ::= (VarDeclInnerListElementVar) IDENT:varName
+						|
+						(VarDeclInnerListElementArray) IDENT:varName L_SQUARE_BRACKET R_SQUARE_BRACKET
+						;
 
 SquareBracketsOptional ::= (SquareBracketsOptionalExists) L_SQUARE_BRACKET R_SQUARE_BRACKET
 						|
 						(SquareBracketsOptionalEmpty) /* e */ 
 						;
 						
+			
 						
-						
-ClassDecl ::= (ClassDecl) CLASS IDENT ExtendsTypeOptional L_BRACE ClassBody R_BRACE;
+ClassDecl ::= (ClassDecl) CLASS ClassName:className ExtendsTypeOptional L_BRACE ClassBody R_BRACE;
+
+ClassName ::= (ClassName) IDENT:className;
 
 ExtendsTypeOptional ::= (ExtendsTypeOptionalExists) EXTENDS Type
 					|
@@ -221,9 +235,11 @@ MethodDeclListE ::= (MethodDeclListEExists) MethodDeclListE MethodDecl
 				(MethodDeclListEEmpty) /* e */
 				;
 
-MethodDecl ::= (MethodDecl) MethodReturnType IDENT L_PAREN FormParsOptional R_PAREN VarDeclListE L_BRACE StatementListE R_BRACE;
+MethodDecl ::= (MethodDecl) MethodReturnType MethodName:methodName L_PAREN FormParsOptional R_PAREN VarDeclListE L_BRACE StatementListE R_BRACE;
 
-MethodReturnType ::= (MethodReturnTypeHasType) Type
+MethodName ::= (MethodName) IDENT:MethodName;
+
+MethodReturnType ::= (MethodReturnTypeHasType) Type:returnType
 					|
 					(MethodReturnTypeIsVoid) VOID
 					;
