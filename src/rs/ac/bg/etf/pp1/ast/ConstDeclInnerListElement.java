@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/0/2023 17:7:52
+// 3/0/2023 2:22:1
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,11 +9,21 @@ public class ConstDeclInnerListElement implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
+    private String I1;
     private Const Const;
 
-    public ConstDeclInnerListElement (Const Const) {
+    public ConstDeclInnerListElement (String I1, Const Const) {
+        this.I1=I1;
         this.Const=Const;
         if(Const!=null) Const.setParent(this);
+    }
+
+    public String getI1() {
+        return I1;
+    }
+
+    public void setI1(String I1) {
+        this.I1=I1;
     }
 
     public Const getConst() {
@@ -62,6 +72,9 @@ public class ConstDeclInnerListElement implements SyntaxNode {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
         buffer.append("ConstDeclInnerListElement(\n");
+
+        buffer.append(" "+tab+I1);
+        buffer.append("\n");
 
         if(Const!=null)
             buffer.append(Const.toString("  "+tab));

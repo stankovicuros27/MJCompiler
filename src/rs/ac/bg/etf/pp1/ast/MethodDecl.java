@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/0/2023 17:7:52
+// 3/0/2023 2:22:1
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -10,13 +10,15 @@ public class MethodDecl implements SyntaxNode {
     private SyntaxNode parent;
     private int line;
     private MethodReturnType MethodReturnType;
+    private String I2;
     private FormParsOptional FormParsOptional;
     private VarDeclListE VarDeclListE;
     private StatementListE StatementListE;
 
-    public MethodDecl (MethodReturnType MethodReturnType, FormParsOptional FormParsOptional, VarDeclListE VarDeclListE, StatementListE StatementListE) {
+    public MethodDecl (MethodReturnType MethodReturnType, String I2, FormParsOptional FormParsOptional, VarDeclListE VarDeclListE, StatementListE StatementListE) {
         this.MethodReturnType=MethodReturnType;
         if(MethodReturnType!=null) MethodReturnType.setParent(this);
+        this.I2=I2;
         this.FormParsOptional=FormParsOptional;
         if(FormParsOptional!=null) FormParsOptional.setParent(this);
         this.VarDeclListE=VarDeclListE;
@@ -31,6 +33,14 @@ public class MethodDecl implements SyntaxNode {
 
     public void setMethodReturnType(MethodReturnType MethodReturnType) {
         this.MethodReturnType=MethodReturnType;
+    }
+
+    public String getI2() {
+        return I2;
+    }
+
+    public void setI2(String I2) {
+        this.I2=I2;
     }
 
     public FormParsOptional getFormParsOptional() {
@@ -109,6 +119,9 @@ public class MethodDecl implements SyntaxNode {
             buffer.append(MethodReturnType.toString("  "+tab));
         else
             buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        buffer.append(" "+tab+I2);
         buffer.append("\n");
 
         if(FormParsOptional!=null)

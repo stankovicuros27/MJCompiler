@@ -1,0 +1,5 @@
+INFO  02:09:16,488 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  02:09:16,508 - #2 program
+INFO  02:09:16,508 - #44 test302
+ERROR 02:09:16,508 - Syntax error na liniji 3
+ERROR 02:09:16,509 - Fatalna greska, parsiranje se ne moze nastaviti na liniji 3

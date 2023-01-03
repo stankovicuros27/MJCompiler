@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/0/2023 17:7:52
+// 3/0/2023 2:22:1
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -12,7 +12,6 @@ public interface Visitor {
     public void visit(ClassConstructorsAndMethodsDeclOptional ClassConstructorsAndMethodsDeclOptional);
     public void visit(ExprOptional ExprOptional);
     public void visit(Mulop Mulop);
-    public void visit(VarDeclInnerListElement VarDeclInnerListElement);
     public void visit(VarDeclInnerList VarDeclInnerList);
     public void visit(MatchedStatement MatchedStatement);
     public void visit(ConstructorDecl ConstructorDecl);
@@ -51,7 +50,6 @@ public interface Visitor {
     public void visit(MethodReturnType MethodReturnType);
     public void visit(Statement Statement);
     public void visit(SquareBracketsOptional SquareBracketsOptional);
-    public void visit(FormParam FormParam);
     public void visit(FormPars FormPars);
     public void visit(DesignatorListOptionalES DesignatorListOptionalES);
     public void visit(AddopMod AddopMod);
@@ -94,7 +92,7 @@ public interface Visitor {
     public void visit(ConditionSingle ConditionSingle);
     public void visit(ConditionMultiple ConditionMultiple);
     public void visit(ConditionInIfError ConditionInIfError);
-    public void visit(ConditionInIfSucess ConditionInIfSucess);
+    public void visit(ConditionInIfExists ConditionInIfExists);
     public void visit(ActParsOptionalEmpty ActParsOptionalEmpty);
     public void visit(ActParsOptionalExist ActParsOptionalExist);
     public void visit(ActParsSingle ActParsSingle);
@@ -109,6 +107,7 @@ public interface Visitor {
     public void visit(DesignatorActionInc DesignatorActionInc);
     public void visit(DesignatorActionActPars DesignatorActionActPars);
     public void visit(DesignatorActionAssignop DesignatorActionAssignop);
+    public void visit(DesignatorStatementError DesignatorStatementError);
     public void visit(DesignatorStatementSquareBracket DesignatorStatementSquareBracket);
     public void visit(DesignatorStatementAction DesignatorStatementAction);
     public void visit(PrintNumConstOptionalEmpty PrintNumConstOptionalEmpty);
@@ -133,12 +132,12 @@ public interface Visitor {
     public void visit(StatementListEEmpty StatementListEEmpty);
     public void visit(StatementListEExists StatementListEExists);
     public void visit(Type Type);
-    public void visit(FormParamDerived1 FormParamDerived1);
+    public void visit(FormParam FormParam);
     public void visit(FormParsError FormParsError);
     public void visit(FormParsMultiple FormParsMultiple);
-    public void visit(FormParsSignle FormParsSignle);
-    public void visit(FormParsEmpty FormParsEmpty);
-    public void visit(FormParsExists FormParsExists);
+    public void visit(FormParsSingle FormParsSingle);
+    public void visit(FormParsOptionalEmpty FormParsOptionalEmpty);
+    public void visit(FormParsOptionalExists FormParsOptionalExists);
     public void visit(MethodReturnTypeIsVoid MethodReturnTypeIsVoid);
     public void visit(MethodReturnTypeHasType MethodReturnTypeHasType);
     public void visit(MethodDecl MethodDecl);
@@ -149,21 +148,21 @@ public interface Visitor {
     public void visit(VarDeclListEEmpty VarDeclListEEmpty);
     public void visit(VarDeclListEExists VarDeclListEExists);
     public void visit(ClassBody ClassBody);
-    public void visit(ExtendsTypeError ExtendsTypeError);
-    public void visit(ExtendsTypeEmpty ExtendsTypeEmpty);
-    public void visit(ExtendsTypeExists ExtendsTypeExists);
+    public void visit(ExtendsTypeOptionalError ExtendsTypeOptionalError);
+    public void visit(ExtendsTypeOptionalEmpty ExtendsTypeOptionalEmpty);
+    public void visit(ExtendsTypeOptionalExists ExtendsTypeOptionalExists);
     public void visit(ClassDecl ClassDecl);
-    public void visit(SquareBracketsEmpty SquareBracketsEmpty);
-    public void visit(SquareBracketsExists SquareBracketsExists);
-    public void visit(VarDeclInnerListElementDerived1 VarDeclInnerListElementDerived1);
+    public void visit(SquareBracketsOptionalEmpty SquareBracketsOptionalEmpty);
+    public void visit(SquareBracketsOptionalExists SquareBracketsOptionalExists);
+    public void visit(VarDeclInnerListElement VarDeclInnerListElement);
     public void visit(VarDeclInnerListMultiple VarDeclInnerListMultiple);
     public void visit(VarDeclInnerListSingle VarDeclInnerListSingle);
     public void visit(VarDecl VarDecl);
     public void visit(VarDeclGlobalError VarDeclGlobalError);
     public void visit(VarDeclGlobalExists VarDeclGlobalExists);
-    public void visit(BoolConst BoolConst);
-    public void visit(CharConst CharConst);
-    public void visit(NumConst NumConst);
+    public void visit(ConstChar ConstChar);
+    public void visit(ConstBool ConstBool);
+    public void visit(ConstNum ConstNum);
     public void visit(ConstDeclInnerListElement ConstDeclInnerListElement);
     public void visit(ConstDeclInnerListMultiple ConstDeclInnerListMultiple);
     public void visit(ConstDeclInnerListSingle ConstDeclInnerListSingle);

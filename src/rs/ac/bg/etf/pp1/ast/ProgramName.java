@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/0/2023 17:7:52
+// 3/0/2023 2:22:1
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,7 +9,20 @@ public class ProgramName implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    public ProgramName () {
+    public rs.etf.pp1.symboltable.concepts.Obj obj = null;
+
+    private String programName;
+
+    public ProgramName (String programName) {
+        this.programName=programName;
+    }
+
+    public String getProgramName() {
+        return programName;
+    }
+
+    public void setProgramName(String programName) {
+        this.programName=programName;
     }
 
     public SyntaxNode getParent() {
@@ -47,6 +60,9 @@ public class ProgramName implements SyntaxNode {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
         buffer.append("ProgramName(\n");
+
+        buffer.append(" "+tab+programName);
+        buffer.append("\n");
 
         buffer.append(tab);
         buffer.append(") [ProgramName]");

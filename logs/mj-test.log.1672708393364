@@ -1,0 +1,16 @@
+INFO  02:09:56,262 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  02:09:56,276 - #2 program
+INFO  02:09:56,276 - #44 test302
+INFO  02:09:56,276 - #41 {
+INFO  02:09:56,277 - #42 }
+INFO  02:09:56,279 - Program(
+  ProgramName(
+   test302
+  ) [ProgramName]
+  ProgramDeclListEEmpty(
+  ) [ProgramDeclListEEmpty]
+  MethodDeclListEEmpty(
+  ) [MethodDeclListEEmpty]
+) [Program]
+INFO  02:09:56,279 - ===================================
+INFO  02:09:56,279 - ===================================

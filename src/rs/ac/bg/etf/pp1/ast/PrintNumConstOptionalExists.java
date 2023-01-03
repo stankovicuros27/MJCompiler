@@ -1,13 +1,24 @@
 // generated with ast extension for cup
 // version 0.8
-// 2/0/2023 17:7:52
+// 3/0/2023 2:22:1
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class PrintNumConstOptionalExists extends PrintNumConstOptional {
 
-    public PrintNumConstOptionalExists () {
+    private Integer N1;
+
+    public PrintNumConstOptionalExists (Integer N1) {
+        this.N1=N1;
+    }
+
+    public Integer getN1() {
+        return N1;
+    }
+
+    public void setN1(Integer N1) {
+        this.N1=N1;
     }
 
     public void accept(Visitor visitor) {
@@ -29,6 +40,9 @@ public class PrintNumConstOptionalExists extends PrintNumConstOptional {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
         buffer.append("PrintNumConstOptionalExists(\n");
+
+        buffer.append(" "+tab+N1);
+        buffer.append("\n");
 
         buffer.append(tab);
         buffer.append(") [PrintNumConstOptionalExists]");

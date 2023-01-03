@@ -61,14 +61,12 @@ scan with {:
 
 // ~~~~~~~~~~~~~~~~NONTERMINALS~~~~~~~~~~~~~~~~
 
-nonterminal Program Program;
 nonterminal ProgramDeclListE ProgramDeclListE;
 nonterminal MethodDeclListE MethodDeclListE;
 nonterminal ConstDecl ConstDecl;
 nonterminal VarDecl VarDecl;
 nonterminal ClassDecl ClassDecl;
 nonterminal ConstDeclInnerList ConstDeclInnerList;
-nonterminal Type Type;
 nonterminal Const Const;
 nonterminal VarDeclInnerList VarDeclInnerList;
 nonterminal SquareBracketsOptional SquareBracketsOptional;
@@ -115,7 +113,8 @@ nonterminal VarDeclGlobal VarDeclGlobal;
 nonterminal VarDeclInnerListGlobal VarDeclInnerListGlobal;
 nonterminal DesignatorAssignopExpr DesignatorAssignopExpr;
 
-nonterminal ProgramName ProgramName;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program;
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Type;
 
 nonterminal ConstDeclInnerListElement ConstDeclInnerListElement;
 nonterminal VarDeclInnerListElement VarDeclInnerListElement;
@@ -137,7 +136,10 @@ terminal PLUS, MINUS, MUL, DIV, MOD, EQUALS, NOT_EQUALS, GREATER, GREATER_EQUALS
 terminal INC, DEC, SEMI_COLON, COLON, COMMA, DOT, L_PAREN, R_PAREN, L_SQUARE_BRACKET, R_SQUARE_BRACKET, L_BRACE, R_BRACE, ARROW;
 
 // Token types
-terminal CHAR_CONST, BOOL_CONST, NUM_CONST, IDENT;
+terminal String IDENT;
+terminal Integer NUM_CONST;
+terminal Boolean BOOL_CONST;
+terminal Character CHAR_CONST;
 
 
 
@@ -152,7 +154,7 @@ precedence left ELSE;
 
 Program ::= (Program) PROGRAM ProgramName:P1 ProgramDeclListE:P2 L_BRACE MethodDeclListE:M3 R_BRACE {: RESULT=new Program(P1, P2, M3); RESULT.setLine(P1left); :};
 
-ProgramName ::= (ProgramName) IDENT:programName {: RESULT=new ProgramName(); :};
+ProgramName ::= (ProgramName) IDENT:programName {: RESULT=new ProgramName(programName); RESULT.setLine(programNameleft); :};
 
 ProgramDeclListE ::= (ProgramDeclListEConst) ProgramDeclListE:P1 ConstDecl:C2 {: RESULT=new ProgramDeclListEConst(P1, C2); RESULT.setLine(P1left); :}
 				|
@@ -170,13 +172,13 @@ ConstDeclInnerList ::= (ConstDeclInnerListSingle) ConstDeclInnerListElement:C1 {
 			(ConstDeclInnerListMultiple) ConstDeclInnerList:C1 COMMA ConstDeclInnerListElement:C2 {: RESULT=new ConstDeclInnerListMultiple(C1, C2); RESULT.setLine(C1left); :}
 			;
 
-ConstDeclInnerListElement ::= (ConstDeclInnerListElement) IDENT ASSIGN Const:C1 {: RESULT=new ConstDeclInnerListElement(C1); RESULT.setLine(C1left); :};
+ConstDeclInnerListElement ::= (ConstDeclInnerListElement) IDENT:I1 ASSIGN Const:C2 {: RESULT=new ConstDeclInnerListElement(I1, C2); RESULT.setLine(I1left); :};
 
-Const ::= (NumConst) NUM_CONST {: RESULT=new NumConst(); :}
+Const ::= (ConstNum) NUM_CONST:N1 {: RESULT=new ConstNum(N1); RESULT.setLine(N1left); :}
 		|
-		(CharConst) CHAR_CONST {: RESULT=new CharConst(); :}
+		(ConstBool) BOOL_CONST:B1 {: RESULT=new ConstBool(B1); RESULT.setLine(B1left); :}
 		|
-		(BoolConst) BOOL_CONST {: RESULT=new BoolConst(); :}
+		(ConstChar) CHAR_CONST:C1 {: RESULT=new ConstChar(C1); RESULT.setLine(C1left); :}
 		;
 		
 VarDeclGlobal ::= (VarDeclGlobalExists) VarDecl:V1 {: RESULT=new VarDeclGlobalExists(V1); RESULT.setLine(V1left); :}
@@ -202,26 +204,26 @@ VarDeclInnerList ::= (VarDeclInnerListSingle) VarDeclInnerListElement:V1 {: RESU
 				(VarDeclInnerListMultiple) VarDeclInnerList:V1 COMMA VarDeclInnerListElement:V2 {: RESULT=new VarDeclInnerListMultiple(V1, V2); RESULT.setLine(V1left); :}
 				;
 				
-VarDeclInnerListElement ::= IDENT SquareBracketsOptional:S1 {: RESULT=new VarDeclInnerListElementDerived1(S1); RESULT.setLine(S1left); :};
+VarDeclInnerListElement ::= (VarDeclInnerListElement) IDENT:I1 SquareBracketsOptional:S2 {: RESULT=new VarDeclInnerListElement(I1, S2); RESULT.setLine(I1left); :};
 
-SquareBracketsOptional ::= (SquareBracketsExists) L_SQUARE_BRACKET R_SQUARE_BRACKET {: RESULT=new SquareBracketsExists(); :}
+SquareBracketsOptional ::= (SquareBracketsOptionalExists) L_SQUARE_BRACKET R_SQUARE_BRACKET {: RESULT=new SquareBracketsOptionalExists(); :}
 						|
-						(SquareBracketsEmpty) {: RESULT=new SquareBracketsEmpty(); :} /* e */ 
+						(SquareBracketsOptionalEmpty) {: RESULT=new SquareBracketsOptionalEmpty(); :} /* e */ 
 						;
 						
 						
 						
-ClassDecl ::= (ClassDecl) CLASS IDENT ExtendsTypeOptional:E1 L_BRACE ClassBody:C2 R_BRACE {: RESULT=new ClassDecl(E1, C2); RESULT.setLine(E1left); :};
+ClassDecl ::= (ClassDecl) CLASS IDENT:I1 ExtendsTypeOptional:E2 L_BRACE ClassBody:C3 R_BRACE {: RESULT=new ClassDecl(I1, E2, C3); RESULT.setLine(I1left); :};
 
-ExtendsTypeOptional ::= (ExtendsTypeExists) EXTENDS Type:T1 {: RESULT=new ExtendsTypeExists(T1); RESULT.setLine(T1left); :}
+ExtendsTypeOptional ::= (ExtendsTypeOptionalExists) EXTENDS Type:T1 {: RESULT=new ExtendsTypeOptionalExists(T1); RESULT.setLine(T1left); :}
 					|
-					(ExtendsTypeEmpty) {: RESULT=new ExtendsTypeEmpty(); :} /* e */
+					(ExtendsTypeOptionalEmpty) {: RESULT=new ExtendsTypeOptionalEmpty(); :} /* e */
 					|
-					(ExtendsTypeError) error:e 
+					(ExtendsTypeOptionalError) error:e 
 						{: 
 							parser.syntax_error("Class extends type error at line: " + eleft, null); 
 							parser.log.info("Class extends type error recovery successful."); 
-						:} {: RESULT=new ExtendsTypeError(); :}
+						:} {: RESULT=new ExtendsTypeOptionalError(); :}
 					;
 
 ClassBody ::= (ClassBody) VarDeclListE:V1 ClassConstructorsAndMethodsDeclOptional:C2 {: RESULT=new ClassBody(V1, C2); RESULT.setLine(V1left); :};
@@ -231,7 +233,7 @@ VarDeclListE ::= (VarDeclListEExists) VarDeclListE:V1 VarDecl:V2 {: RESULT=new V
 			(VarDeclListEEmpty) {: RESULT=new VarDeclListEEmpty(); :} /* e */
 			;
 
-ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE MethodDeclListE:M1 R_BRACE {: RESULT=new ClassConstructorsAndMethodsDeclOptionalExists(M1); RESULT.setLine(M1left); :}
+ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE /* ConstructorDeclListE */ MethodDeclListE:M1 R_BRACE {: RESULT=new ClassConstructorsAndMethodsDeclOptionalExists(M1); RESULT.setLine(M1left); :}
 										|
 										(ClassConstructorsAndMethodsDeclOptionalEmpty) {: RESULT=new ClassConstructorsAndMethodsDeclOptionalEmpty(); :} /* e */
 										;
@@ -250,19 +252,19 @@ MethodDeclListE ::= (MethodDeclListEExists) MethodDeclListE:M1 MethodDecl:M2 {: 
 				(MethodDeclListEEmpty) {: RESULT=new MethodDeclListEEmpty(); :} /* e */
 				;
 
-MethodDecl ::= (MethodDecl) MethodReturnType:M1 IDENT L_PAREN FormParsOptional:F2 R_PAREN VarDeclListE:V3 L_BRACE StatementListE:S4 R_BRACE {: RESULT=new MethodDecl(M1, F2, V3, S4); RESULT.setLine(M1left); :};
+MethodDecl ::= (MethodDecl) MethodReturnType:M1 IDENT:I2 L_PAREN FormParsOptional:F3 R_PAREN VarDeclListE:V4 L_BRACE StatementListE:S5 R_BRACE {: RESULT=new MethodDecl(M1, I2, F3, V4, S5); RESULT.setLine(M1left); :};
 
 MethodReturnType ::= (MethodReturnTypeHasType) Type:T1 {: RESULT=new MethodReturnTypeHasType(T1); RESULT.setLine(T1left); :}
 					|
 					(MethodReturnTypeIsVoid) VOID {: RESULT=new MethodReturnTypeIsVoid(); :}
 					;
 					
-FormParsOptional ::= (FormParsExists) FormPars:F1 {: RESULT=new FormParsExists(F1); RESULT.setLine(F1left); :}
+FormParsOptional ::= (FormParsOptionalExists) FormPars:F1 {: RESULT=new FormParsOptionalExists(F1); RESULT.setLine(F1left); :}
 					|
-					(FormParsEmpty) {: RESULT=new FormParsEmpty(); :} /* e */
+					(FormParsOptionalEmpty) {: RESULT=new FormParsOptionalEmpty(); :} /* e */
 					;
 					
-FormPars ::= (FormParsSignle) FormParam:F1 {: RESULT=new FormParsSignle(F1); RESULT.setLine(F1left); :}
+FormPars ::= (FormParsSingle) FormParam:F1 {: RESULT=new FormParsSingle(F1); RESULT.setLine(F1left); :}
 			|
 			(FormParsMultiple) FormPars:F1 COMMA FormParam:F2 {: RESULT=new FormParsMultiple(F1, F2); RESULT.setLine(F1left); :}
 			|	
@@ -273,9 +275,9 @@ FormPars ::= (FormParsSignle) FormParam:F1 {: RESULT=new FormParsSignle(F1); RES
 				:} {: RESULT=new FormParsError(); :}
 			;
 			
-FormParam ::= Type:T1 IDENT SquareBracketsOptional:S2 {: RESULT=new FormParamDerived1(T1, S2); RESULT.setLine(T1left); :};
+FormParam ::= (FormParam) Type:T1 IDENT:I2 SquareBracketsOptional:S3 {: RESULT=new FormParam(T1, I2, S3); RESULT.setLine(T1left); :};
 
-Type ::= (Type) IDENT {: RESULT=new Type(); :};
+Type ::= (Type) IDENT:typeName {: RESULT=new Type(typeName); RESULT.setLine(typeNameleft); :};
 
 StatementListE ::= (StatementListEExists) StatementListE:S1 Statement:S2 {: RESULT=new StatementListEExists(S1, S2); RESULT.setLine(S1left); :}
 				|
@@ -313,7 +315,7 @@ MatchedStatement ::= (MatchedStatementDesignator) DesignatorStatement:D1 SEMI_CO
 					(MatchedStatementSection) L_BRACE StatementListE:S1 R_BRACE {: RESULT=new MatchedStatementSection(S1); RESULT.setLine(S1left); :}
 					;
 					
-ForeachStatement ::= (ForeachStatement) Designator:D1 DOT FOREACH L_PAREN IDENT ARROW Statement:S2 R_PAREN {: RESULT=new ForeachStatement(D1, S2); RESULT.setLine(D1left); :};
+ForeachStatement ::= (ForeachStatement) Designator:D1 DOT FOREACH L_PAREN IDENT:I2 ARROW Statement:S3 R_PAREN {: RESULT=new ForeachStatement(D1, I2, S3); RESULT.setLine(D1left); :};
 
 ExprOptional ::= (ExprOptionalExists) Expr:E1 {: RESULT=new ExprOptionalExists(E1); RESULT.setLine(E1left); :}
 				|
@@ -321,7 +323,7 @@ ExprOptional ::= (ExprOptionalExists) Expr:E1 {: RESULT=new ExprOptionalExists(E
 				;
 
 
-PrintNumConstOptional ::= (PrintNumConstOptionalExists) COMMA NUM_CONST {: RESULT=new PrintNumConstOptionalExists(); :}
+PrintNumConstOptional ::= (PrintNumConstOptionalExists) COMMA NUM_CONST:N1 {: RESULT=new PrintNumConstOptionalExists(N1); RESULT.setLine(N1left); :}
 						|
 						(PrintNumConstOptionalEmpty) {: RESULT=new PrintNumConstOptionalEmpty(); :} /* e */
 						;
@@ -329,6 +331,12 @@ PrintNumConstOptional ::= (PrintNumConstOptionalExists) COMMA NUM_CONST {: RESUL
 DesignatorStatement ::= (DesignatorStatementAction) Designator:D1 DesignatorAction:D2 {: RESULT=new DesignatorStatementAction(D1, D2); RESULT.setLine(D1left); :} 
 					|
 					(DesignatorStatementSquareBracket) L_SQUARE_BRACKET DesignatorListOptionalES:D1 R_SQUARE_BRACKET ASSIGN Designator:D2 {: RESULT=new DesignatorStatementSquareBracket(D1, D2); RESULT.setLine(D1left); :}
+					|	
+					(DesignatorStatementError) error:e 
+						{: 
+							parser.syntax_error("Designator statement error at line: " + eleft, null); 
+							parser.log.info("Designator statement error recovery successful."); 
+						:} {: RESULT=new DesignatorStatementError(); :}
 					;
 					
 					
@@ -367,7 +375,7 @@ ActParsOptional ::= (ActParsOptionalExist) ActPars:A1 {: RESULT=new ActParsOptio
 				(ActParsOptionalEmpty) {: RESULT=new ActParsOptionalEmpty(); :} /* e */
 				;
 
-ConditionInIf ::= (ConditionInIfSucess) Condition:C1 {: RESULT=new ConditionInIfSucess(C1); RESULT.setLine(C1left); :}
+ConditionInIf ::= (ConditionInIfExists) Condition:C1 {: RESULT=new ConditionInIfExists(C1); RESULT.setLine(C1left); :}
 				|
 				(ConditionInIfError) error:e 
 					{: 
@@ -411,11 +419,11 @@ Term ::= (TermMultiple) Term:T1 Mulop:M2 Factor:F3 {: RESULT=new TermMultiple(T1
 			
 Factor ::= (FactorDesignator) Designator:D1 ParenActParsOptional:P2 {: RESULT=new FactorDesignator(D1, P2); RESULT.setLine(D1left); :}
 		| 
-		(FactorNumConst) NUM_CONST {: RESULT=new FactorNumConst(); :}
+		(FactorNumConst) NUM_CONST:N1 {: RESULT=new FactorNumConst(N1); RESULT.setLine(N1left); :}
 		| 
-		(FactorCharConst) CHAR_CONST {: RESULT=new FactorCharConst(); :}
+		(FactorCharConst) CHAR_CONST:C1 {: RESULT=new FactorCharConst(C1); RESULT.setLine(C1left); :}
 		| 
-		(FactorBoolConst) BOOL_CONST {: RESULT=new FactorBoolConst(); :}
+		(FactorBoolConst) BOOL_CONST:B1 {: RESULT=new FactorBoolConst(B1); RESULT.setLine(B1left); :}
 		|
 		(FactorNew) NEW Type:T1 NewTypeSuffix:N2 {: RESULT=new FactorNew(T1, N2); RESULT.setLine(T1left); :}
 		|
@@ -432,14 +440,14 @@ NewTypeSuffix ::= (NewTypeSuffixSquareBracket) L_SQUARE_BRACKET Expr:E1 R_SQUARE
 				(NewTypeSuffixActPars) L_PAREN ActParsOptional:A1 R_PAREN {: RESULT=new NewTypeSuffixActPars(A1); RESULT.setLine(A1left); :}
 				;		
 				
-Designator ::= (DesignatorMultipleIdent) Designator:D1 DOT IDENT {: RESULT=new DesignatorMultipleIdent(D1); RESULT.setLine(D1left); :}
+Designator ::= (DesignatorMultipleIdent) Designator:D1 DOT IDENT:I2 {: RESULT=new DesignatorMultipleIdent(D1, I2); RESULT.setLine(D1left); :}
 			|
 			(DesignatorMultipleExpr) Designator:D1 L_SQUARE_BRACKET Expr:E2 R_SQUARE_BRACKET {: RESULT=new DesignatorMultipleExpr(D1, E2); RESULT.setLine(D1left); :}
 			|
-			(DesignatorSingle) IDENT {: RESULT=new DesignatorSingle(); :}
+			(DesignatorSingle) IDENT:I1 {: RESULT=new DesignatorSingle(I1); RESULT.setLine(I1left); :}
 			;
 			
-Label ::= (Label) IDENT {: RESULT=new Label(); :};
+Label ::= (Label) IDENT:I1 {: RESULT=new Label(I1); RESULT.setLine(I1left); :};
 
 Assignop ::= (Assignop) ASSIGN {: RESULT=new Assignop(); :};
 
