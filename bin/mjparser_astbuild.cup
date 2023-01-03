@@ -96,7 +96,6 @@ nonterminal DesignatorStatement DesignatorStatement;
 nonterminal ExprOptional ExprOptional;
 nonterminal PrintNumConstOptional PrintNumConstOptional;
 nonterminal Expr Expr;
-nonterminal Designator Designator;
 nonterminal DesignatorAction DesignatorAction;
 nonterminal DesignatorListOptionalES DesignatorListOptionalES;
 nonterminal ActParsOptional ActParsOptional;
@@ -121,7 +120,7 @@ nonterminal VarDeclInnerListGlobal VarDeclInnerListGlobal;
 nonterminal DesignatorAssignopExpr DesignatorAssignopExpr;
 
 // Everything that needs to go inside Tab
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName, Designator;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type;
 
 nonterminal ConstDeclInnerListElement ConstDeclInnerListElement;
@@ -290,7 +289,10 @@ FormPars ::= (FormParsSingle) FormParam:F1 {: RESULT=new FormParsSingle(F1); RES
 				:} {: RESULT=new FormParsError(); :}
 			;
 			
-FormParam ::= (FormParam) Type:T1 IDENT:I2 SquareBracketsOptional:S3 {: RESULT=new FormParam(T1, I2, S3); RESULT.setLine(T1left); :};
+FormParam ::= (FormParamVar) Type:type IDENT:paramName {: RESULT=new FormParamVar(type, paramName); RESULT.setLine(typeleft); :}
+			|
+			(FormParamArray) Type:type IDENT:paramName L_SQUARE_BRACKET R_SQUARE_BRACKET {: RESULT=new FormParamArray(type, paramName); RESULT.setLine(typeleft); :}
+			;
 
 Type ::= (Type) IDENT:typeName {: RESULT=new Type(typeName); RESULT.setLine(typeNameleft); :};
 
@@ -319,7 +321,7 @@ MatchedStatement ::= (MatchedStatementDesignator) DesignatorStatement:D1 SEMI_CO
 					|
 					(MatchedStatementContinue) CONTINUE SEMI_COLON {: RESULT=new MatchedStatementContinue(); :}
 					|
-					(MatchedStatementExpr) RETURN ExprOptional:E1 SEMI_COLON {: RESULT=new MatchedStatementExpr(E1); RESULT.setLine(E1left); :}
+					(MatchedStatementReturn) RETURN ExprOptional:E1 SEMI_COLON {: RESULT=new MatchedStatementReturn(E1); RESULT.setLine(E1left); :}
 					|
 					(MatchedStatementRead) READ L_PAREN Designator:D1 R_PAREN SEMI_COLON {: RESULT=new MatchedStatementRead(D1); RESULT.setLine(D1left); :}
 					|
@@ -455,11 +457,11 @@ NewTypeSuffix ::= (NewTypeSuffixSquareBracket) L_SQUARE_BRACKET Expr:E1 R_SQUARE
 				(NewTypeSuffixActPars) L_PAREN ActParsOptional:A1 R_PAREN {: RESULT=new NewTypeSuffixActPars(A1); RESULT.setLine(A1left); :}
 				;		
 				
-Designator ::= (DesignatorMultipleIdent) Designator:D1 DOT IDENT:I2 {: RESULT=new DesignatorMultipleIdent(D1, I2); RESULT.setLine(D1left); :}
+Designator ::= (DesignatorMultipleIdent) Designator:designatorName DOT IDENT:I1 {: RESULT=new DesignatorMultipleIdent(designatorName, I1); RESULT.setLine(designatorNameleft); :}
 			|
-			(DesignatorMultipleExpr) Designator:D1 L_SQUARE_BRACKET Expr:E2 R_SQUARE_BRACKET {: RESULT=new DesignatorMultipleExpr(D1, E2); RESULT.setLine(D1left); :}
+			(DesignatorMultipleExpr) Designator:designatorName L_SQUARE_BRACKET Expr:E1 R_SQUARE_BRACKET {: RESULT=new DesignatorMultipleExpr(designatorName, E1); RESULT.setLine(designatorNameleft); :}
 			|
-			(DesignatorSingle) IDENT:I1 {: RESULT=new DesignatorSingle(I1); RESULT.setLine(I1left); :}
+			(DesignatorSingle) IDENT:designatorName {: RESULT=new DesignatorSingle(designatorName); RESULT.setLine(designatorNameleft); :}
 			;
 			
 Label ::= (Label) IDENT:I1 {: RESULT=new Label(I1); RESULT.setLine(I1left); :};

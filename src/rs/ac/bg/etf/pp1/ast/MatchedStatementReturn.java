@@ -1,15 +1,15 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/0/2023 17:26:13
+// 3/0/2023 19:20:51
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class MatchedStatementExpr extends MatchedStatement {
+public class MatchedStatementReturn extends MatchedStatement {
 
     private ExprOptional ExprOptional;
 
-    public MatchedStatementExpr (ExprOptional ExprOptional) {
+    public MatchedStatementReturn (ExprOptional ExprOptional) {
         this.ExprOptional=ExprOptional;
         if(ExprOptional!=null) ExprOptional.setParent(this);
     }
@@ -43,7 +43,7 @@ public class MatchedStatementExpr extends MatchedStatement {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("MatchedStatementExpr(\n");
+        buffer.append("MatchedStatementReturn(\n");
 
         if(ExprOptional!=null)
             buffer.append(ExprOptional.toString("  "+tab));
@@ -52,7 +52,7 @@ public class MatchedStatementExpr extends MatchedStatement {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [MatchedStatementExpr]");
+        buffer.append(") [MatchedStatementReturn]");
         return buffer.toString();
     }
 }

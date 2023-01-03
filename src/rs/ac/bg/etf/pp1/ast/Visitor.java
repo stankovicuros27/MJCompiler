@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/0/2023 17:26:13
+// 3/0/2023 19:20:51
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -51,6 +51,7 @@ public interface Visitor {
     public void visit(MethodReturnType MethodReturnType);
     public void visit(Statement Statement);
     public void visit(SquareBracketsOptional SquareBracketsOptional);
+    public void visit(FormParam FormParam);
     public void visit(FormPars FormPars);
     public void visit(DesignatorListOptionalES DesignatorListOptionalES);
     public void visit(AddopMod AddopMod);
@@ -120,7 +121,7 @@ public interface Visitor {
     public void visit(MatchedStatementForeach MatchedStatementForeach);
     public void visit(MatchedStatementPrint MatchedStatementPrint);
     public void visit(MatchedStatementRead MatchedStatementRead);
-    public void visit(MatchedStatementExpr MatchedStatementExpr);
+    public void visit(MatchedStatementReturn MatchedStatementReturn);
     public void visit(MatchedStatementContinue MatchedStatementContinue);
     public void visit(MatchedStatementBreak MatchedStatementBreak);
     public void visit(MatchedStatementWhile MatchedStatementWhile);
@@ -133,7 +134,8 @@ public interface Visitor {
     public void visit(StatementListEEmpty StatementListEEmpty);
     public void visit(StatementListEExists StatementListEExists);
     public void visit(Type Type);
-    public void visit(FormParam FormParam);
+    public void visit(FormParamArray FormParamArray);
+    public void visit(FormParamVar FormParamVar);
     public void visit(FormParsError FormParsError);
     public void visit(FormParsMultiple FormParsMultiple);
     public void visit(FormParsSingle FormParsSingle);

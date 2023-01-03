@@ -150,6 +150,41 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("MethodDecl", methodDecl);
 	}
 	
+	// ~~~~~~~~~~~~~~~~~~~ FormParams ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(FormParamVar formParamVar) {
+		if (checkIfSymbolExistsInCurrentScope(formParamVar.getParamName(), formParamVar)) {
+			return;
+		}
+		Obj formParamVarObj = Tab.insert(Obj.Var, formParamVar.getParamName(), currentType);
+		report_info("FormParamVar", formParamVar);
+	}
+	
+	public void visit(FormParamArray formParamArray) {
+		if (checkIfSymbolExistsInCurrentScope(formParamArray.getParamName(), formParamArray)) {
+			return;
+		}
+		Obj formParamArrObj = Tab.insert(Obj.Var, formParamArray.getParamName(), new Struct(Struct.Array, currentType));
+		report_info("FormParamArray", formParamArray);
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Method Return ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(MatchedStatementReturn matchedStatementReturn) {
+		
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Designator ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(DesignatorSingle designatorSingle) {
+		Obj designatorObj = Tab.find(designatorSingle.getDesignatorName());
+		if (designatorObj == Tab.noObj) {
+			report_error("Designator " + designatorSingle.getDesignatorName() + " was not declared!", designatorSingle);
+			return;
+		}
+		designatorSingle.obj = designatorObj;
+	}
+	
 	// ~~~~~~~~~~~~~~~~~~~ Type ~~~~~~~~~~~~~~~~~~~
 	
 	public void visit(Type type) {

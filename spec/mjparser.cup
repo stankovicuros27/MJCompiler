@@ -82,7 +82,7 @@ nonterminal Statement, MatchedStatement, UnmatchedStatement;
 nonterminal Condition;
 nonterminal DesignatorStatement, ExprOptional, PrintNumConstOptional;
 nonterminal Expr;
-nonterminal Designator, DesignatorAction, DesignatorListOptionalES;
+nonterminal DesignatorAction, DesignatorListOptionalES;
 nonterminal ActParsOptional, Assignop;
 nonterminal DesignatorList;
 nonterminal ActPars;
@@ -96,7 +96,7 @@ nonterminal VarDeclGlobal, VarDeclInnerListGlobal;
 nonterminal DesignatorAssignopExpr;
 
 // Everything that needs to go inside Tab
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName, Designator;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type;
 
 nonterminal ConstDeclInnerListElement, VarDeclInnerListElement, FormParam, DesignatorOptional, ForeachStatement, ConditionInIf;
@@ -260,7 +260,10 @@ FormPars ::= (FormParsSingle) FormParam
 				:}
 			;
 			
-FormParam ::= (FormParam) Type IDENT SquareBracketsOptional;
+FormParam ::= (FormParamVar) Type:type IDENT:paramName
+			|
+			(FormParamArray) Type:type IDENT:paramName L_SQUARE_BRACKET R_SQUARE_BRACKET
+			;
 
 Type ::= (Type) IDENT:typeName;
 
@@ -289,7 +292,7 @@ MatchedStatement ::= (MatchedStatementDesignator) DesignatorStatement SEMI_COLON
 					|
 					(MatchedStatementContinue) CONTINUE SEMI_COLON
 					|
-					(MatchedStatementExpr) RETURN ExprOptional SEMI_COLON
+					(MatchedStatementReturn) RETURN ExprOptional SEMI_COLON
 					|
 					(MatchedStatementRead) READ L_PAREN Designator R_PAREN SEMI_COLON
 					|
@@ -425,11 +428,11 @@ NewTypeSuffix ::= (NewTypeSuffixSquareBracket) L_SQUARE_BRACKET Expr R_SQUARE_BR
 				(NewTypeSuffixActPars) L_PAREN ActParsOptional R_PAREN
 				;		
 				
-Designator ::= (DesignatorMultipleIdent) Designator DOT IDENT
+Designator ::= (DesignatorMultipleIdent) Designator:designatorName DOT IDENT
 			|
-			(DesignatorMultipleExpr) Designator L_SQUARE_BRACKET Expr R_SQUARE_BRACKET
+			(DesignatorMultipleExpr) Designator:designatorName L_SQUARE_BRACKET Expr R_SQUARE_BRACKET
 			|
-			(DesignatorSingle) IDENT
+			(DesignatorSingle) IDENT:designatorName
 			;
 			
 Label ::= (Label) IDENT;

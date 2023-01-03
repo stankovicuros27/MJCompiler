@@ -12,6 +12,13 @@ program test302
 
 {
 
-	int main() {}
+	int main(int fp1, char fp2, bool fp3)
+	int aa;
+	char bb;
+	{
+	
+		
+	
+	}
 
 }

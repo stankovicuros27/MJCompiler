@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/0/2023 17:26:13
+// 3/0/2023 19:20:51
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -51,6 +51,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(MethodReturnType MethodReturnType) { }
     public void visit(Statement Statement) { }
     public void visit(SquareBracketsOptional SquareBracketsOptional) { }
+    public void visit(FormParam FormParam) { }
     public void visit(FormPars FormPars) { }
     public void visit(DesignatorListOptionalES DesignatorListOptionalES) { }
     public void visit(AddopMod AddopMod) { visit(); }
@@ -120,7 +121,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(MatchedStatementForeach MatchedStatementForeach) { visit(); }
     public void visit(MatchedStatementPrint MatchedStatementPrint) { visit(); }
     public void visit(MatchedStatementRead MatchedStatementRead) { visit(); }
-    public void visit(MatchedStatementExpr MatchedStatementExpr) { visit(); }
+    public void visit(MatchedStatementReturn MatchedStatementReturn) { visit(); }
     public void visit(MatchedStatementContinue MatchedStatementContinue) { visit(); }
     public void visit(MatchedStatementBreak MatchedStatementBreak) { visit(); }
     public void visit(MatchedStatementWhile MatchedStatementWhile) { visit(); }
@@ -133,7 +134,8 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(StatementListEEmpty StatementListEEmpty) { visit(); }
     public void visit(StatementListEExists StatementListEExists) { visit(); }
     public void visit(Type Type) { visit(); }
-    public void visit(FormParam FormParam) { visit(); }
+    public void visit(FormParamArray FormParamArray) { visit(); }
+    public void visit(FormParamVar FormParamVar) { visit(); }
     public void visit(FormParsError FormParsError) { visit(); }
     public void visit(FormParsMultiple FormParsMultiple) { visit(); }
     public void visit(FormParsSingle FormParsSingle) { visit(); }

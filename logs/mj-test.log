@@ -1,57 +1,71 @@
-INFO  17:28:22,808 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
-INFO  17:28:22,817 - #2 program
-INFO  17:28:22,817 - #44 test302
-INFO  17:28:22,817 - #6 const
-INFO  17:28:22,819 - #44 int
-INFO  17:28:22,819 - #44 i
-INFO  17:28:22,819 - #30 =
-INFO  17:28:22,819 - #45 3
-INFO  17:28:22,819 - #33 ;
-INFO  17:28:22,819 - #6 const
-INFO  17:28:22,819 - #44 bool
-INFO  17:28:22,819 - #44 bt
-INFO  17:28:22,819 - #30 =
-INFO  17:28:22,819 - #46 true
-INFO  17:28:22,820 - #33 ;
-INFO  17:28:22,820 - #6 const
-INFO  17:28:22,820 - #44 bool
-INFO  17:28:22,820 - #44 bf
-INFO  17:28:22,820 - #30 =
-INFO  17:28:22,820 - #46 false
-INFO  17:28:22,820 - #33 ;
-INFO  17:28:22,820 - #6 const
-INFO  17:28:22,820 - #44 char
-INFO  17:28:22,820 - #44 c
-INFO  17:28:22,820 - #30 =
-INFO  17:28:22,820 - #47 c
-INFO  17:28:22,820 - #33 ;
-INFO  17:28:22,820 - #44 int
-INFO  17:28:22,820 - #44 niz
-INFO  17:28:22,820 - #39 [
-INFO  17:28:22,820 - #40 ]
-INFO  17:28:22,820 - #35 ,
-INFO  17:28:22,820 - #44 niz2
-INFO  17:28:22,820 - #39 [
-INFO  17:28:22,820 - #40 ]
-INFO  17:28:22,820 - #35 ,
-INFO  17:28:22,820 - #44 a
-INFO  17:28:22,820 - #35 ,
-INFO  17:28:22,821 - #44 b
-INFO  17:28:22,821 - #33 ;
-INFO  17:28:22,821 - #44 char
-INFO  17:28:22,821 - #44 nizch
-INFO  17:28:22,821 - #39 [
-INFO  17:28:22,821 - #40 ]
-INFO  17:28:22,821 - #33 ;
-INFO  17:28:22,821 - #41 {
-INFO  17:28:22,821 - #44 int
-INFO  17:28:22,821 - #44 main
-INFO  17:28:22,821 - #37 (
-INFO  17:28:22,821 - #38 )
-INFO  17:28:22,821 - #41 {
-INFO  17:28:22,821 - #42 }
-INFO  17:28:22,822 - #42 }
-INFO  17:28:22,824 - Program(
+INFO  18:28:23,596 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  18:28:23,605 - #2 program
+INFO  18:28:23,607 - #44 test302
+INFO  18:28:23,607 - #6 const
+INFO  18:28:23,607 - #44 int
+INFO  18:28:23,607 - #44 i
+INFO  18:28:23,607 - #30 =
+INFO  18:28:23,607 - #45 3
+INFO  18:28:23,607 - #33 ;
+INFO  18:28:23,607 - #6 const
+INFO  18:28:23,608 - #44 bool
+INFO  18:28:23,608 - #44 bt
+INFO  18:28:23,608 - #30 =
+INFO  18:28:23,608 - #46 true
+INFO  18:28:23,608 - #33 ;
+INFO  18:28:23,608 - #6 const
+INFO  18:28:23,608 - #44 bool
+INFO  18:28:23,608 - #44 bf
+INFO  18:28:23,608 - #30 =
+INFO  18:28:23,608 - #46 false
+INFO  18:28:23,608 - #33 ;
+INFO  18:28:23,608 - #6 const
+INFO  18:28:23,608 - #44 char
+INFO  18:28:23,608 - #44 c
+INFO  18:28:23,608 - #30 =
+INFO  18:28:23,608 - #47 c
+INFO  18:28:23,608 - #33 ;
+INFO  18:28:23,608 - #44 int
+INFO  18:28:23,608 - #44 niz
+INFO  18:28:23,608 - #39 [
+INFO  18:28:23,608 - #40 ]
+INFO  18:28:23,608 - #35 ,
+INFO  18:28:23,608 - #44 niz2
+INFO  18:28:23,608 - #39 [
+INFO  18:28:23,609 - #40 ]
+INFO  18:28:23,609 - #35 ,
+INFO  18:28:23,609 - #44 a
+INFO  18:28:23,609 - #35 ,
+INFO  18:28:23,609 - #44 b
+INFO  18:28:23,609 - #33 ;
+INFO  18:28:23,609 - #44 char
+INFO  18:28:23,609 - #44 nizch
+INFO  18:28:23,609 - #39 [
+INFO  18:28:23,609 - #40 ]
+INFO  18:28:23,609 - #33 ;
+INFO  18:28:23,609 - #41 {
+INFO  18:28:23,609 - #44 int
+INFO  18:28:23,609 - #44 main
+INFO  18:28:23,609 - #37 (
+INFO  18:28:23,609 - #44 int
+INFO  18:28:23,610 - #44 fp1
+INFO  18:28:23,610 - #35 ,
+INFO  18:28:23,610 - #44 char
+INFO  18:28:23,610 - #44 fp2
+INFO  18:28:23,610 - #35 ,
+INFO  18:28:23,610 - #44 bool
+INFO  18:28:23,610 - #44 fp3
+INFO  18:28:23,610 - #38 )
+INFO  18:28:23,610 - #44 int
+INFO  18:28:23,610 - #44 aa
+INFO  18:28:23,610 - #33 ;
+INFO  18:28:23,610 - #44 char
+INFO  18:28:23,610 - #44 bb
+INFO  18:28:23,610 - #33 ;
+INFO  18:28:23,610 - #41 {
+INFO  18:28:23,610 - #42 }
+INFO  18:28:23,611 - #42 }
+INFO  18:28:23,613 - Program(
   ProgramName(
    test302
   ) [ProgramName]
@@ -172,40 +186,98 @@ INFO  17:28:22,824 - Program(
       MethodName(
        main
       ) [MethodName]
-      FormParsOptionalEmpty(
-      ) [FormParsOptionalEmpty]
-      VarDeclListEEmpty(
-      ) [VarDeclListEEmpty]
+      FormParsOptionalExists(
+        FormParsMultiple(
+          FormParsMultiple(
+            FormParsSingle(
+              FormParamVar(
+                Type(
+                 int
+                ) [Type]
+               fp1
+              ) [FormParamVar]
+            ) [FormParsSingle]
+            FormParamVar(
+              Type(
+               char
+              ) [Type]
+             fp2
+            ) [FormParamVar]
+          ) [FormParsMultiple]
+          FormParamVar(
+            Type(
+             bool
+            ) [Type]
+           fp3
+          ) [FormParamVar]
+        ) [FormParsMultiple]
+      ) [FormParsOptionalExists]
+      VarDeclListEExists(
+        VarDeclListEExists(
+          VarDeclListEEmpty(
+          ) [VarDeclListEEmpty]
+          VarDecl(
+            Type(
+             int
+            ) [Type]
+            VarDeclInnerListSingle(
+              VarDeclInnerListElementVar(
+               aa
+              ) [VarDeclInnerListElementVar]
+            ) [VarDeclInnerListSingle]
+          ) [VarDecl]
+        ) [VarDeclListEExists]
+        VarDecl(
+          Type(
+           char
+          ) [Type]
+          VarDeclInnerListSingle(
+            VarDeclInnerListElementVar(
+             bb
+            ) [VarDeclInnerListElementVar]
+          ) [VarDeclInnerListSingle]
+        ) [VarDecl]
+      ) [VarDeclListEExists]
       StatementListEEmpty(
       ) [StatementListEEmpty]
     ) [MethodDecl]
   ) [MethodDeclListEExists]
 ) [Program]
-INFO  17:28:22,824 - ===================================
-INFO  17:28:22,825 - ProgramName -> line 3
-INFO  17:28:22,825 - Type -> line 5
-INFO  17:28:22,825 - ConstNum -> line 5
-INFO  17:28:22,825 - ConstDeclInnerListElement -> line 5
-INFO  17:28:22,825 - Type -> line 6
-INFO  17:28:22,825 - ConstBool -> line 6
-INFO  17:28:22,825 - ConstDeclInnerListElement -> line 6
-INFO  17:28:22,825 - Type -> line 7
-INFO  17:28:22,825 - ConstBool -> line 7
-INFO  17:28:22,825 - ConstDeclInnerListElement -> line 7
-INFO  17:28:22,825 - Type -> line 8
-INFO  17:28:22,825 - ConstChar -> line 8
-INFO  17:28:22,825 - ConstDeclInnerListElement -> line 8
-INFO  17:28:22,825 - Type -> line 10
-INFO  17:28:22,825 - VarDeclInnerListElementArray -> line 10
-INFO  17:28:22,825 - VarDeclInnerListElementArray -> line 10
-INFO  17:28:22,825 - VarDeclInnerListElementVar -> line 10
-INFO  17:28:22,825 - VarDeclInnerListElementVar -> line 10
-INFO  17:28:22,825 - Type -> line 11
-INFO  17:28:22,825 - VarDeclInnerListElementArray -> line 11
-INFO  17:28:22,825 - Type -> line 15
-INFO  17:28:22,825 - MethodReturnTypeHasType -> line 15
-INFO  17:28:22,825 - MethodName -> line 15
-INFO  17:28:22,825 - MethodDecl -> line 15
-INFO  17:28:22,825 - Program -> line 3
-INFO  17:28:22,825 - ===================================
-INFO  17:28:22,825 - Parsiranje uspesno zavrseno!
+INFO  18:28:23,613 - ===================================
+INFO  18:28:23,614 - ProgramName -> line 3
+INFO  18:28:23,614 - Type -> line 5
+INFO  18:28:23,614 - ConstNum -> line 5
+INFO  18:28:23,614 - ConstDeclInnerListElement -> line 5
+INFO  18:28:23,614 - Type -> line 6
+INFO  18:28:23,614 - ConstBool -> line 6
+INFO  18:28:23,614 - ConstDeclInnerListElement -> line 6
+INFO  18:28:23,614 - Type -> line 7
+INFO  18:28:23,614 - ConstBool -> line 7
+INFO  18:28:23,614 - ConstDeclInnerListElement -> line 7
+INFO  18:28:23,614 - Type -> line 8
+INFO  18:28:23,614 - ConstChar -> line 8
+INFO  18:28:23,614 - ConstDeclInnerListElement -> line 8
+INFO  18:28:23,614 - Type -> line 10
+INFO  18:28:23,614 - VarDeclInnerListElementArray -> line 10
+INFO  18:28:23,614 - VarDeclInnerListElementArray -> line 10
+INFO  18:28:23,614 - VarDeclInnerListElementVar -> line 10
+INFO  18:28:23,614 - VarDeclInnerListElementVar -> line 10
+INFO  18:28:23,614 - Type -> line 11
+INFO  18:28:23,614 - VarDeclInnerListElementArray -> line 11
+INFO  18:28:23,614 - Type -> line 15
+INFO  18:28:23,614 - MethodReturnTypeHasType -> line 15
+INFO  18:28:23,614 - MethodName -> line 15
+INFO  18:28:23,614 - Type -> line 15
+INFO  18:28:23,614 - FormParamVar -> line 15
+INFO  18:28:23,614 - Type -> line 15
+INFO  18:28:23,615 - FormParamVar -> line 15
+INFO  18:28:23,615 - Type -> line 15
+INFO  18:28:23,615 - FormParamVar -> line 15
+INFO  18:28:23,615 - Type -> line 16
+INFO  18:28:23,615 - VarDeclInnerListElementVar -> line 16
+INFO  18:28:23,615 - Type -> line 17
+INFO  18:28:23,615 - VarDeclInnerListElementVar -> line 17
+INFO  18:28:23,615 - MethodDecl -> line 15
+INFO  18:28:23,615 - Program -> line 3
+INFO  18:28:23,615 - ===================================
+INFO  18:28:23,615 - Parsiranje uspesno zavrseno!

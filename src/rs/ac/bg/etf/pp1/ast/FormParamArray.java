@@ -5,13 +5,15 @@
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class MethodReturnTypeHasType extends MethodReturnType {
+public class FormParamArray extends FormParam {
 
     private Type Type;
+    private String paramName;
 
-    public MethodReturnTypeHasType (Type Type) {
+    public FormParamArray (Type Type, String paramName) {
         this.Type=Type;
         if(Type!=null) Type.setParent(this);
+        this.paramName=paramName;
     }
 
     public Type getType() {
@@ -20,6 +22,14 @@ public class MethodReturnTypeHasType extends MethodReturnType {
 
     public void setType(Type Type) {
         this.Type=Type;
+    }
+
+    public String getParamName() {
+        return paramName;
+    }
+
+    public void setParamName(String paramName) {
+        this.paramName=paramName;
     }
 
     public void accept(Visitor visitor) {
@@ -43,7 +53,7 @@ public class MethodReturnTypeHasType extends MethodReturnType {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("MethodReturnTypeHasType(\n");
+        buffer.append("FormParamArray(\n");
 
         if(Type!=null)
             buffer.append(Type.toString("  "+tab));
@@ -51,8 +61,11 @@ public class MethodReturnTypeHasType extends MethodReturnType {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
+        buffer.append(" "+tab+paramName);
+        buffer.append("\n");
+
         buffer.append(tab);
-        buffer.append(") [MethodReturnTypeHasType]");
+        buffer.append(") [FormParamArray]");
         return buffer.toString();
     }
 }
