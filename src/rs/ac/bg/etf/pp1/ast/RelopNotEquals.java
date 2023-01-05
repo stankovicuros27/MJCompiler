@@ -1,11 +1,11 @@
 // generated with ast extension for cup
 // version 0.8
-// 5/0/2023 1:37:25
+// 5/0/2023 18:3:9
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class RelopNotEquals extends Relop {
+public class RelopNotEquals extends RelopEquality {
 
     public RelopNotEquals () {
     }

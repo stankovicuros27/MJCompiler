@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 5/0/2023 1:37:25
+// 5/0/2023 18:3:9
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -28,6 +28,7 @@ public interface Visitor {
     public void visit(Factor Factor);
     public void visit(CondTerm CondTerm);
     public void visit(ParenActParsOptional ParenActParsOptional);
+    public void visit(RelopEquality RelopEquality);
     public void visit(TermAddopList TermAddopList);
     public void visit(Designator Designator);
     public void visit(NewTypeSuffix NewTypeSuffix);
@@ -50,6 +51,8 @@ public interface Visitor {
     public void visit(MethodReturnType MethodReturnType);
     public void visit(Statement Statement);
     public void visit(SquareBracketsOptional SquareBracketsOptional);
+    public void visit(CondFact CondFact);
+    public void visit(RelopComparaison RelopComparaison);
     public void visit(FormParam FormParam);
     public void visit(FormPars FormPars);
     public void visit(DesignatorListOptionalES DesignatorListOptionalES);
@@ -64,6 +67,8 @@ public interface Visitor {
     public void visit(RelopGreater RelopGreater);
     public void visit(RelopNotEquals RelopNotEquals);
     public void visit(RelopEquals RelopEquals);
+    public void visit(RelopTypeComparaison RelopTypeComparaison);
+    public void visit(RelopTypeEquality RelopTypeEquality);
     public void visit(Assignop Assignop);
     public void visit(Label Label);
     public void visit(DesignatorSingle DesignatorSingle);
@@ -83,9 +88,9 @@ public interface Visitor {
     public void visit(ExprMultiple ExprMultiple);
     public void visit(ExprSingle ExprSingle);
     public void visit(ExprSingleMinus ExprSingleMinus);
-    public void visit(RelopExprOptionalEmpty RelopExprOptionalEmpty);
-    public void visit(RelopExprOptionalExist RelopExprOptionalExist);
-    public void visit(CondFact CondFact);
+    public void visit(CondFactMultipleComparaison CondFactMultipleComparaison);
+    public void visit(CondFactMultipleEquality CondFactMultipleEquality);
+    public void visit(CondFactSingle CondFactSingle);
     public void visit(CondTermSingle CondTermSingle);
     public void visit(CondTermMultiple CondTermMultiple);
     public void visit(ConditionSingle ConditionSingle);
@@ -105,21 +110,23 @@ public interface Visitor {
     public void visit(DesignatorOptionalExist DesignatorOptionalExist);
     public void visit(DesignatorListOptionalESEmpty DesignatorListOptionalESEmpty);
     public void visit(DesignatorListOptionalESExist DesignatorListOptionalESExist);
+    public void visit(DesignatorStatementAssignArrayStart DesignatorStatementAssignArrayStart);
     public void visit(DesignatorStatementAssignArray DesignatorStatementAssignArray);
     public void visit(DesignatorStatementAction DesignatorStatementAction);
     public void visit(DesignatorStatementAssign DesignatorStatementAssign);
     public void visit(PrintNumConstOptionalEmpty PrintNumConstOptionalEmpty);
     public void visit(PrintNumConstOptionalExists PrintNumConstOptionalExists);
+    public void visit(StatementForeachStart StatementForeachStart);
     public void visit(ForeachStatement ForeachStatement);
     public void visit(ElseStatement ElseStatement);
     public void visit(IfStatement IfStatement);
     public void visit(StatementWhileStart StatementWhileStart);
     public void visit(StatementSection StatementSection);
-    public void visit(StatementForeach StatementForeach);
     public void visit(StatementPrint StatementPrint);
     public void visit(StatementRead StatementRead);
     public void visit(StatementReturnVoid StatementReturnVoid);
     public void visit(StatementReturnExpr StatementReturnExpr);
+    public void visit(StatementForeach StatementForeach);
     public void visit(StatementContinue StatementContinue);
     public void visit(StatementBreak StatementBreak);
     public void visit(StatementWhile StatementWhile);

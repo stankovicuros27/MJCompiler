@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 5/0/2023 1:37:25
+// 5/0/2023 18:3:8
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -10,13 +10,16 @@ public class ForeachStatement implements SyntaxNode {
     private SyntaxNode parent;
     private int line;
     private Designator Designator;
-    private String I2;
+    private StatementForeachStart StatementForeachStart;
+    private String I3;
     private Statement Statement;
 
-    public ForeachStatement (Designator Designator, String I2, Statement Statement) {
+    public ForeachStatement (Designator Designator, StatementForeachStart StatementForeachStart, String I3, Statement Statement) {
         this.Designator=Designator;
         if(Designator!=null) Designator.setParent(this);
-        this.I2=I2;
+        this.StatementForeachStart=StatementForeachStart;
+        if(StatementForeachStart!=null) StatementForeachStart.setParent(this);
+        this.I3=I3;
         this.Statement=Statement;
         if(Statement!=null) Statement.setParent(this);
     }
@@ -29,12 +32,20 @@ public class ForeachStatement implements SyntaxNode {
         this.Designator=Designator;
     }
 
-    public String getI2() {
-        return I2;
+    public StatementForeachStart getStatementForeachStart() {
+        return StatementForeachStart;
     }
 
-    public void setI2(String I2) {
-        this.I2=I2;
+    public void setStatementForeachStart(StatementForeachStart StatementForeachStart) {
+        this.StatementForeachStart=StatementForeachStart;
+    }
+
+    public String getI3() {
+        return I3;
+    }
+
+    public void setI3(String I3) {
+        this.I3=I3;
     }
 
     public Statement getStatement() {
@@ -67,17 +78,20 @@ public class ForeachStatement implements SyntaxNode {
 
     public void childrenAccept(Visitor visitor) {
         if(Designator!=null) Designator.accept(visitor);
+        if(StatementForeachStart!=null) StatementForeachStart.accept(visitor);
         if(Statement!=null) Statement.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Designator!=null) Designator.traverseTopDown(visitor);
+        if(StatementForeachStart!=null) StatementForeachStart.traverseTopDown(visitor);
         if(Statement!=null) Statement.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Designator!=null) Designator.traverseBottomUp(visitor);
+        if(StatementForeachStart!=null) StatementForeachStart.traverseBottomUp(visitor);
         if(Statement!=null) Statement.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -93,7 +107,13 @@ public class ForeachStatement implements SyntaxNode {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        buffer.append(" "+tab+I2);
+        if(StatementForeachStart!=null)
+            buffer.append(StatementForeachStart.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        buffer.append(" "+tab+I3);
         buffer.append("\n");
 
         if(Statement!=null)

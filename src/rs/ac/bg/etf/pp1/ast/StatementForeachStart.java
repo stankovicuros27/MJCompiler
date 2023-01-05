@@ -1,13 +1,31 @@
 // generated with ast extension for cup
 // version 0.8
-// 5/0/2023 1:37:25
+// 5/0/2023 18:3:8
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class RelopExprOptionalEmpty extends RelopExprOptional {
+public class StatementForeachStart implements SyntaxNode {
 
-    public RelopExprOptionalEmpty () {
+    private SyntaxNode parent;
+    private int line;
+    public StatementForeachStart () {
+    }
+
+    public SyntaxNode getParent() {
+        return parent;
+    }
+
+    public void setParent(SyntaxNode parent) {
+        this.parent=parent;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public void setLine(int line) {
+        this.line=line;
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +46,10 @@ public class RelopExprOptionalEmpty extends RelopExprOptional {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("RelopExprOptionalEmpty(\n");
+        buffer.append("StatementForeachStart(\n");
 
         buffer.append(tab);
-        buffer.append(") [RelopExprOptionalEmpty]");
+        buffer.append(") [StatementForeachStart]");
         return buffer.toString();
     }
 }

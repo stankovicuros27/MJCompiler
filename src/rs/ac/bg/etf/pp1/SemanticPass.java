@@ -2,6 +2,7 @@ package rs.ac.bg.etf.pp1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import org.apache.log4j.Logger;
 
@@ -45,9 +46,11 @@ public class SemanticPass extends VisitorAdaptor {
     private Struct currentType = null;
     private Struct currentMethodReturnType = null;
     private Obj currentMethodObj = null;
-	private List<Struct> currentActParsTypes = null;
+	private Stack<List<Struct>> currentActParsTypesStack = new Stack<>();	// Pay attention: nested method calls!
 	
 	private int nestedLoopCnt = 0;
+	
+	private List<Obj> designatorStatementAssignArrayObjects = null;
 
     
     // ~~~~~~~~~~~~~~~~~~~ Util ~~~~~~~~~~~~~~~~~~~
@@ -77,6 +80,7 @@ public class SemanticPass extends VisitorAdaptor {
     }
     
     public boolean checkIfActParsAreMatchingWithCurrentActPars(Obj methodDesignator) {
+    	List<Struct> currentActParsTypes = currentActParsTypesStack.pop();
     	if (currentActParsTypes == null) {
     		report_error("Field currentActParsTypes is not initialized!", null);
     		return false;
@@ -133,19 +137,20 @@ public class SemanticPass extends VisitorAdaptor {
     	return true;
     }
         
-	// ~~~~~~~~~~~~~~~~~~~ Program ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ Program ~~~~~~~~~~~~~~~~~~~	// DONE
     
 	public void visit(ProgramName programName) {
 		mainMethodExists = false;
+		numberOfVars = 0;
 		programName.obj = Tab.insert(Obj.Prog, programName.getProgramName(), Tab.noType);
 		Tab.openScope();
 		report_info("ProgramName", programName);
 	}
 
 	public void visit(Program program) {
+		numberOfVars = Tab.currentScope.getnVars();
 		Tab.chainLocalSymbols(program.getProgramName().obj);
 		Tab.closeScope();
-		numberOfVars = Tab.currentScope.getnVars();
 		if (!checkIfMainExists()) {
 			report_error("Main method doesn't exist!", program);
 			return;
@@ -153,7 +158,7 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("Program", program);
 	}
 		
-	// ~~~~~~~~~~~~~~~~~~~ ConstDecl and Constants ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ ConstDecl and Constants ~~~~~~~~~~~~~~~~~~~	// DONE
 	
 	public void visit(ConstDeclInnerListElement constDeclInnerListElement) {
 		if (checkIfSymbolExistsInCurrentScope(constDeclInnerListElement.getConstName(), constDeclInnerListElement)) {
@@ -189,7 +194,7 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("ConstBool", constBool);
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~ VarDecl and Vars ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ VarDecl and Vars ~~~~~~~~~~~~~~~~~~~	// DONE
 	
 	public void visit(VarDeclInnerListElementVar varDeclInnerListElementVar) {
 		if (checkIfSymbolExistsInCurrentScope(varDeclInnerListElementVar.getVarName(), varDeclInnerListElementVar)) {
@@ -209,7 +214,7 @@ public class SemanticPass extends VisitorAdaptor {
 	
 	// ~~~~~~~~~~~~~~~~~~~ ClassDecl and Class ~~~~~~~~~~~~~~~~~~~	// LEVEL C
 	
-	// ~~~~~~~~~~~~~~~~~~~ MethodDecl and Methods ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ MethodDecl and Methods ~~~~~~~~~~~~~~~~~~~	// DONE
 	
 	public void visit(MethodReturnTypeHasType methodReturnTypeHasType) {
 		currentMethodReturnType = currentType;
@@ -241,7 +246,7 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("MethodDecl", methodDecl);
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~ FormParams ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ FormParams ~~~~~~~~~~~~~~~~~~~	// DONE
 	
 	public void visit(FormParamVar formParamVar) {
 		if (checkIfSymbolExistsInCurrentScope(formParamVar.getParamName(), formParamVar)) {
@@ -259,7 +264,7 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("FormParamArray", formParamArray);
 	}
 		
-	// ~~~~~~~~~~~~~~~~~~~ Type ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ Type ~~~~~~~~~~~~~~~~~~~	// DONE
 	
 	public void visit(Type type) {
 		Obj typeNode = Tab.find(type.getTypeName());
@@ -278,12 +283,12 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("Type", type);
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~ Designator Statement ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ DesignatorStatementAssign ~~~~~~~~~~~~~~~~~~~
 		
 	public void visit(DesignatorAssignopExpression designatorAssignopExpression) {
 		Obj designatorObj = designatorAssignopExpression.getDesignator().obj;
 		Struct exprStruct = designatorAssignopExpression.getExpr().struct;
-		if (designatorObj.getKind() != Obj.Var && designatorObj.getKind() != Obj.Elem && designatorObj.getKind() != Obj.Fld) {
+		if (designatorObj.getKind() != Obj.Var && designatorObj.getKind() != Obj.Fld && designatorObj.getKind() != Obj.Elem) {
 			report_error("Designator " + designatorObj.getName() + " can't be assigned a value!", designatorAssignopExpression);
 			return;
 		}
@@ -293,18 +298,51 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("DesignatorAssignopExpression", designatorAssignopExpression);
 	}
 	
+	// ~~~~~~~~~~~~~~~~~~~ DesignatorStatementAssignArray ~~~~~~~~~~~~~~~~~~~
+	
+	// Watch out for Array types
 	public void visit(DesignatorStatementAssignArray designatorStatementAssignArray) {
-		// TODO
+		Obj designatorObj = designatorStatementAssignArray.getDesignator().obj;
+		if (designatorObj.getType().getKind() != Struct.Array) {
+			report_error("Designator on the right side must be an array!", designatorStatementAssignArray);
+			return;
+		}
+		if (designatorStatementAssignArrayObjects == null) {
+			report_error("Objects on the left side must be defined!", designatorStatementAssignArray);
+			return;
+		}
+		for (Obj objToGetAssigned : designatorStatementAssignArrayObjects) {
+			if (!checkIfTypeIsAssignableToGivenType(designatorObj.getType().getElemType(), objToGetAssigned.getType(), designatorStatementAssignArray)) {
+				return;
+			}
+		}
+		report_info("DesignatorStatementAssignArray", designatorStatementAssignArray);
+	}
+	
+	public void visit(DesignatorStatementAssignArrayStart designatorStatementAssignArrayStart) {
+		designatorStatementAssignArrayObjects = new ArrayList<>();
+		report_info("DesignatorStatementAssignArrayStart", designatorStatementAssignArrayStart);
+	}
+	
+	public void visit(DesignatorOptionalExist designatorOptionalExist) {
+		Obj designatorObj = designatorOptionalExist.getDesignator().obj;
+		if (designatorObj.getKind() != Obj.Var && designatorObj.getKind() != Obj.Fld && designatorObj.getKind() != Obj.Elem) {
+			report_error("Designator " + designatorObj.getName() + " can't be assigned a value!", designatorOptionalExist);
+			return;
+		}
+		designatorStatementAssignArrayObjects.add(designatorObj);
+		report_info("DesignatorOptionalExist", designatorOptionalExist);
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~ DesignatorAction ~~~~~~~~~~~~~~~~~~~	
 	
 	public void visit(DesignatorActionMethodCall designatorActionMethodCall) {
-		if (designatorActionMethodCall.getDesignator().obj.getKind() != Obj.Meth) {
+		Obj designatorObj = designatorActionMethodCall.getDesignator().obj;
+		if (designatorObj.getKind() != Obj.Meth) {
 			report_error("Designator is not a method!", designatorActionMethodCall);
 			return;
 		}
-		if (!checkIfActParsAreMatchingWithCurrentActPars(designatorActionMethodCall.getDesignator().obj)) {
+		if (!checkIfActParsAreMatchingWithCurrentActPars(designatorObj)) {
 			report_error("ActPars doesn't match with FormPars for the Method!", designatorActionMethodCall);
 			return;
 		}
@@ -371,7 +409,7 @@ public class SemanticPass extends VisitorAdaptor {
 		// LEVEL C
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~ Statements ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ Statements While, Break, Continue ~~~~~~~~~~~~~~~~~~~
 	
 	public void visit(StatementWhileStart statementWhileStart) {
 		nestedLoopCnt++;
@@ -381,7 +419,6 @@ public class SemanticPass extends VisitorAdaptor {
 	public void visit(StatementWhile statementWhile) {
 		nestedLoopCnt--;
 		report_info("StatementWhile", statementWhile);
-
 	}
 	
 	public void visit(StatementBreak statementBreak) {
@@ -399,6 +436,24 @@ public class SemanticPass extends VisitorAdaptor {
 		}
 		report_info("StatementContinue", statementContinue);
 	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Statements Foreach ~~~~~~~~~~~~~~~~~~~
+
+	public void visit(StatementForeachStart statementForeachStart) {
+		nestedLoopCnt++;
+		report_info("StatementForeachStart", statementForeachStart);
+	}
+	
+	public void visit(ForeachStatement foreachStatement) {
+		nestedLoopCnt--;
+		Obj designatorObj = foreachStatement.getDesignator().obj;
+		if (designatorObj.getType().getKind() != Struct.Array) {
+			report_error("Foreach statement must be performed on Array!", foreachStatement);
+			return;
+		}
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Statements Return ~~~~~~~~~~~~~~~~~~~
 	
 	public void visit(StatementReturnExpr statementReturnExpr) {
 		if (currentMethodReturnType == null) {
@@ -424,6 +479,8 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("StatementReturnVoid", statementReturnVoid);
 	}
 	
+	// ~~~~~~~~~~~~~~~~~~~ Statements Read, Print ~~~~~~~~~~~~~~~~~~~
+	
 	public void visit(StatementRead statementRead) {
 		Obj designatorObj = statementRead.getDesignator().obj;
 		if (designatorObj.getKind() != Obj.Var && designatorObj.getKind() != Obj.Fld && designatorObj.getKind() != Obj.Elem) {
@@ -444,6 +501,16 @@ public class SemanticPass extends VisitorAdaptor {
 			return;
 		}
 		report_info("StatementPrint", statementPrint);
+	}
+	
+	public void visit(PrintNumConstOptionalExists printNumConstOptionalExists) {
+		printNumConstOptionalExists.struct = Tab.intType;
+		report_info("PrintNumConstOptionalExists", printNumConstOptionalExists);
+	}
+	
+	public void visit(PrintNumConstOptionalEmpty printNumConstOptionalEmpty) {
+		printNumConstOptionalEmpty.struct = Tab.noType;
+		report_info("PrintNumConstOptionalEmpty", printNumConstOptionalEmpty);
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~ Expr ~~~~~~~~~~~~~~~~~~~	DONE
@@ -490,7 +557,7 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("TermMultiple", termMultiple);
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~ Factor ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ Factor Consts ~~~~~~~~~~~~~~~~~~~
 	
 	public void visit(FactorNumConst factorNumConst) {
 		factorNumConst.struct = Tab.intType;
@@ -507,6 +574,8 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("FactorBoolConst", factorBoolConst);
 	}
 	
+	// ~~~~~~~~~~~~~~~~~~~ Factor New Array ~~~~~~~~~~~~~~~~~~~
+	
 	public void visit(FactorNewArray factorNewArray) {
 		if (factorNewArray.getExpr().struct != Tab.intType) {
 			report_error("New array must have numeric value for size!", factorNewArray);
@@ -517,6 +586,8 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("FactorNewArray", factorNewArray);
 	}
 	
+	// ~~~~~~~~~~~~~~~~~~~ Factor Expr, Designator ~~~~~~~~~~~~~~~~~~~
+	
 	public void visit(FactorExpr factorExpr) {
 		factorExpr.struct = factorExpr.getExpr().struct;
 		report_info("FactorExpr", factorExpr);
@@ -526,6 +597,8 @@ public class SemanticPass extends VisitorAdaptor {
 		factorDesignator.struct = factorDesignator.getDesignator().obj.getType();
 		report_info("FactorDesignator", factorDesignator);
 	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Factor MethodCall ~~~~~~~~~~~~~~~~~~~
 	
 	public void visit(FactorDesignatorMethodCall factorDesignatorMethodCall) {
 		if (factorDesignatorMethodCall.getDesignator().obj.getKind() != Obj.Meth) {
@@ -542,18 +615,61 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("FactorDesignatorMethodCall", factorDesignatorMethodCall);
 	}
 	
+	// ~~~~~~~~~~~~~~~~~~~ CondFact ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(CondFactSingle condFactSingle) {
+		if (condFactSingle.getExpr().struct != TabWrapper.boolType) {
+			report_error("CondFact Expr must have boolean type!", condFactSingle);
+			condFactSingle.struct = Tab.noType;
+			return;
+		}
+		report_info("CondFactSingle", condFactSingle);
+	}
+	
+	public void visit(CondFactMultipleEquality condFactMultipleEquality) {
+		Struct leftExprType = condFactMultipleEquality.getExpr().struct;
+		Struct rightExprType = condFactMultipleEquality.getExpr1().struct;
+		if(!leftExprType.compatibleWith(rightExprType)) {
+			report_error("CondFact Left and Right Expr must have compatible types!", condFactMultipleEquality);
+			condFactMultipleEquality.struct = Tab.noType;
+			return;
+		}
+		report_info("CondFactMultipleEquality", condFactMultipleEquality);
+	}
+	
+	public void visit(CondFactMultipleComparaison condFactMultipleComparaison) {
+		Struct leftExprType = condFactMultipleComparaison.getExpr().struct;
+		Struct rightExprType = condFactMultipleComparaison.getExpr1().struct;
+		if (leftExprType.getKind() == Struct.Array || rightExprType.getKind() == Struct.Array) {
+			report_error("Comparaison Relop can't be performed on Arrays!", condFactMultipleComparaison);
+			condFactMultipleComparaison.struct = Tab.noType;
+			return;
+		}
+		if(!leftExprType.compatibleWith(rightExprType)) {
+			report_error("CondFact Left and Right Expr must have compatible types!", condFactMultipleComparaison);
+			condFactMultipleComparaison.struct = Tab.noType;
+			return;
+		}
+		report_info("CondFactMultipleComparaison", condFactMultipleComparaison);
+	}
+	
 	// ~~~~~~~~~~~~~~~~~~~ ActPars ~~~~~~~~~~~~~~~~~~~
 	
 	public void visit(ActParsSingle actParsSingle) {
-		currentActParsTypes = new ArrayList<>();
-		currentActParsTypes.add(actParsSingle.getExpr().struct);
+		currentActParsTypesStack.push(new ArrayList<>());
+		currentActParsTypesStack.peek().add(actParsSingle.getExpr().struct);
 		report_info("ActParsSingle", actParsSingle);
-
 	}
 
 	public void visit(ActParsMultiple actParsMultiple) {
-		currentActParsTypes.add(actParsMultiple.getExpr().struct);
+		currentActParsTypesStack.peek().add(actParsMultiple.getExpr().struct);
 		report_info("ActParsMultiple", actParsMultiple);
+	}
+	
+	// Patch function without parameters problem
+	public void visit(ActParsOptionalEmpty actParsOptionalEmpty) {
+		currentActParsTypesStack.push(new ArrayList<>());
+		report_info("ActParsOptionalEmpty", actParsOptionalEmpty);
 	}
 	
 }
