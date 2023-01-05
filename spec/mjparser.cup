@@ -103,7 +103,7 @@ nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, Factor, Term, Expr, Pri
 nonterminal ConstDeclInnerListElement, VarDeclInnerListElement, FormParam, DesignatorOptional, ForeachStatement, ConditionInIf;
 nonterminal DesignatorStatementAssignArrayStart;
 nonterminal RelopComparaison, RelopEquality, StatementForeachStart;
-
+nonterminal ForeachVar;
 
 
 // ~~~~~~~~~~~~~~~~TERMINALS~~~~~~~~~~~~~~~~
@@ -286,7 +286,7 @@ Statement ::= (StatementDesignator) DesignatorStatement SEMI_COLON
 			|
 			(StatementContinue) CONTINUE SEMI_COLON
 			|
-			(StatementForeach) ForeachStatement SEMI_COLON	// TODO
+			(StatementForeach) ForeachStatement SEMI_COLON
 			|
 			(StatementReturnExpr) RETURN Expr SEMI_COLON
 			|
@@ -305,7 +305,9 @@ IfStatement ::= (IfStatement) IF L_PAREN ConditionInIf R_PAREN Statement;
 
 ElseStatement ::= (ElseStatement) ELSE Statement;
 								
-ForeachStatement ::= (ForeachStatement) Designator DOT StatementForeachStart L_PAREN IDENT:varName ARROW Statement R_PAREN;
+ForeachStatement ::= (ForeachStatement) Designator DOT StatementForeachStart L_PAREN ForeachVar:var ARROW Statement R_PAREN;
+
+ForeachVar ::= (ForeachVar) IDENT:name;
 
 StatementForeachStart ::= (StatementForeachStart) FOREACH;
 

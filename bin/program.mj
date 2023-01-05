@@ -57,4 +57,15 @@ bool ab[];
 			return false;
 		}
 	}
+	
+	void testForeach(int arr[], int iter)
+		int sum;
+	{
+		arr.foreach(iter => { 
+			sum = sum + iter; 
+			iter = 1;
+			sum = 2;
+			break; 
+		});
+	}
 }

@@ -50,6 +50,8 @@ public class SemanticPass extends VisitorAdaptor {
 	
 	private int nestedLoopCnt = 0;
 	
+	private String foreachUnmodifiableVarName = null;
+	
 	private List<Obj> designatorStatementAssignArrayObjects = null;
 
     
@@ -295,6 +297,10 @@ public class SemanticPass extends VisitorAdaptor {
 		if (!checkIfTypeIsAssignableToGivenType(exprStruct, designatorObj.getType(), designatorAssignopExpression)) {
 			return;
 		}
+		if (designatorObj.getName().equals(foreachUnmodifiableVarName)) {
+			report_error("Designator " + designatorObj.getName() + " can't be assigned a value because it's a Foreach Var!", designatorAssignopExpression);
+			return;
+		}
 		report_info("DesignatorAssignopExpression", designatorAssignopExpression);
 	}
 	
@@ -444,13 +450,33 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("StatementForeachStart", statementForeachStart);
 	}
 	
+	public void visit(ForeachVar foreachVar) {
+		foreachUnmodifiableVarName = foreachVar.getName();
+		report_info("ForeachVar", foreachVar);
+	}
+	
 	public void visit(ForeachStatement foreachStatement) {
 		nestedLoopCnt--;
 		Obj designatorObj = foreachStatement.getDesignator().obj;
 		if (designatorObj.getType().getKind() != Struct.Array) {
-			report_error("Foreach statement must be performed on Array!", foreachStatement);
+			report_error("Foreach statement must be performed on an Array!", foreachStatement);
 			return;
 		}
+		Obj varObj = Tab.find(foreachStatement.getForeachVar().getName());
+		if (varObj == Tab.noObj) {
+			report_error("Foreach statement Var is not declared!", foreachStatement);
+			return;
+		}
+		if (varObj.getKind() != Obj.Var) {
+			report_error("Foreach statement Var must have Variable Kind!", foreachStatement);
+			return;
+		}
+		if (designatorObj.getType().getElemType() != varObj.getType()) {
+			report_error("Foreach statement Var must have the same type as Array Elem!", foreachStatement);
+			return;
+		}
+		foreachUnmodifiableVarName = null;
+		report_info("ForeachStatement", foreachStatement);
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~ Statements Return ~~~~~~~~~~~~~~~~~~~

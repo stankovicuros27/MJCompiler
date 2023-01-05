@@ -130,7 +130,7 @@ nonterminal DesignatorStatementAssignArrayStart DesignatorStatementAssignArraySt
 nonterminal RelopComparaison RelopComparaison;
 nonterminal RelopEquality RelopEquality;
 nonterminal StatementForeachStart StatementForeachStart;
-
+nonterminal ForeachVar ForeachVar;
 
 
 // ~~~~~~~~~~~~~~~~TERMINALS~~~~~~~~~~~~~~~~
@@ -332,7 +332,9 @@ IfStatement ::= (IfStatement) IF L_PAREN ConditionInIf:C1 R_PAREN Statement:S2 {
 
 ElseStatement ::= (ElseStatement) ELSE Statement:S1 {: RESULT=new ElseStatement(S1); RESULT.setLine(S1left); :};
 								
-ForeachStatement ::= (ForeachStatement) Designator:D1 DOT StatementForeachStart:S2 L_PAREN IDENT:I3 ARROW Statement:S4 R_PAREN {: RESULT=new ForeachStatement(D1, S2, I3, S4); RESULT.setLine(D1left); :};
+ForeachStatement ::= (ForeachStatement) Designator:D1 DOT StatementForeachStart:S2 L_PAREN ForeachVar:var ARROW Statement:S3 R_PAREN {: RESULT=new ForeachStatement(D1, S2, var, S3); RESULT.setLine(D1left); :};
+
+ForeachVar ::= (ForeachVar) IDENT:name {: RESULT=new ForeachVar(name); RESULT.setLine(nameleft); :};
 
 StatementForeachStart ::= (StatementForeachStart) FOREACH {: RESULT=new StatementForeachStart(); :};
 

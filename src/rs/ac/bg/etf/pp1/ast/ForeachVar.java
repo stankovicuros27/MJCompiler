@@ -5,11 +5,22 @@
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class StatementForeachStart implements SyntaxNode {
+public class ForeachVar implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    public StatementForeachStart () {
+    private String name;
+
+    public ForeachVar (String name) {
+        this.name=name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name=name;
     }
 
     public SyntaxNode getParent() {
@@ -46,10 +57,13 @@ public class StatementForeachStart implements SyntaxNode {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("StatementForeachStart(\n");
+        buffer.append("ForeachVar(\n");
+
+        buffer.append(" "+tab+name);
+        buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [StatementForeachStart]");
+        buffer.append(") [ForeachVar]");
         return buffer.toString();
     }
 }
