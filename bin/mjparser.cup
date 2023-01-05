@@ -93,6 +93,7 @@ nonterminal ParenActParsOptional, NewTypeSuffix;
 nonterminal Label;
 nonterminal VarDeclGlobal, VarDeclInnerListGlobal;
 nonterminal DesignatorAssignopExpr;
+nonterminal StatementWhileStart;
 
 nonterminal IfStatement, ElseStatement;
 
@@ -275,37 +276,36 @@ StatementListE ::= (StatementListEExists) StatementListE Statement
 				
 Statement ::= (StatementDesignator) DesignatorStatement SEMI_COLON
 			|
-			(StatementIfElse) IfStatement ElseStatement
+			(StatementIfElse) IfStatement ElseStatement	// TODO
 			|
-			(StatementIf) IfStatement
+			(StatementIf) IfStatement	// TODO
 			|
-			(StatementWhile) WHILE L_PAREN Condition R_PAREN Statement
+			(StatementWhile) StatementWhileStart L_PAREN Condition R_PAREN Statement
 			|
 			(StatementBreak) BREAK SEMI_COLON
 			|
 			(StatementContinue) CONTINUE SEMI_COLON
 			|
-			(StatementReturn) RETURN ExprOptional SEMI_COLON
+			(StatementReturnExpr) RETURN Expr SEMI_COLON
+			|
+			(StatementReturnVoid) RETURN SEMI_COLON
 			|
 			(StatementRead) READ L_PAREN Designator R_PAREN SEMI_COLON
 			|
 			(StatementPrint) PRINT L_PAREN Expr PrintNumConstOptional R_PAREN SEMI_COLON
 			|
-			(StatementForeach) ForeachStatement SEMI_COLON
+			(StatementForeach) ForeachStatement SEMI_COLON	// TODO
 			|
 			(StatementSection) L_BRACE StatementListE R_BRACE
 			;
+			
+StatementWhileStart ::= (StatementWhileStart) WHILE;
 			
 IfStatement ::= (IfStatement) IF L_PAREN ConditionInIf R_PAREN Statement;
 
 ElseStatement ::= (ElseStatement) ELSE Statement;
 								
 ForeachStatement ::= (ForeachStatement) Designator DOT FOREACH L_PAREN IDENT ARROW Statement R_PAREN;
-
-ExprOptional ::= (ExprOptionalExists) Expr
-				|
-				(ExprOptionalEmpty) /* e */
-				;
 
 PrintNumConstOptional ::= (PrintNumConstOptionalExists) COMMA NUM_CONST
 						|
@@ -316,22 +316,8 @@ DesignatorStatement ::= (DesignatorStatementAssign) DesignatorAssignopExpr
 					|
 					(DesignatorStatementAction) DesignatorAction 
 					|
-					(DesignatorStatementSquareBracket) L_SQUARE_BRACKET DesignatorListOptionalES R_SQUARE_BRACKET ASSIGN Designator
+					(DesignatorStatementAssignArray) L_SQUARE_BRACKET DesignatorListOptionalES R_SQUARE_BRACKET ASSIGN Designator // TODO
 					;
-					
-					
-DesignatorAction ::= (DesignatorActionActPars) Designator:designator L_PAREN ActParsOptional R_PAREN
-					|
-					(DesignatorActionInc) Designator:designator INC
-					|
-					(DesignatorActionDec) Designator:designator DEC
-					;
-					
-DesignatorAssignopExpr ::= (DesignatorAssignopExpression) Designator:designator Assignop Expr:expr
-						|
-						(DesignatorAssignopExprError) error:e {: parser.report_error("Assignment operation error at line: " + eleft, null); :}
-						;
-					
 					
 DesignatorListOptionalES ::= (DesignatorListOptionalESExist) DesignatorOptional
 						|
@@ -342,10 +328,22 @@ DesignatorOptional ::= (DesignatorOptionalExist) Designator
 					|
 					(DesignatorOptionalEmpty) /* e */
 					;
+					
+DesignatorAction ::= (DesignatorActionMethodCall) Designator:designator L_PAREN ActParsOptional R_PAREN
+					|
+					(DesignatorActionInc) Designator:designator INC
+					|
+					(DesignatorActionDec) Designator:designator DEC
+					;
+					
+DesignatorAssignopExpr ::= (DesignatorAssignopExpression) Designator:designator Assignop Expr:expr
+						|
+						(DesignatorAssignopExprError) error:e {: parser.report_error("Assignment operation error at line: " + eleft, null); :}
+						;
 				
-ActPars ::= (ActParsMultiple) ActPars COMMA Expr
+ActPars ::= (ActParsMultiple) ActPars COMMA Expr:expr
 		|
-		(ActParsSingle) Expr
+		(ActParsSingle) Expr:expr
 		;
 		
 ActParsOptional ::= (ActParsOptionalExist) ActPars
@@ -379,11 +377,11 @@ RelopExprOptional ::= (RelopExprOptionalExist) Relop Expr
 					(RelopExprOptionalEmpty) /* e */
 					;
 
-Expr ::= (ExprSingleMinus) MINUS Term
+Expr ::= (ExprSingleMinus) MINUS Term:term
 		|
-		(ExprSingle) Term
+		(ExprSingle) Term:term
 		|
-		(ExprMultiple) Expr Addop Term
+		(ExprMultiple) Expr:expr Addop Term:term
 		;
 				
 Term ::= (TermMultiple) Term:term Mulop Factor:factor
@@ -393,7 +391,7 @@ Term ::= (TermMultiple) Term:term Mulop Factor:factor
 			
 Factor ::= (FactorDesignator) Designator
 		|
-		(FactorDesignatorMethodCall) Designator L_PAREN ActParsOptional R_PAREN
+		(FactorDesignatorMethodCall) Designator:designator L_PAREN ActParsOptional R_PAREN
 		| 
 		(FactorNumConst) NUM_CONST
 		| 
@@ -401,19 +399,19 @@ Factor ::= (FactorDesignator) Designator
 		| 
 		(FactorBoolConst) BOOL_CONST
 		|
-		(FactorNew) NEW Type NewTypeSuffix
+		(FactorNewArray) NEW Type:type L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET
 		|
 		(FactorExpr) L_PAREN Expr R_PAREN
 		;
 
-NewTypeSuffix ::= (NewTypeSuffixSquareBracket) L_SQUARE_BRACKET Expr R_SQUARE_BRACKET
+NewTypeSuffix ::= (NewTypeSuffixArray) L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET
 				|
-				(NewTypeSuffixActPars) L_PAREN ActParsOptional R_PAREN
+				(NewTypeSuffixClass) L_PAREN ActParsOptional R_PAREN
 				;		
 				
-Designator ::= (DesignatorDot) Designator:designatorName DOT IDENT
+Designator ::= (DesignatorDot) Designator:designator DOT IDENT:field
 			|
-			(DesignatorSquareBrackets) Designator:designatorName L_SQUARE_BRACKET Expr R_SQUARE_BRACKET
+			(DesignatorSquareBrackets) Designator:designator L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET
 			|
 			(DesignatorSingle) IDENT:designatorName
 			;

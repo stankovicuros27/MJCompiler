@@ -114,6 +114,7 @@ nonterminal Label Label;
 nonterminal VarDeclGlobal VarDeclGlobal;
 nonterminal VarDeclInnerListGlobal VarDeclInnerListGlobal;
 nonterminal DesignatorAssignopExpr DesignatorAssignopExpr;
+nonterminal StatementWhileStart StatementWhileStart;
 
 nonterminal IfStatement IfStatement;
 nonterminal ElseStatement ElseStatement;
@@ -306,33 +307,32 @@ Statement ::= (StatementDesignator) DesignatorStatement:D1 SEMI_COLON {: RESULT=
 			|
 			(StatementIf) IfStatement:I1 {: RESULT=new StatementIf(I1); RESULT.setLine(I1left); :}
 			|
-			(StatementWhile) WHILE L_PAREN Condition:C1 R_PAREN Statement:S2 {: RESULT=new StatementWhile(C1, S2); RESULT.setLine(C1left); :}
+			(StatementWhile) StatementWhileStart:S1 L_PAREN Condition:C2 R_PAREN Statement:S3 {: RESULT=new StatementWhile(S1, C2, S3); RESULT.setLine(S1left); :}
 			|
 			(StatementBreak) BREAK SEMI_COLON {: RESULT=new StatementBreak(); :}
 			|
 			(StatementContinue) CONTINUE SEMI_COLON {: RESULT=new StatementContinue(); :}
 			|
-			(StatementReturn) RETURN ExprOptional:E1 SEMI_COLON {: RESULT=new StatementReturn(E1); RESULT.setLine(E1left); :}
+			(StatementReturnExpr) RETURN Expr:E1 SEMI_COLON {: RESULT=new StatementReturnExpr(E1); RESULT.setLine(E1left); :}
+			|
+			(StatementReturnVoid) RETURN SEMI_COLON {: RESULT=new StatementReturnVoid(); :}
 			|
 			(StatementRead) READ L_PAREN Designator:D1 R_PAREN SEMI_COLON {: RESULT=new StatementRead(D1); RESULT.setLine(D1left); :}
 			|
-			(StatementPrint) PRINT L_PAREN Expr:E1 PrintNumConstOptional:P2 R_PAREN SEMI_COLON {: RESULT=new StatementPrint(E1, P2); RESULT.setLine(E1left); :}
+			(StatementPrint) PRINT L_PAREN Expr:E1 PrintNumConstOptional:P2 R_PAREN SEMI_COLON {: RESULT=new StatementPrint(E1, P2); RESULT.setLine(E1left); :}	// TODO check
 			|
 			(StatementForeach) ForeachStatement:F1 SEMI_COLON {: RESULT=new StatementForeach(F1); RESULT.setLine(F1left); :}
 			|
 			(StatementSection) L_BRACE StatementListE:S1 R_BRACE {: RESULT=new StatementSection(S1); RESULT.setLine(S1left); :}
 			;
 			
+StatementWhileStart ::= (StatementWhileStart) WHILE {: RESULT=new StatementWhileStart(); :};
+			
 IfStatement ::= (IfStatement) IF L_PAREN ConditionInIf:C1 R_PAREN Statement:S2 {: RESULT=new IfStatement(C1, S2); RESULT.setLine(C1left); :};
 
 ElseStatement ::= (ElseStatement) ELSE Statement:S1 {: RESULT=new ElseStatement(S1); RESULT.setLine(S1left); :};
 								
 ForeachStatement ::= (ForeachStatement) Designator:D1 DOT FOREACH L_PAREN IDENT:I2 ARROW Statement:S3 R_PAREN {: RESULT=new ForeachStatement(D1, I2, S3); RESULT.setLine(D1left); :};
-
-ExprOptional ::= (ExprOptionalExists) Expr:E1 {: RESULT=new ExprOptionalExists(E1); RESULT.setLine(E1left); :}
-				|
-				(ExprOptionalEmpty) {: RESULT=new ExprOptionalEmpty(); :} /* e */
-				;
 
 PrintNumConstOptional ::= (PrintNumConstOptionalExists) COMMA NUM_CONST:N1 {: RESULT=new PrintNumConstOptionalExists(N1); RESULT.setLine(N1left); :}
 						|
@@ -343,22 +343,8 @@ DesignatorStatement ::= (DesignatorStatementAssign) DesignatorAssignopExpr:D1 {:
 					|
 					(DesignatorStatementAction) DesignatorAction:D1 {: RESULT=new DesignatorStatementAction(D1); RESULT.setLine(D1left); :} 
 					|
-					(DesignatorStatementSquareBracket) L_SQUARE_BRACKET DesignatorListOptionalES:D1 R_SQUARE_BRACKET ASSIGN Designator:D2 {: RESULT=new DesignatorStatementSquareBracket(D1, D2); RESULT.setLine(D1left); :}
+					(DesignatorStatementAssignArray) L_SQUARE_BRACKET DesignatorListOptionalES:D1 R_SQUARE_BRACKET ASSIGN Designator:D2 {: RESULT=new DesignatorStatementAssignArray(D1, D2); RESULT.setLine(D1left); :}
 					;
-					
-					
-DesignatorAction ::= (DesignatorActionActPars) Designator:designator L_PAREN ActParsOptional:A1 R_PAREN {: RESULT=new DesignatorActionActPars(designator, A1); RESULT.setLine(designatorleft); :}
-					|
-					(DesignatorActionInc) Designator:designator INC {: RESULT=new DesignatorActionInc(designator); RESULT.setLine(designatorleft); :}
-					|
-					(DesignatorActionDec) Designator:designator DEC {: RESULT=new DesignatorActionDec(designator); RESULT.setLine(designatorleft); :}
-					;
-					
-DesignatorAssignopExpr ::= (DesignatorAssignopExpression) Designator:designator Assignop:A1 Expr:expr {: RESULT=new DesignatorAssignopExpression(designator, A1, expr); RESULT.setLine(designatorleft); :}
-						|
-						(DesignatorAssignopExprError) error:e {: parser.report_error("Assignment operation error at line: " + eleft, null); :} {: RESULT=new DesignatorAssignopExprError(); :}
-						;
-					
 					
 DesignatorListOptionalES ::= (DesignatorListOptionalESExist) DesignatorOptional:D1 {: RESULT=new DesignatorListOptionalESExist(D1); RESULT.setLine(D1left); :}
 						|
@@ -369,10 +355,22 @@ DesignatorOptional ::= (DesignatorOptionalExist) Designator:D1 {: RESULT=new Des
 					|
 					(DesignatorOptionalEmpty) {: RESULT=new DesignatorOptionalEmpty(); :} /* e */
 					;
+					
+DesignatorAction ::= (DesignatorActionMethodCall) Designator:designator L_PAREN ActParsOptional:A1 R_PAREN {: RESULT=new DesignatorActionMethodCall(designator, A1); RESULT.setLine(designatorleft); :}
+					|
+					(DesignatorActionInc) Designator:designator INC {: RESULT=new DesignatorActionInc(designator); RESULT.setLine(designatorleft); :}
+					|
+					(DesignatorActionDec) Designator:designator DEC {: RESULT=new DesignatorActionDec(designator); RESULT.setLine(designatorleft); :}
+					;
+					
+DesignatorAssignopExpr ::= (DesignatorAssignopExpression) Designator:designator Assignop:A1 Expr:expr {: RESULT=new DesignatorAssignopExpression(designator, A1, expr); RESULT.setLine(designatorleft); :}
+						|
+						(DesignatorAssignopExprError) error:e {: parser.report_error("Assignment operation error at line: " + eleft, null); :} {: RESULT=new DesignatorAssignopExprError(); :}
+						;
 				
-ActPars ::= (ActParsMultiple) ActPars:A1 COMMA Expr:E2 {: RESULT=new ActParsMultiple(A1, E2); RESULT.setLine(A1left); :}
+ActPars ::= (ActParsMultiple) ActPars:A1 COMMA Expr:expr {: RESULT=new ActParsMultiple(A1, expr); RESULT.setLine(A1left); :}
 		|
-		(ActParsSingle) Expr:E1 {: RESULT=new ActParsSingle(E1); RESULT.setLine(E1left); :}
+		(ActParsSingle) Expr:expr {: RESULT=new ActParsSingle(expr); RESULT.setLine(exprleft); :}
 		;
 		
 ActParsOptional ::= (ActParsOptionalExist) ActPars:A1 {: RESULT=new ActParsOptionalExist(A1); RESULT.setLine(A1left); :}
@@ -406,11 +404,11 @@ RelopExprOptional ::= (RelopExprOptionalExist) Relop:R1 Expr:E2 {: RESULT=new Re
 					(RelopExprOptionalEmpty) {: RESULT=new RelopExprOptionalEmpty(); :} /* e */
 					;
 
-Expr ::= (ExprSingleMinus) MINUS Term:T1 {: RESULT=new ExprSingleMinus(T1); RESULT.setLine(T1left); :}
+Expr ::= (ExprSingleMinus) MINUS Term:term {: RESULT=new ExprSingleMinus(term); RESULT.setLine(termleft); :}
 		|
-		(ExprSingle) Term:T1 {: RESULT=new ExprSingle(T1); RESULT.setLine(T1left); :}
+		(ExprSingle) Term:term {: RESULT=new ExprSingle(term); RESULT.setLine(termleft); :}
 		|
-		(ExprMultiple) Expr:E1 Addop:A2 Term:T3 {: RESULT=new ExprMultiple(E1, A2, T3); RESULT.setLine(E1left); :}
+		(ExprMultiple) Expr:expr Addop:A1 Term:term {: RESULT=new ExprMultiple(expr, A1, term); RESULT.setLine(exprleft); :}
 		;
 				
 Term ::= (TermMultiple) Term:term Mulop:M1 Factor:factor {: RESULT=new TermMultiple(term, M1, factor); RESULT.setLine(termleft); :}
@@ -420,7 +418,7 @@ Term ::= (TermMultiple) Term:term Mulop:M1 Factor:factor {: RESULT=new TermMulti
 			
 Factor ::= (FactorDesignator) Designator:D1 {: RESULT=new FactorDesignator(D1); RESULT.setLine(D1left); :}
 		|
-		(FactorDesignatorMethodCall) Designator:D1 L_PAREN ActParsOptional:A2 R_PAREN {: RESULT=new FactorDesignatorMethodCall(D1, A2); RESULT.setLine(D1left); :}
+		(FactorDesignatorMethodCall) Designator:designator L_PAREN ActParsOptional:A1 R_PAREN {: RESULT=new FactorDesignatorMethodCall(designator, A1); RESULT.setLine(designatorleft); :}
 		| 
 		(FactorNumConst) NUM_CONST:N1 {: RESULT=new FactorNumConst(N1); RESULT.setLine(N1left); :}
 		| 
@@ -428,19 +426,19 @@ Factor ::= (FactorDesignator) Designator:D1 {: RESULT=new FactorDesignator(D1); 
 		| 
 		(FactorBoolConst) BOOL_CONST:B1 {: RESULT=new FactorBoolConst(B1); RESULT.setLine(B1left); :}
 		|
-		(FactorNew) NEW Type:T1 NewTypeSuffix:N2 {: RESULT=new FactorNew(T1, N2); RESULT.setLine(T1left); :}
+		(FactorNewArray) NEW Type:type L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET {: RESULT=new FactorNewArray(type, expr); RESULT.setLine(typeleft); :}
 		|
 		(FactorExpr) L_PAREN Expr:E1 R_PAREN {: RESULT=new FactorExpr(E1); RESULT.setLine(E1left); :}
 		;
 
-NewTypeSuffix ::= (NewTypeSuffixSquareBracket) L_SQUARE_BRACKET Expr:E1 R_SQUARE_BRACKET {: RESULT=new NewTypeSuffixSquareBracket(E1); RESULT.setLine(E1left); :}
+NewTypeSuffix ::= (NewTypeSuffixArray) L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET {: RESULT=new NewTypeSuffixArray(expr); RESULT.setLine(exprleft); :}
 				|
-				(NewTypeSuffixActPars) L_PAREN ActParsOptional:A1 R_PAREN {: RESULT=new NewTypeSuffixActPars(A1); RESULT.setLine(A1left); :}
+				(NewTypeSuffixClass) L_PAREN ActParsOptional:A1 R_PAREN {: RESULT=new NewTypeSuffixClass(A1); RESULT.setLine(A1left); :}
 				;		
 				
-Designator ::= (DesignatorDot) Designator:designatorName DOT IDENT:I1 {: RESULT=new DesignatorDot(designatorName, I1); RESULT.setLine(designatorNameleft); :}
+Designator ::= (DesignatorDot) Designator:designator DOT IDENT:field {: RESULT=new DesignatorDot(designator, field); RESULT.setLine(designatorleft); :}
 			|
-			(DesignatorSquareBrackets) Designator:designatorName L_SQUARE_BRACKET Expr:E1 R_SQUARE_BRACKET {: RESULT=new DesignatorSquareBrackets(designatorName, E1); RESULT.setLine(designatorNameleft); :}
+			(DesignatorSquareBrackets) Designator:designator L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET {: RESULT=new DesignatorSquareBrackets(designator, expr); RESULT.setLine(designatorleft); :}
 			|
 			(DesignatorSingle) IDENT:designatorName {: RESULT=new DesignatorSingle(designatorName); RESULT.setLine(designatorNameleft); :}
 			;

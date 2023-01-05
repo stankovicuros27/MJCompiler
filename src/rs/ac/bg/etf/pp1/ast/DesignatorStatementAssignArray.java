@@ -1,16 +1,16 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/0/2023 0:11:3
+// 5/0/2023 1:37:25
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class DesignatorStatementSquareBracket extends DesignatorStatement {
+public class DesignatorStatementAssignArray extends DesignatorStatement {
 
     private DesignatorListOptionalES DesignatorListOptionalES;
     private Designator Designator;
 
-    public DesignatorStatementSquareBracket (DesignatorListOptionalES DesignatorListOptionalES, Designator Designator) {
+    public DesignatorStatementAssignArray (DesignatorListOptionalES DesignatorListOptionalES, Designator Designator) {
         this.DesignatorListOptionalES=DesignatorListOptionalES;
         if(DesignatorListOptionalES!=null) DesignatorListOptionalES.setParent(this);
         this.Designator=Designator;
@@ -57,7 +57,7 @@ public class DesignatorStatementSquareBracket extends DesignatorStatement {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("DesignatorStatementSquareBracket(\n");
+        buffer.append("DesignatorStatementAssignArray(\n");
 
         if(DesignatorListOptionalES!=null)
             buffer.append(DesignatorListOptionalES.toString("  "+tab));
@@ -72,7 +72,7 @@ public class DesignatorStatementSquareBracket extends DesignatorStatement {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [DesignatorStatementSquareBracket]");
+        buffer.append(") [DesignatorStatementAssignArray]");
         return buffer.toString();
     }
 }

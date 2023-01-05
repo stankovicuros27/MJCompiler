@@ -1,15 +1,15 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/0/2023 0:11:3
+// 5/0/2023 1:37:25
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class NewTypeSuffixActPars extends NewTypeSuffix {
+public class NewTypeSuffixClass extends NewTypeSuffix {
 
     private ActParsOptional ActParsOptional;
 
-    public NewTypeSuffixActPars (ActParsOptional ActParsOptional) {
+    public NewTypeSuffixClass (ActParsOptional ActParsOptional) {
         this.ActParsOptional=ActParsOptional;
         if(ActParsOptional!=null) ActParsOptional.setParent(this);
     }
@@ -43,7 +43,7 @@ public class NewTypeSuffixActPars extends NewTypeSuffix {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("NewTypeSuffixActPars(\n");
+        buffer.append("NewTypeSuffixClass(\n");
 
         if(ActParsOptional!=null)
             buffer.append(ActParsOptional.toString("  "+tab));
@@ -52,7 +52,7 @@ public class NewTypeSuffixActPars extends NewTypeSuffix {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [NewTypeSuffixActPars]");
+        buffer.append(") [NewTypeSuffixClass]");
         return buffer.toString();
     }
 }

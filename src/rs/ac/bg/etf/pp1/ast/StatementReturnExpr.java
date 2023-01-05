@@ -1,15 +1,15 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/0/2023 0:11:3
+// 5/0/2023 1:37:25
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class NewTypeSuffixSquareBracket extends NewTypeSuffix {
+public class StatementReturnExpr extends Statement {
 
     private Expr Expr;
 
-    public NewTypeSuffixSquareBracket (Expr Expr) {
+    public StatementReturnExpr (Expr Expr) {
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
     }
@@ -43,7 +43,7 @@ public class NewTypeSuffixSquareBracket extends NewTypeSuffix {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("NewTypeSuffixSquareBracket(\n");
+        buffer.append("StatementReturnExpr(\n");
 
         if(Expr!=null)
             buffer.append(Expr.toString("  "+tab));
@@ -52,7 +52,7 @@ public class NewTypeSuffixSquareBracket extends NewTypeSuffix {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [NewTypeSuffixSquareBracket]");
+        buffer.append(") [StatementReturnExpr]");
         return buffer.toString();
     }
 }

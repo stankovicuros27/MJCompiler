@@ -1,13 +1,13 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/0/2023 0:11:3
+// 5/0/2023 1:37:25
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class ExprOptionalEmpty extends ExprOptional {
+public class StatementReturnVoid extends Statement {
 
-    public ExprOptionalEmpty () {
+    public StatementReturnVoid () {
     }
 
     public void accept(Visitor visitor) {
@@ -28,10 +28,10 @@ public class ExprOptionalEmpty extends ExprOptional {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("ExprOptionalEmpty(\n");
+        buffer.append("StatementReturnVoid(\n");
 
         buffer.append(tab);
-        buffer.append(") [ExprOptionalEmpty]");
+        buffer.append(") [StatementReturnVoid]");
         return buffer.toString();
     }
 }

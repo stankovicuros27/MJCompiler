@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/0/2023 0:11:3
+// 5/0/2023 1:37:25
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -69,10 +69,10 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(DesignatorSingle DesignatorSingle) { visit(); }
     public void visit(DesignatorSquareBrackets DesignatorSquareBrackets) { visit(); }
     public void visit(DesignatorDot DesignatorDot) { visit(); }
-    public void visit(NewTypeSuffixActPars NewTypeSuffixActPars) { visit(); }
-    public void visit(NewTypeSuffixSquareBracket NewTypeSuffixSquareBracket) { visit(); }
+    public void visit(NewTypeSuffixClass NewTypeSuffixClass) { visit(); }
+    public void visit(NewTypeSuffixArray NewTypeSuffixArray) { visit(); }
     public void visit(FactorExpr FactorExpr) { visit(); }
-    public void visit(FactorNew FactorNew) { visit(); }
+    public void visit(FactorNewArray FactorNewArray) { visit(); }
     public void visit(FactorBoolConst FactorBoolConst) { visit(); }
     public void visit(FactorCharConst FactorCharConst) { visit(); }
     public void visit(FactorNumConst FactorNumConst) { visit(); }
@@ -96,30 +96,30 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ActParsOptionalExist ActParsOptionalExist) { visit(); }
     public void visit(ActParsSingle ActParsSingle) { visit(); }
     public void visit(ActParsMultiple ActParsMultiple) { visit(); }
-    public void visit(DesignatorOptionalEmpty DesignatorOptionalEmpty) { visit(); }
-    public void visit(DesignatorOptionalExist DesignatorOptionalExist) { visit(); }
-    public void visit(DesignatorListOptionalESEmpty DesignatorListOptionalESEmpty) { visit(); }
-    public void visit(DesignatorListOptionalESExist DesignatorListOptionalESExist) { visit(); }
     public void visit(DesignatorAssignopExprError DesignatorAssignopExprError) { visit(); }
     public void visit(DesignatorAssignopExpression DesignatorAssignopExpression) { visit(); }
     public void visit(DesignatorActionDec DesignatorActionDec) { visit(); }
     public void visit(DesignatorActionInc DesignatorActionInc) { visit(); }
-    public void visit(DesignatorActionActPars DesignatorActionActPars) { visit(); }
-    public void visit(DesignatorStatementSquareBracket DesignatorStatementSquareBracket) { visit(); }
+    public void visit(DesignatorActionMethodCall DesignatorActionMethodCall) { visit(); }
+    public void visit(DesignatorOptionalEmpty DesignatorOptionalEmpty) { visit(); }
+    public void visit(DesignatorOptionalExist DesignatorOptionalExist) { visit(); }
+    public void visit(DesignatorListOptionalESEmpty DesignatorListOptionalESEmpty) { visit(); }
+    public void visit(DesignatorListOptionalESExist DesignatorListOptionalESExist) { visit(); }
+    public void visit(DesignatorStatementAssignArray DesignatorStatementAssignArray) { visit(); }
     public void visit(DesignatorStatementAction DesignatorStatementAction) { visit(); }
     public void visit(DesignatorStatementAssign DesignatorStatementAssign) { visit(); }
     public void visit(PrintNumConstOptionalEmpty PrintNumConstOptionalEmpty) { visit(); }
     public void visit(PrintNumConstOptionalExists PrintNumConstOptionalExists) { visit(); }
-    public void visit(ExprOptionalEmpty ExprOptionalEmpty) { visit(); }
-    public void visit(ExprOptionalExists ExprOptionalExists) { visit(); }
     public void visit(ForeachStatement ForeachStatement) { visit(); }
     public void visit(ElseStatement ElseStatement) { visit(); }
     public void visit(IfStatement IfStatement) { visit(); }
+    public void visit(StatementWhileStart StatementWhileStart) { visit(); }
     public void visit(StatementSection StatementSection) { visit(); }
     public void visit(StatementForeach StatementForeach) { visit(); }
     public void visit(StatementPrint StatementPrint) { visit(); }
     public void visit(StatementRead StatementRead) { visit(); }
-    public void visit(StatementReturn StatementReturn) { visit(); }
+    public void visit(StatementReturnVoid StatementReturnVoid) { visit(); }
+    public void visit(StatementReturnExpr StatementReturnExpr) { visit(); }
     public void visit(StatementContinue StatementContinue) { visit(); }
     public void visit(StatementBreak StatementBreak) { visit(); }
     public void visit(StatementWhile StatementWhile) { visit(); }

@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/0/2023 0:11:3
+// 5/0/2023 1:37:25
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -69,10 +69,10 @@ public interface Visitor {
     public void visit(DesignatorSingle DesignatorSingle);
     public void visit(DesignatorSquareBrackets DesignatorSquareBrackets);
     public void visit(DesignatorDot DesignatorDot);
-    public void visit(NewTypeSuffixActPars NewTypeSuffixActPars);
-    public void visit(NewTypeSuffixSquareBracket NewTypeSuffixSquareBracket);
+    public void visit(NewTypeSuffixClass NewTypeSuffixClass);
+    public void visit(NewTypeSuffixArray NewTypeSuffixArray);
     public void visit(FactorExpr FactorExpr);
-    public void visit(FactorNew FactorNew);
+    public void visit(FactorNewArray FactorNewArray);
     public void visit(FactorBoolConst FactorBoolConst);
     public void visit(FactorCharConst FactorCharConst);
     public void visit(FactorNumConst FactorNumConst);
@@ -96,30 +96,30 @@ public interface Visitor {
     public void visit(ActParsOptionalExist ActParsOptionalExist);
     public void visit(ActParsSingle ActParsSingle);
     public void visit(ActParsMultiple ActParsMultiple);
-    public void visit(DesignatorOptionalEmpty DesignatorOptionalEmpty);
-    public void visit(DesignatorOptionalExist DesignatorOptionalExist);
-    public void visit(DesignatorListOptionalESEmpty DesignatorListOptionalESEmpty);
-    public void visit(DesignatorListOptionalESExist DesignatorListOptionalESExist);
     public void visit(DesignatorAssignopExprError DesignatorAssignopExprError);
     public void visit(DesignatorAssignopExpression DesignatorAssignopExpression);
     public void visit(DesignatorActionDec DesignatorActionDec);
     public void visit(DesignatorActionInc DesignatorActionInc);
-    public void visit(DesignatorActionActPars DesignatorActionActPars);
-    public void visit(DesignatorStatementSquareBracket DesignatorStatementSquareBracket);
+    public void visit(DesignatorActionMethodCall DesignatorActionMethodCall);
+    public void visit(DesignatorOptionalEmpty DesignatorOptionalEmpty);
+    public void visit(DesignatorOptionalExist DesignatorOptionalExist);
+    public void visit(DesignatorListOptionalESEmpty DesignatorListOptionalESEmpty);
+    public void visit(DesignatorListOptionalESExist DesignatorListOptionalESExist);
+    public void visit(DesignatorStatementAssignArray DesignatorStatementAssignArray);
     public void visit(DesignatorStatementAction DesignatorStatementAction);
     public void visit(DesignatorStatementAssign DesignatorStatementAssign);
     public void visit(PrintNumConstOptionalEmpty PrintNumConstOptionalEmpty);
     public void visit(PrintNumConstOptionalExists PrintNumConstOptionalExists);
-    public void visit(ExprOptionalEmpty ExprOptionalEmpty);
-    public void visit(ExprOptionalExists ExprOptionalExists);
     public void visit(ForeachStatement ForeachStatement);
     public void visit(ElseStatement ElseStatement);
     public void visit(IfStatement IfStatement);
+    public void visit(StatementWhileStart StatementWhileStart);
     public void visit(StatementSection StatementSection);
     public void visit(StatementForeach StatementForeach);
     public void visit(StatementPrint StatementPrint);
     public void visit(StatementRead StatementRead);
-    public void visit(StatementReturn StatementReturn);
+    public void visit(StatementReturnVoid StatementReturnVoid);
+    public void visit(StatementReturnExpr StatementReturnExpr);
     public void visit(StatementContinue StatementContinue);
     public void visit(StatementBreak StatementBreak);
     public void visit(StatementWhile StatementWhile);

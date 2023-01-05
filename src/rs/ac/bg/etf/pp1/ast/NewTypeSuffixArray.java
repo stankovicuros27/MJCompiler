@@ -1,15 +1,15 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/0/2023 0:11:3
+// 5/0/2023 1:37:25
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class ExprOptionalExists extends ExprOptional {
+public class NewTypeSuffixArray extends NewTypeSuffix {
 
     private Expr Expr;
 
-    public ExprOptionalExists (Expr Expr) {
+    public NewTypeSuffixArray (Expr Expr) {
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
     }
@@ -43,7 +43,7 @@ public class ExprOptionalExists extends ExprOptional {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("ExprOptionalExists(\n");
+        buffer.append("NewTypeSuffixArray(\n");
 
         if(Expr!=null)
             buffer.append(Expr.toString("  "+tab));
@@ -52,7 +52,7 @@ public class ExprOptionalExists extends ExprOptional {
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [ExprOptionalExists]");
+        buffer.append(") [NewTypeSuffixArray]");
         return buffer.toString();
     }
 }

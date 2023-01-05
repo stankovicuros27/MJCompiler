@@ -12,7 +12,17 @@ program test302
 
 {
 
-	int main(int fp1, char fp2, bool fp3)
+	void main() {}
+
+	int sum(int a, int b)
+	{
+		return a + b;
+	}
+
+	void main1()
+	int fp1;
+	char fp2;
+	bool fp3;
 	int aa;
 	char bb;
 	{
@@ -26,7 +36,33 @@ program test302
 	    aa = (fp1);
 		aa = 5 * 2 * a;
 		//aa = 3 * bb;
-	
+		aa = - 5 * 2 * a + a + 5 / 2; 
+		// TODO test arrays
+		niz[1] = 1;
+		niz[2] = 2;
+		//niz['a'] = 3;
+		niz = new int[20];
+		aa = sum(1, 2);
+		sum(1, 2);
+		aa++;
+		aa--;
+		
+		while (a > 5) {
+			a--;
+			break;
+		}
+		
+		while (a > 5) {
+			continue;
+		}
+		
+		//return 2;
+		return;
+		
+		read(aa);
+		print(aa);
+		print(c);
+		print(2);
 	}
 
 }
