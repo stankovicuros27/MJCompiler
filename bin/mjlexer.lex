@@ -112,4 +112,3 @@ import java_cup.runtime.Symbol;
 // ERROR
 
 . { System.err.println("Lexical analysis error (" + yytext() + ") at line " + (yyline + 1)); }
-

@@ -38,8 +38,8 @@ public class SemanticPass extends VisitorAdaptor {
     
     private static final int FUNC_FORM_PARAM = 0;
     private static final int VAR = 1;
-    private static final String MAIN_METHOD = "main";
     
+    private static final String MAIN_METHOD = "main";
     private boolean mainMethodExists = false;
     private int numberOfVars = 0;
     
@@ -56,6 +56,10 @@ public class SemanticPass extends VisitorAdaptor {
 
     
     // ~~~~~~~~~~~~~~~~~~~ Util ~~~~~~~~~~~~~~~~~~~
+	
+	public int getNumberOfVars() {
+		return numberOfVars;
+	}
     
     public boolean checkIfSymbolExistsInCurrentScope(String symbolName, SyntaxNode info) {
     	if (Tab.currentScope().findSymbol(symbolName) != null) {
@@ -230,6 +234,7 @@ public class SemanticPass extends VisitorAdaptor {
 	
 	public void visit(MethodName methodName) {
 		currentMethodObj = Tab.insert(Obj.Meth, methodName.getMethodName(), currentMethodReturnType);
+		methodName.obj = currentMethodObj;
 		Tab.openScope();
 		report_info("MethodName", methodName);
 	}
@@ -243,6 +248,8 @@ public class SemanticPass extends VisitorAdaptor {
 				return;
 			}
 		}
+		currentMethodObj.setLevel(getNumberOfFormPars(currentMethodObj));
+		methodDecl.obj = currentMethodObj;
 		currentMethodReturnType = null;
 		currentMethodObj = null;
 		report_info("MethodDecl", methodDecl);
@@ -285,7 +292,7 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("Type", type);
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~ DesignatorStatementAssign ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ DesignatorStatementAssign ~~~~~~~~~~~~~~~~~~~	// DONE
 		
 	public void visit(DesignatorAssignopExpression designatorAssignopExpression) {
 		Obj designatorObj = designatorAssignopExpression.getDesignator().obj;
@@ -304,7 +311,7 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("DesignatorAssignopExpression", designatorAssignopExpression);
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~ DesignatorStatementAssignArray ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ DesignatorStatementAssignArray ~~~~~~~~~~~~~~~~~~~	// DONE (check for DesignatorOptionalEmpty)
 	
 	// Watch out for Array types
 	public void visit(DesignatorStatementAssignArray designatorStatementAssignArray) {
@@ -322,6 +329,7 @@ public class SemanticPass extends VisitorAdaptor {
 				return;
 			}
 		}
+		designatorStatementAssignArrayObjects = null;
 		report_info("DesignatorStatementAssignArray", designatorStatementAssignArray);
 	}
 	
@@ -340,7 +348,9 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("DesignatorOptionalExist", designatorOptionalExist);
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~ DesignatorAction ~~~~~~~~~~~~~~~~~~~	
+	// Might need to add DesignatorOptionalEmpty
+	
+	// ~~~~~~~~~~~~~~~~~~~ DesignatorAction ~~~~~~~~~~~~~~~~~~~		// DONE
 	
 	public void visit(DesignatorActionMethodCall designatorActionMethodCall) {
 		Obj designatorObj = designatorActionMethodCall.getDesignator().obj;
@@ -415,7 +425,7 @@ public class SemanticPass extends VisitorAdaptor {
 		// LEVEL C
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~ Statements While, Break, Continue ~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~ Statements While, Break, Continue ~~~~~~~~~~~~~~~~~~~	// DONE
 	
 	public void visit(StatementWhileStart statementWhileStart) {
 		nestedLoopCnt++;

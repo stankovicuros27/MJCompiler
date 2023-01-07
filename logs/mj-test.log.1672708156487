@@ -1,5 +1,0 @@
-INFO  02:08:06,060 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
-INFO  02:08:06,083 - #2 program
-INFO  02:08:06,083 - #44 test302
-ERROR 02:08:06,083 - Syntax error na liniji 5
-ERROR 02:08:06,083 - Fatalna greska, parsiranje se ne moze nastaviti na liniji 5
