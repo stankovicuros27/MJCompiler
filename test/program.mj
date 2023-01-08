@@ -11,6 +11,7 @@ program test301
 	char c, ca[];
 	
 {
+
 	void main()	
 		int bodovi;
 		bool bt;
@@ -90,6 +91,13 @@ program test301
 		
 		print(ca[0]);
 		print(c);
+				
+		a = len(ca);
+		print(a);
+		c = chr(100);
+		print(c);
+		a = ord('a');
+		print(a);
 	}
 }
 

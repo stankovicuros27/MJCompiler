@@ -1,6 +1,7 @@
 package rs.ac.bg.etf.pp1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import rs.ac.bg.etf.pp1.ast.*;
@@ -16,6 +17,8 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	private int mainPc;
     private static final String MAIN_METHOD = "main";
+    
+    private final List<String> specialFunctionNames = Arrays.asList("len", "chr", "ord");
 
     private boolean methodHasReturn = false;
     
@@ -36,7 +39,8 @@ public class CodeGenerator extends VisitorAdaptor {
 			return Code.sub;
 		} else {
 			// ERROR
-			return Code.trap;
+			Code.put(Code.trap);
+			return 1;
 		}
 	}
 	
@@ -49,7 +53,16 @@ public class CodeGenerator extends VisitorAdaptor {
 			return Code.rem;
 		} else {
 			// ERROR
-			return Code.trap;
+			Code.put(Code.trap);
+			return 1;
+		}
+	}
+	
+	public void processSpecialFunction(String functionName) {
+		if (functionName.equals("len")) {
+			Code.put(Code.arraylength);
+		} else {
+			// No need to put anything on exprStack
 		}
 	}
 	
@@ -82,6 +95,7 @@ public class CodeGenerator extends VisitorAdaptor {
 	public void visit(MethodDecl methodDecl) {
 		if (!methodHasReturn) {
 			if (methodDecl.getMethodName().obj.getType() != Tab.noType) {
+				// ERROR
 				Code.put(Code.trap);
 				Code.put(1);	
 			} else {
@@ -136,9 +150,14 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	public void visit(DesignatorActionMethodCall designatorActionMethodCall) {
 		Obj methodDesignator = designatorActionMethodCall.getDesignator().obj;
-		int offset = methodDesignator.getAdr() - Code.pc;
-		Code.put(Code.call);
-		Code.put2(offset);
+		if (specialFunctionNames.contains(methodDesignator.getName())) {
+			processSpecialFunction(methodDesignator.getName());
+		} else {
+			int offset = methodDesignator.getAdr() - Code.pc;
+			Code.put(Code.call);
+			Code.put2(offset);
+		}
+		// Return value is not cleared by caller
 		if(methodDesignator.getType() != Tab.noType){
 			Code.put(Code.pop);
 		}
@@ -171,6 +190,14 @@ public class CodeGenerator extends VisitorAdaptor {
 	// TODO runtime error
 	public void visit(DesignatorStatementAssignArray designatorStatementAssignArray) {
 		Obj designatorArrRight = designatorStatementAssignArray.getDesignator().obj;
+		
+		/*
+		// Check for Runtime Error, if number of args > arrlength
+		Code.load(designatorStatementAssignArray.getDesignator().obj);
+		
+		Code.loadConst(designatorStatementAssignArrayObjectCnt);*/
+		
+		
 		// TAKE CARE OF THIS! Inverse because array element assignment happens on stack
 		for (int i = designatorStatementAssignArrayObjects.size() - 1; i >= 0; i--) {
 			int arrayIndex = designatorStatementAssignArrayObjectIndexes.get(i);
@@ -204,12 +231,15 @@ public class CodeGenerator extends VisitorAdaptor {
 	// ~~~~~~~~~~~~~~~~~~~ Designator ~~~~~~~~~~~~~~~~~~~
 	
 	public void visit(DesignatorArray designatorArray) {
-		// Need to load here, since Array is not processed elsewhere?
+		// Since Load and Store for Arrays require Adr, Index values on exprStack, put them here
+		// Index is put from Expr, and Adr is put here
+		// designatorArray is still Var gere, changed to Elem in DesignatorSquareBrackets visit
 		Code.load(designatorArray.getDesignator().obj);
 	}
 	
 	public void visit(DesignatorSingle designatorSingle) {
 		// Already loading this in other visit methods
+		// For arrays, loading aload/baload in other methods (that's why we need to load Adr/Value before)
 	}
 	
 	public void visit(DesignatorDot DesignatorDot) {
@@ -240,9 +270,13 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	public void visit(FactorDesignatorMethodCall factorDesignatorMethodCall) {
 		Obj methodDesignator = factorDesignatorMethodCall.getDesignator().obj;
-		int offset = methodDesignator.getAdr() - Code.pc;
-		Code.put(Code.call);
-		Code.put2(offset);
+		if (specialFunctionNames.contains(methodDesignator.getName())) {
+			processSpecialFunction(methodDesignator.getName());
+		} else {
+			int offset = methodDesignator.getAdr() - Code.pc;
+			Code.put(Code.call);
+			Code.put2(offset);
+		}
 	}
 
 	public void visit(FactorNumConst factorNumConst) {
