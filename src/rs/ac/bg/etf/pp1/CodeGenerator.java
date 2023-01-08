@@ -40,7 +40,7 @@ public class CodeGenerator extends VisitorAdaptor {
 		} else {
 			// ERROR
 			Code.put(Code.trap);
-			return 1;
+			return 8;
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class CodeGenerator extends VisitorAdaptor {
 		} else {
 			// ERROR
 			Code.put(Code.trap);
-			return 1;
+			return 9;
 		}
 	}
 	
@@ -64,6 +64,10 @@ public class CodeGenerator extends VisitorAdaptor {
 		} else {
 			// No need to put anything on exprStack
 		}
+	}
+	
+	public int getJumpCondition(int condition) {
+		return Code.jcc + condition;
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~ MethodDecl & Return ~~~~~~~~~~~~~~~~~~~
@@ -97,7 +101,7 @@ public class CodeGenerator extends VisitorAdaptor {
 			if (methodDecl.getMethodName().obj.getType() != Tab.noType) {
 				// ERROR
 				Code.put(Code.trap);
-				Code.put(1);	
+				Code.put(0);	
 			} else {
 				Code.put(Code.exit);
 				Code.put(Code.return_);
@@ -187,16 +191,19 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	// ~~~~~~~~~~~~~~~~~~~ DesignatorStatementAssignArray ~~~~~~~~~~~~~~~~~~~
 	
-	// TODO runtime error
 	public void visit(DesignatorStatementAssignArray designatorStatementAssignArray) {
 		Obj designatorArrRight = designatorStatementAssignArray.getDesignator().obj;
 		
-		/*
-		// Check for Runtime Error, if number of args > arrlength
+		// Check for Runtime Error, if number of args > arrLength
 		Code.load(designatorStatementAssignArray.getDesignator().obj);
-		
-		Code.loadConst(designatorStatementAssignArrayObjectCnt);*/
-		
+		Code.put(Code.arraylength);
+		Code.loadConst(designatorStatementAssignArrayObjectCnt);
+		int jumpToFix = Code.pc + 1;
+		Code.put(getJumpCondition(Code.ge));	// if (arrLength >= cnt) skip trap;
+		Code.put2(0);
+		Code.put(Code.trap);
+		Code.put(1);
+		Code.fixup(jumpToFix);
 		
 		// TAKE CARE OF THIS! Inverse because array element assignment happens on stack
 		for (int i = designatorStatementAssignArrayObjects.size() - 1; i >= 0; i--) {
@@ -221,7 +228,8 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	public void visit(DesignatorOptionalExist designatorOptionalExist) {
 		designatorStatementAssignArrayObjects.add(designatorOptionalExist.getDesignator().obj);
-		designatorStatementAssignArrayObjectIndexes.add(designatorStatementAssignArrayObjectCnt++);
+		designatorStatementAssignArrayObjectIndexes.add(designatorStatementAssignArrayObjectCnt);
+		designatorStatementAssignArrayObjectCnt++;
 	}
 	
 	public void visit(DesignatorOptionalEmpty designatorOptionalEmpty) {
@@ -300,4 +308,6 @@ public class CodeGenerator extends VisitorAdaptor {
 			Code.put(1);
 		}
 	}
+	
+	// TODO check TRAP error numbers
 }
