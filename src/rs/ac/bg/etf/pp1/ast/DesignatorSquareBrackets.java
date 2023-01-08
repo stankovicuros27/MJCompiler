@@ -1,28 +1,28 @@
 // generated with ast extension for cup
 // version 0.8
-// 7/0/2023 17:25:11
+// 7/0/2023 23:34:55
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class DesignatorSquareBrackets extends Designator {
 
-    private Designator Designator;
+    private DesignatorArray DesignatorArray;
     private Expr Expr;
 
-    public DesignatorSquareBrackets (Designator Designator, Expr Expr) {
-        this.Designator=Designator;
-        if(Designator!=null) Designator.setParent(this);
+    public DesignatorSquareBrackets (DesignatorArray DesignatorArray, Expr Expr) {
+        this.DesignatorArray=DesignatorArray;
+        if(DesignatorArray!=null) DesignatorArray.setParent(this);
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
     }
 
-    public Designator getDesignator() {
-        return Designator;
+    public DesignatorArray getDesignatorArray() {
+        return DesignatorArray;
     }
 
-    public void setDesignator(Designator Designator) {
-        this.Designator=Designator;
+    public void setDesignatorArray(DesignatorArray DesignatorArray) {
+        this.DesignatorArray=DesignatorArray;
     }
 
     public Expr getExpr() {
@@ -38,18 +38,18 @@ public class DesignatorSquareBrackets extends Designator {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(Designator!=null) Designator.accept(visitor);
+        if(DesignatorArray!=null) DesignatorArray.accept(visitor);
         if(Expr!=null) Expr.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(Designator!=null) Designator.traverseTopDown(visitor);
+        if(DesignatorArray!=null) DesignatorArray.traverseTopDown(visitor);
         if(Expr!=null) Expr.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(Designator!=null) Designator.traverseBottomUp(visitor);
+        if(DesignatorArray!=null) DesignatorArray.traverseBottomUp(visitor);
         if(Expr!=null) Expr.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -59,8 +59,8 @@ public class DesignatorSquareBrackets extends Designator {
         buffer.append(tab);
         buffer.append("DesignatorSquareBrackets(\n");
 
-        if(Designator!=null)
-            buffer.append(Designator.toString("  "+tab));
+        if(DesignatorArray!=null)
+            buffer.append(DesignatorArray.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

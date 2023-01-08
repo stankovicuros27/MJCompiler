@@ -7,6 +7,7 @@ import java.util.Stack;
 import org.apache.log4j.Logger;
 
 import rs.ac.bg.etf.pp1.ast.*;
+import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.*;
 import rs.etf.pp1.symboltable.concepts.*;
 
@@ -405,7 +406,7 @@ public class SemanticPass extends VisitorAdaptor {
 	}
 	
 	public void visit(DesignatorSquareBrackets designatorSquareBrackets) {
-		Obj designatorObj = designatorSquareBrackets.getDesignator().obj;
+		Obj designatorObj = designatorSquareBrackets.getDesignatorArray().getDesignator().obj;
 		if (designatorSquareBrackets.getExpr().struct != Tab.intType) {
 			report_error("Indexing designator expression must have numeric value!", designatorSquareBrackets);
 			designatorSquareBrackets.obj = Tab.noObj;
@@ -419,6 +420,11 @@ public class SemanticPass extends VisitorAdaptor {
 		Obj newDesignator = new Obj(Obj.Elem, designatorObj.getName(), designatorObj.getType().getElemType());
 		designatorSquareBrackets.obj = newDesignator;
 		report_info("DesignatorSquareBrackets", designatorSquareBrackets);
+	}
+	
+	public void visit(DesignatorArray designatorArray) {
+		// Testing
+		report_info("DesignatorArray", designatorArray);
 	}
 	
 	public void visit(DesignatorDot designatorDot) {

@@ -97,7 +97,7 @@ nonterminal StatementWhileStart;
 nonterminal IfStatement, ElseStatement;
 
 // Everything that needs to go inside Tab
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName, Designator, MethodDecl;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName, Designator, MethodDecl, DesignatorArray;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, Factor, Term, Expr, PrintNumConstOptional, CondFact, CondTerm;
 
 nonterminal ConstDeclInnerListElement, VarDeclInnerListElement, FormParam, DesignatorOptional, ForeachStatement, ConditionInIf;
@@ -417,10 +417,12 @@ NewTypeSuffix ::= (NewTypeSuffixArray) L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACK
 				
 Designator ::= (DesignatorDot) Designator:designator DOT IDENT:field
 			|
-			(DesignatorSquareBrackets) Designator:designator L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET
+			(DesignatorSquareBrackets) DesignatorArray L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET
 			|
 			(DesignatorSingle) IDENT:designatorName
 			;
+			
+DesignatorArray ::= (DesignatorArray) Designator;
 			
 Label ::= (Label) IDENT;
 

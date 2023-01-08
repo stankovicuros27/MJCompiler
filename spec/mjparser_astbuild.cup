@@ -116,7 +116,7 @@ nonterminal IfStatement IfStatement;
 nonterminal ElseStatement ElseStatement;
 
 // Everything that needs to go inside Tab
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName, Designator, MethodDecl;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName, Designator, MethodDecl, DesignatorArray;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, Factor, Term, Expr, PrintNumConstOptional, CondFact, CondTerm;
 
 nonterminal ConstDeclInnerListElement ConstDeclInnerListElement;
@@ -443,10 +443,12 @@ NewTypeSuffix ::= (NewTypeSuffixArray) L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACK
 				
 Designator ::= (DesignatorDot) Designator:designator DOT IDENT:field {: RESULT=new DesignatorDot(designator, field); RESULT.setLine(designatorleft); :}
 			|
-			(DesignatorSquareBrackets) Designator:designator L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET {: RESULT=new DesignatorSquareBrackets(designator, expr); RESULT.setLine(designatorleft); :}
+			(DesignatorSquareBrackets) DesignatorArray:D1 L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET {: RESULT=new DesignatorSquareBrackets(D1, expr); RESULT.setLine(D1left); :}
 			|
 			(DesignatorSingle) IDENT:designatorName {: RESULT=new DesignatorSingle(designatorName); RESULT.setLine(designatorNameleft); :}
 			;
+			
+DesignatorArray ::= (DesignatorArray) Designator:D1 {: RESULT=new DesignatorArray(D1); RESULT.setLine(D1left); :};
 			
 Label ::= (Label) IDENT:I1 {: RESULT=new Label(I1); RESULT.setLine(I1left); :};
 

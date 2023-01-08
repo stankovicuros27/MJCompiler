@@ -1,61 +1,96 @@
-// MyTest
+// Test301
 
-program MyTest
+program test301
 
-const int iconst = 1;
-const char cconst = 'a';
-const bool bconst = true;
+	const int nula = 0;
+	const int jedan = 1;
+	const int pet = 5;
 
-int i;
-char c;
-bool b;
-
-int ai[];
-char ac[];
-bool ab[];
-
+	int niz[], niz2[], a, b;
+	char nizch[];
+	char c, ca[];
+	
 {
-
-	int sumOfTwoInputs() 
-		int a, b;
+	void main()	
+		int bodovi;
+		bool bt;
 	{
-		read(a);
-		read(b);
-		return a + b;
-	}
-	
-	int sum(int a, int b)
-		int c;
-	{
-		return a + b;
-	}
+		bodovi = 0;
+		bodovi++;
+		bodovi = bodovi + jedan;
+		bodovi = bodovi * pet;
+		bodovi--;
+		print(bodovi);
+			
+		
+		niz = new int[3];
+		niz[nula] = jedan;
+		niz[1] = 2;
+		niz[niz[jedan]] = niz[niz[0]] * 3;
+		bodovi = niz[2]/niz[0];
+		print(bodovi);
+		print(niz[2]);
+		
+		
+		[a,b] = niz;
+		print(a);	// niz[0] -> 1
+		print(b);	// niz[1] -> 2
+		
+		
+		[,a,] = niz;
+		print(a);	// niz[1] -> 2
 
-	void main() {
-	
-		print(sum(sum(2,3), 20));
-		print(sumOfTwoInputs());
-				
-		i = 2;
-		print(i);
+		niz2 = new int[2];
+		[niz2[0],,niz2[niz[nula]]] = niz;
+
+		print(niz2[0]);	// niz[0] -> 1
+		print(niz2[1]); // niz[2] -> 6 
 		
-		i = sum(2, 3);
-		print(i);
+		// [niz2[0],,,niz2[niz[nula]]] = niz; // runtime error!
 		
-		i++;
-		print(i);
-		i--;
-		print(i);
+		nizch = new char[3];
+		nizch[0] = 'a';
+		nizch[jedan] = 'b';
+		nizch[pet - 3] = 'c';
+		print(nizch[1]);
+		print(nizch[jedan * 2]);
+
+
+		read(bodovi);
+		bodovi = -bodovi + (pet * a / 2 - jedan) * bodovi - (3 % 2 + 3 * 2 - 3); 
+		print(bodovi);
 		
-		print(iconst);
-		print(cconst);
-	
+		niz = new int[4];
+		niz[0] = 0;
+		niz[1] = 1;
+		niz[2] = 2;
+		niz[3] = 3;
+		niz[3]++;
 		
-		sum(10, 20);
 		
+		// Addition ------------------------------------------
+		[niz2[0], a, b, niz2[1]] = niz;
+		print(niz2[0]);
+		print(a);
+		print(b);
+		print(niz2[1]);
+			
+		niz[3] = niz[0] + niz[1] + niz[2];
+		print(niz[3]);
 		
-		ai = new int[10];
-		ai[2] = 3;
+		nizch = new char[4];
+		nizch[0] = 'a';
+		nizch[1] = 'b';
+		nizch[2] = 'c';
+		nizch[3] = 'd';
+		
+		ca = new char[1];
+		
+		[ca[0], , , c] = nizch;
+		
+		print(ca[0]);
+		print(c);
 	}
-
-
 }
+
+

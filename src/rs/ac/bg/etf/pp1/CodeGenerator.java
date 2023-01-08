@@ -1,5 +1,8 @@
 package rs.ac.bg.etf.pp1;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import rs.ac.bg.etf.pp1.ast.*;
 import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.Tab;
@@ -16,9 +19,12 @@ public class CodeGenerator extends VisitorAdaptor {
 
     private boolean methodHasReturn = false;
     
+    private List<Obj> designatorStatementAssignArrayObjects = null;
+    private List<Integer> designatorStatementAssignArrayObjectIndexes = null;
+    private int designatorStatementAssignArrayObjectCnt = 0;
     
 	// ~~~~~~~~~~~~~~~~~~~ Util ~~~~~~~~~~~~~~~~~~~
-    
+        
 	public int getMainPc() {
 		return mainPc;
 	}
@@ -138,33 +144,72 @@ public class CodeGenerator extends VisitorAdaptor {
 		}
 	}
 	
-	// TODO check for arrays!
 	public void visit(DesignatorActionInc designatorActionInc) {
 		Obj designatorObj = designatorActionInc.getDesignator().obj;
+		if (designatorObj.getKind() == Obj.Elem) {
+			Code.put(Code.dup2);
+		}
 		Code.load(designatorObj);
 		Code.loadConst(1);
 		Code.put(Code.add);
 		Code.store(designatorObj);
 	}
 	
-	// TODO check for arrays!
 	public void visit(DesignatorActionDec designatorActionDec) {
 		Obj designatorObj = designatorActionDec.getDesignator().obj;
+		if (designatorObj.getKind() == Obj.Elem) {
+			Code.put(Code.dup2);
+		}
 		Code.load(designatorObj);
 		Code.loadConst(1);
 		Code.put(Code.sub);
 		Code.store(designatorObj);
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~ Designator ~~~~~~~~~~~~~~~~~~~
-
+	// ~~~~~~~~~~~~~~~~~~~ DesignatorStatementAssignArray ~~~~~~~~~~~~~~~~~~~
 	
-	public void visit(DesignatorSquareBrackets designatorSquareBrackets) {
-		Code.load(designatorSquareBrackets.getDesignator().obj);
+	// TODO runtime error
+	public void visit(DesignatorStatementAssignArray designatorStatementAssignArray) {
+		Obj designatorArrRight = designatorStatementAssignArray.getDesignator().obj;
+		// TAKE CARE OF THIS! Inverse because array element assignment happens on stack
+		for (int i = designatorStatementAssignArrayObjects.size() - 1; i >= 0; i--) {
+			int arrayIndex = designatorStatementAssignArrayObjectIndexes.get(i);
+			Obj designatorLeft = designatorStatementAssignArrayObjects.get(i);
+			Code.load(designatorArrRight);
+			Code.loadConst(arrayIndex);
+			if (designatorArrRight.getType().getElemType() == Tab.charType) {
+				Code.put(Code.baload);
+			} else {
+				Code.put(Code.aload);
+			}
+			Code.store(designatorLeft);
+		}
+	}
+	
+	public void visit(DesignatorStatementAssignArrayStart designatorStatementAssignArrayStart) {
+		designatorStatementAssignArrayObjects = new ArrayList<>();
+		designatorStatementAssignArrayObjectIndexes = new ArrayList<>();
+		designatorStatementAssignArrayObjectCnt = 0;
+	}
+	
+	public void visit(DesignatorOptionalExist designatorOptionalExist) {
+		designatorStatementAssignArrayObjects.add(designatorOptionalExist.getDesignator().obj);
+		designatorStatementAssignArrayObjectIndexes.add(designatorStatementAssignArrayObjectCnt++);
+	}
+	
+	public void visit(DesignatorOptionalEmpty designatorOptionalEmpty) {
+		designatorStatementAssignArrayObjectCnt++;
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Designator ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(DesignatorArray designatorArray) {
+		// Need to load here, since Array is not processed elsewhere?
+		Code.load(designatorArray.getDesignator().obj);
 	}
 	
 	public void visit(DesignatorSingle designatorSingle) {
-		// Alredy loading this in other visit methods
+		// Already loading this in other visit methods
 	}
 	
 	public void visit(DesignatorDot DesignatorDot) {
