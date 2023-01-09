@@ -1,25 +1,25 @@
 // generated with ast extension for cup
 // version 0.8
-// 7/0/2023 23:34:55
+// 9/0/2023 21:5:42
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class RelopTypeComparaison extends Relop {
 
-    private RelopComparaison RelopComparaison;
+    private RelopComparison RelopComparison;
 
-    public RelopTypeComparaison (RelopComparaison RelopComparaison) {
-        this.RelopComparaison=RelopComparaison;
-        if(RelopComparaison!=null) RelopComparaison.setParent(this);
+    public RelopTypeComparaison (RelopComparison RelopComparison) {
+        this.RelopComparison=RelopComparison;
+        if(RelopComparison!=null) RelopComparison.setParent(this);
     }
 
-    public RelopComparaison getRelopComparaison() {
-        return RelopComparaison;
+    public RelopComparison getRelopComparison() {
+        return RelopComparison;
     }
 
-    public void setRelopComparaison(RelopComparaison RelopComparaison) {
-        this.RelopComparaison=RelopComparaison;
+    public void setRelopComparison(RelopComparison RelopComparison) {
+        this.RelopComparison=RelopComparison;
     }
 
     public void accept(Visitor visitor) {
@@ -27,16 +27,16 @@ public class RelopTypeComparaison extends Relop {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(RelopComparaison!=null) RelopComparaison.accept(visitor);
+        if(RelopComparison!=null) RelopComparison.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(RelopComparaison!=null) RelopComparaison.traverseTopDown(visitor);
+        if(RelopComparison!=null) RelopComparison.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(RelopComparaison!=null) RelopComparaison.traverseBottomUp(visitor);
+        if(RelopComparison!=null) RelopComparison.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -45,8 +45,8 @@ public class RelopTypeComparaison extends Relop {
         buffer.append(tab);
         buffer.append("RelopTypeComparaison(\n");
 
-        if(RelopComparaison!=null)
-            buffer.append(RelopComparaison.toString("  "+tab));
+        if(RelopComparison!=null)
+            buffer.append(RelopComparison.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

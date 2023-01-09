@@ -3,6 +3,7 @@ package rs.ac.bg.etf.pp1;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 import rs.ac.bg.etf.pp1.ast.*;
 import rs.etf.pp1.mj.runtime.Code;
@@ -26,6 +27,25 @@ public class CodeGenerator extends VisitorAdaptor {
     private List<Integer> designatorStatementAssignArrayObjectIndexes = null;
     private int designatorStatementAssignArrayObjectCnt = 0;
     
+    // Current statement type (used for jump FIXUP)
+    private enum SpecialStatement {IF_ELSE_STMT, WHILE_STMT, FOREACH_STMT};
+    private Stack<SpecialStatement> specialStatementStack = new Stack<>();
+    
+    // Current loop type (used for CONTINUE & BREAK)
+    private enum Loop {WHILE_LOOP, FOREACH_LOOP};
+    private Stack<Loop> loopStack = new Stack<>();
+    
+    // IfElse stacks
+    private Stack<Integer> skipElseBlockFixupJumpAddresses = new Stack<>();
+    private Stack<Integer> skipIfBlockFixupJumpAddresses = new Stack<>();
+    
+    // While stacks
+    private Stack<Integer> skipWhileBlockFixupJumpAddresses = new Stack<>();
+    private Stack<Integer> begginingOfWhileBlockJumpAddresses = new Stack<>();
+    private Stack<List<Integer>> breakWhileFixupJumpAddresses = new Stack<>();
+
+
+    
 	// ~~~~~~~~~~~~~~~~~~~ Util ~~~~~~~~~~~~~~~~~~~
         
 	public int getMainPc() {
@@ -40,7 +60,7 @@ public class CodeGenerator extends VisitorAdaptor {
 		} else {
 			// ERROR
 			Code.put(Code.trap);
-			return 8;
+			return 10;
 		}
 	}
 	
@@ -54,7 +74,35 @@ public class CodeGenerator extends VisitorAdaptor {
 		} else {
 			// ERROR
 			Code.put(Code.trap);
-			return 9;
+			return 11;
+		}
+	}
+	
+	public int getRelopComparisonOperatorCode(Class operatorClass) {
+		if (operatorClass == RelopGreater.class) {
+			return Code.gt;
+		} else if (operatorClass == RelopGreaterEquals.class) {
+			return Code.ge;
+		} else if (operatorClass == RelopLess.class) {
+			return Code.lt;
+		} else if (operatorClass == RelopLessEquals.class) {
+			return Code.le;
+		} else {
+			// ERROR
+			Code.put(Code.trap);
+			return 12;
+		}
+	}
+	
+	public int getRelopEqualityOperatorCode(Class operatorClass) {
+		if (operatorClass == RelopEquals.class) {
+			return Code.eq;
+		} else if (operatorClass == RelopNotEquals.class) {
+			return Code.ne;
+		} else {
+			// ERROR
+			Code.put(Code.trap);
+			return 13;
 		}
 	}
 	
@@ -198,8 +246,9 @@ public class CodeGenerator extends VisitorAdaptor {
 		Code.load(designatorStatementAssignArray.getDesignator().obj);
 		Code.put(Code.arraylength);
 		Code.loadConst(designatorStatementAssignArrayObjectCnt);
-		int jumpToFix = Code.pc + 1;
+		//int jumpToFix = Code.pc + 1;
 		Code.put(getJumpCondition(Code.ge));	// if (arrLength >= cnt) skip trap;
+		int jumpToFix = Code.pc;
 		Code.put2(0);
 		Code.put(Code.trap);
 		Code.put(1);
@@ -310,4 +359,116 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	// TODO check TRAP error numbers
+	
+	// ~~~~~~~~~~~~~~~~~~~ Statement If Else ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(IfStatementStart ifStatementStart) {
+		specialStatementStack.push(SpecialStatement.IF_ELSE_STMT);
+	}
+	
+	public void visit(PlaceAfterIfCondition placeAfterIfCondition) {
+		// putFalseJump already placed in CondFact
+	}
+	
+	public void visit(StatementIfElse statementIfElse) {
+		// Pay attention to this!
+		Code.fixup(skipElseBlockFixupJumpAddresses.pop());
+		specialStatementStack.pop();
+	}
+	
+	public void visit(StatementIf statementIf) {
+		// Pay attention to this!
+		Code.fixup(skipElseBlockFixupJumpAddresses.pop());
+		specialStatementStack.pop();
+	}
+	
+	public void visit(PlaceAfterIfBlock placeAfterIfBlock) {
+		Code.putJump(0);
+		skipElseBlockFixupJumpAddresses.push(Code.pc - 2);
+		Code.fixup(skipIfBlockFixupJumpAddresses.pop());
+	}
+	
+	public void visit(PlaceAfterElseBlock placeAfterElseBlock) {
+		// Pay attention to this!
+		//Code.fixup(skipElseBlockFixupJumpAddresses.pop());
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Statement While ~~~~~~~~~~~~~~~~~~~
+
+	public void visit(StatementWhileStart statementWhileStart) {
+		specialStatementStack.push(SpecialStatement.WHILE_STMT);
+		loopStack.push(Loop.WHILE_LOOP);
+		breakWhileFixupJumpAddresses.push(new ArrayList<>());
+		begginingOfWhileBlockJumpAddresses.push(Code.pc);
+	}
+	
+	public void visit(StatementWhile statementWhile) {
+		List<Integer> breakJmpFixupList = breakWhileFixupJumpAddresses.pop();
+		for (int addr : breakJmpFixupList) {
+			Code.fixup(addr);
+		}
+		specialStatementStack.pop();
+		loopStack.pop();
+	}
+	
+	public void visit(PlaceAfterWhileBlock placeAfterWhileBlock) {
+		Code.putJump(begginingOfWhileBlockJumpAddresses.peek());
+		begginingOfWhileBlockJumpAddresses.pop();
+		Code.fixup(skipWhileBlockFixupJumpAddresses.pop());
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Statement Continue ~~~~~~~~~~~~~~~~~~~
+
+	public void visit(StatementContinue statementContinue) {
+		Loop currentLoop = loopStack.peek();
+		if (currentLoop == Loop.WHILE_LOOP) {
+			Code.putJump(begginingOfWhileBlockJumpAddresses.peek());
+		}	// TODO foreach
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Statement Break ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(StatementBreak statementBreak) {
+		Code.putJump(0);
+		Loop currentLoop = loopStack.peek();
+		if (currentLoop == Loop.WHILE_LOOP) {
+			breakWhileFixupJumpAddresses.peek().add(Code.pc - 2);
+		}	// TODO foreach
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Statement Foreach ~~~~~~~~~~~~~~~~~~~
+
+	
+	
+	// ~~~~~~~~~~~~~~~~~~~ CondFact ~~~~~~~~~~~~~~~~~~~
+	
+	// Must be bool, checked in semantic analysis
+	public void visit(CondFactSingle condFactSingle) {
+		Code.loadConst(1);
+		Code.putFalseJump(Code.eq, 0);
+		saveFixupJumpAddress();
+	}
+	
+	public void visit(CondFactMultipleEquality condFactMultipleEquality) {
+		int cond = getRelopEqualityOperatorCode(condFactMultipleEquality.getRelopEquality().getClass());
+		Code.putFalseJump(cond, 0);
+		saveFixupJumpAddress();
+	}
+	
+	public void visit(CondFactMultipleComparaison condFactMultipleComparaison) {
+		int cond = getRelopComparisonOperatorCode(condFactMultipleComparaison.getRelopComparison().getClass());
+		Code.putFalseJump(cond, 0);
+		saveFixupJumpAddress();
+	}
+	
+	// Put pc as fixup jump address for current stmt
+	private void saveFixupJumpAddress() {
+		SpecialStatement currentStatement = specialStatementStack.peek();
+		if (currentStatement == SpecialStatement.IF_ELSE_STMT) {
+			skipIfBlockFixupJumpAddresses.add(Code.pc - 2);
+		} else if (currentStatement == SpecialStatement.WHILE_STMT) {
+			skipWhileBlockFixupJumpAddresses.push(Code.pc - 2);
+		}
+	}
+	
 }

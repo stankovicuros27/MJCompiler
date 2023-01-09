@@ -126,10 +126,17 @@ nonterminal DesignatorOptional DesignatorOptional;
 nonterminal ForeachStatement ForeachStatement;
 nonterminal ConditionInIf ConditionInIf;
 nonterminal DesignatorStatementAssignArrayStart DesignatorStatementAssignArrayStart;
-nonterminal RelopComparaison RelopComparaison;
+nonterminal RelopComparison RelopComparison;
 nonterminal RelopEquality RelopEquality;
 nonterminal StatementForeachStart StatementForeachStart;
 nonterminal ForeachVar ForeachVar;
+nonterminal IfStatementStart IfStatementStart;
+nonterminal ElseStatementStart ElseStatementStart;
+
+nonterminal PlaceAfterIfCondition PlaceAfterIfCondition;
+nonterminal PlaceAfterIfBlock PlaceAfterIfBlock;
+nonterminal PlaceAfterElseBlock PlaceAfterElseBlock;
+nonterminal PlaceAfterWhileBlock PlaceAfterWhileBlock;
 
 
 // ~~~~~~~~~~~~~~~~TERMINALS~~~~~~~~~~~~~~~~
@@ -306,7 +313,7 @@ Statement ::= (StatementDesignator) DesignatorStatement:D1 SEMI_COLON {: RESULT=
 			|
 			(StatementIf) IfStatement:I1 {: RESULT=new StatementIf(I1); RESULT.setLine(I1left); :}
 			|
-			(StatementWhile) StatementWhileStart:S1 L_PAREN Condition:C2 R_PAREN Statement:S3 {: RESULT=new StatementWhile(S1, C2, S3); RESULT.setLine(S1left); :}
+			(StatementWhile) StatementWhileStart:S1 L_PAREN Condition:C2 R_PAREN Statement:S3 PlaceAfterWhileBlock:P4 {: RESULT=new StatementWhile(S1, C2, S3, P4); RESULT.setLine(S1left); :}
 			|
 			(StatementBreak) BREAK SEMI_COLON {: RESULT=new StatementBreak(); :}
 			|
@@ -325,11 +332,23 @@ Statement ::= (StatementDesignator) DesignatorStatement:D1 SEMI_COLON {: RESULT=
 			(StatementSection) L_BRACE StatementListE:S1 R_BRACE {: RESULT=new StatementSection(S1); RESULT.setLine(S1left); :}
 			;
 			
+PlaceAfterWhileBlock ::= (PlaceAfterWhileBlock) {: RESULT=new PlaceAfterWhileBlock(); :} /* e */;
+			
 StatementWhileStart ::= (StatementWhileStart) WHILE {: RESULT=new StatementWhileStart(); :};
 			
-IfStatement ::= (IfStatement) IF L_PAREN ConditionInIf:C1 R_PAREN Statement:S2 {: RESULT=new IfStatement(C1, S2); RESULT.setLine(C1left); :};
+IfStatement ::= (IfStatement) IfStatementStart:I1 L_PAREN ConditionInIf:C2 PlaceAfterIfCondition:P3 R_PAREN Statement:S4 PlaceAfterIfBlock:P5 {: RESULT=new IfStatement(I1, C2, P3, S4, P5); RESULT.setLine(I1left); :};
 
-ElseStatement ::= (ElseStatement) ELSE Statement:S1 {: RESULT=new ElseStatement(S1); RESULT.setLine(S1left); :};
+IfStatementStart ::= (IfStatementStart) IF {: RESULT=new IfStatementStart(); :};
+
+PlaceAfterIfCondition ::= (PlaceAfterIfCondition) {: RESULT=new PlaceAfterIfCondition(); :} /* e */;
+
+PlaceAfterIfBlock ::= (PlaceAfterIfBlock) {: RESULT=new PlaceAfterIfBlock(); :} /* e */;
+
+ElseStatement ::= (ElseStatement) ElseStatementStart:E1 Statement:S2 PlaceAfterElseBlock:P3 {: RESULT=new ElseStatement(E1, S2, P3); RESULT.setLine(E1left); :};
+
+ElseStatementStart ::= (ElseStatementStart) ELSE {: RESULT=new ElseStatementStart(); :};
+
+PlaceAfterElseBlock ::= (PlaceAfterElseBlock) {: RESULT=new PlaceAfterElseBlock(); :} /* e */;
 								
 ForeachStatement ::= (ForeachStatement) Designator:D1 DOT StatementForeachStart:S2 L_PAREN ForeachVar:var ARROW Statement:S3 R_PAREN {: RESULT=new ForeachStatement(D1, S2, var, S3); RESULT.setLine(D1left); :};
 
@@ -406,7 +425,7 @@ CondFact ::= (CondFactSingle) Expr:expr {: RESULT=new CondFactSingle(expr); RESU
 			|
 			(CondFactMultipleEquality) Expr:exprLeft RelopEquality:R1 Expr:exprRight {: RESULT=new CondFactMultipleEquality(exprLeft, R1, exprRight); RESULT.setLine(exprLeftleft); :}
 			|
-			(CondFactMultipleComparaison) Expr:exprLeft RelopComparaison:R1 Expr:exprRight {: RESULT=new CondFactMultipleComparaison(exprLeft, R1, exprRight); RESULT.setLine(exprLeftleft); :}
+			(CondFactMultipleComparaison) Expr:exprLeft RelopComparison:R1 Expr:exprRight {: RESULT=new CondFactMultipleComparaison(exprLeft, R1, exprRight); RESULT.setLine(exprLeftleft); :}
 			;
 
 Expr ::= (ExprSingleMinus) MINUS Term:term {: RESULT=new ExprSingleMinus(term); RESULT.setLine(termleft); :}
@@ -456,7 +475,7 @@ Assignop ::= (Assignop) ASSIGN {: RESULT=new Assignop(); :};
 
 Relop ::= (RelopTypeEquality) RelopEquality:R1 {: RESULT=new RelopTypeEquality(R1); RESULT.setLine(R1left); :}
 		|
-		(RelopTypeComparaison) RelopComparaison:R1 {: RESULT=new RelopTypeComparaison(R1); RESULT.setLine(R1left); :}
+		(RelopTypeComparaison) RelopComparison:R1 {: RESULT=new RelopTypeComparaison(R1); RESULT.setLine(R1left); :}
 		;
 	
 RelopEquality ::= (RelopEquals) EQUALS {: RESULT=new RelopEquals(); :}
@@ -464,7 +483,7 @@ RelopEquality ::= (RelopEquals) EQUALS {: RESULT=new RelopEquals(); :}
 				(RelopNotEquals) NOT_EQUALS {: RESULT=new RelopNotEquals(); :}
 				;
 				
-RelopComparaison ::= (RelopGreater) GREATER {: RESULT=new RelopGreater(); :}
+RelopComparison ::= (RelopGreater) GREATER {: RESULT=new RelopGreater(); :}
 					|
 					(RelopGreaterEquals) GREATER_EQUALS {: RESULT=new RelopGreaterEquals(); :}
 					|

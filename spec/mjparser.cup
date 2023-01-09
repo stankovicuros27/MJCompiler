@@ -102,8 +102,11 @@ nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, Factor, Term, Expr, Pri
 
 nonterminal ConstDeclInnerListElement, VarDeclInnerListElement, FormParam, DesignatorOptional, ForeachStatement, ConditionInIf;
 nonterminal DesignatorStatementAssignArrayStart;
-nonterminal RelopComparaison, RelopEquality, StatementForeachStart;
+nonterminal RelopComparison, RelopEquality, StatementForeachStart;
 nonterminal ForeachVar;
+nonterminal IfStatementStart, ElseStatementStart;
+
+nonterminal PlaceAfterIfCondition, PlaceAfterIfBlock, PlaceAfterElseBlock, PlaceAfterWhileBlock;
 
 
 // ~~~~~~~~~~~~~~~~TERMINALS~~~~~~~~~~~~~~~~
@@ -280,7 +283,7 @@ Statement ::= (StatementDesignator) DesignatorStatement SEMI_COLON
 			|
 			(StatementIf) IfStatement
 			|
-			(StatementWhile) StatementWhileStart L_PAREN Condition R_PAREN Statement
+			(StatementWhile) StatementWhileStart L_PAREN Condition R_PAREN Statement PlaceAfterWhileBlock
 			|
 			(StatementBreak) BREAK SEMI_COLON
 			|
@@ -299,11 +302,23 @@ Statement ::= (StatementDesignator) DesignatorStatement SEMI_COLON
 			(StatementSection) L_BRACE StatementListE R_BRACE
 			;
 			
+PlaceAfterWhileBlock ::= (PlaceAfterWhileBlock) /* e */;
+			
 StatementWhileStart ::= (StatementWhileStart) WHILE;
 			
-IfStatement ::= (IfStatement) IF L_PAREN ConditionInIf R_PAREN Statement;
+IfStatement ::= (IfStatement) IfStatementStart L_PAREN ConditionInIf PlaceAfterIfCondition R_PAREN Statement PlaceAfterIfBlock;
 
-ElseStatement ::= (ElseStatement) ELSE Statement;
+IfStatementStart ::= (IfStatementStart) IF;
+
+PlaceAfterIfCondition ::= (PlaceAfterIfCondition) /* e */;
+
+PlaceAfterIfBlock ::= (PlaceAfterIfBlock) /* e */;
+
+ElseStatement ::= (ElseStatement) ElseStatementStart Statement PlaceAfterElseBlock;
+
+ElseStatementStart ::= (ElseStatementStart) ELSE;
+
+PlaceAfterElseBlock ::= (PlaceAfterElseBlock) /* e */;
 								
 ForeachStatement ::= (ForeachStatement) Designator DOT StatementForeachStart L_PAREN ForeachVar:var ARROW Statement R_PAREN;
 
@@ -380,7 +395,7 @@ CondFact ::= (CondFactSingle) Expr:expr
 			|
 			(CondFactMultipleEquality) Expr:exprLeft RelopEquality Expr:exprRight
 			|
-			(CondFactMultipleComparaison) Expr:exprLeft RelopComparaison Expr:exprRight
+			(CondFactMultipleComparaison) Expr:exprLeft RelopComparison Expr:exprRight
 			;
 
 Expr ::= (ExprSingleMinus) MINUS Term:term
@@ -430,7 +445,7 @@ Assignop ::= (Assignop) ASSIGN;
 
 Relop ::= (RelopTypeEquality) RelopEquality
 		|
-		(RelopTypeComparaison) RelopComparaison
+		(RelopTypeComparaison) RelopComparison
 		;
 	
 RelopEquality ::= (RelopEquals) EQUALS
@@ -438,7 +453,7 @@ RelopEquality ::= (RelopEquals) EQUALS
 				(RelopNotEquals) NOT_EQUALS
 				;
 				
-RelopComparaison ::= (RelopGreater) GREATER
+RelopComparison ::= (RelopGreater) GREATER
 					|
 					(RelopGreaterEquals) GREATER_EQUALS
 					|

@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 7/0/2023 23:34:55
+// 9/0/2023 21:5:42
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,14 +8,14 @@ package rs.ac.bg.etf.pp1.ast;
 public class CondFactMultipleComparaison extends CondFact {
 
     private Expr Expr;
-    private RelopComparaison RelopComparaison;
+    private RelopComparison RelopComparison;
     private Expr Expr1;
 
-    public CondFactMultipleComparaison (Expr Expr, RelopComparaison RelopComparaison, Expr Expr1) {
+    public CondFactMultipleComparaison (Expr Expr, RelopComparison RelopComparison, Expr Expr1) {
         this.Expr=Expr;
         if(Expr!=null) Expr.setParent(this);
-        this.RelopComparaison=RelopComparaison;
-        if(RelopComparaison!=null) RelopComparaison.setParent(this);
+        this.RelopComparison=RelopComparison;
+        if(RelopComparison!=null) RelopComparison.setParent(this);
         this.Expr1=Expr1;
         if(Expr1!=null) Expr1.setParent(this);
     }
@@ -28,12 +28,12 @@ public class CondFactMultipleComparaison extends CondFact {
         this.Expr=Expr;
     }
 
-    public RelopComparaison getRelopComparaison() {
-        return RelopComparaison;
+    public RelopComparison getRelopComparison() {
+        return RelopComparison;
     }
 
-    public void setRelopComparaison(RelopComparaison RelopComparaison) {
-        this.RelopComparaison=RelopComparaison;
+    public void setRelopComparison(RelopComparison RelopComparison) {
+        this.RelopComparison=RelopComparison;
     }
 
     public Expr getExpr1() {
@@ -50,20 +50,20 @@ public class CondFactMultipleComparaison extends CondFact {
 
     public void childrenAccept(Visitor visitor) {
         if(Expr!=null) Expr.accept(visitor);
-        if(RelopComparaison!=null) RelopComparaison.accept(visitor);
+        if(RelopComparison!=null) RelopComparison.accept(visitor);
         if(Expr1!=null) Expr1.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Expr!=null) Expr.traverseTopDown(visitor);
-        if(RelopComparaison!=null) RelopComparaison.traverseTopDown(visitor);
+        if(RelopComparison!=null) RelopComparison.traverseTopDown(visitor);
         if(Expr1!=null) Expr1.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Expr!=null) Expr.traverseBottomUp(visitor);
-        if(RelopComparaison!=null) RelopComparaison.traverseBottomUp(visitor);
+        if(RelopComparison!=null) RelopComparison.traverseBottomUp(visitor);
         if(Expr1!=null) Expr1.traverseBottomUp(visitor);
         accept(visitor);
     }
@@ -79,8 +79,8 @@ public class CondFactMultipleComparaison extends CondFact {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(RelopComparaison!=null)
-            buffer.append(RelopComparaison.toString("  "+tab));
+        if(RelopComparison!=null)
+            buffer.append(RelopComparison.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

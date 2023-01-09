@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 7/0/2023 23:34:55
+// 9/0/2023 21:5:42
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,14 +9,31 @@ public class IfStatement implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
+    private IfStatementStart IfStatementStart;
     private ConditionInIf ConditionInIf;
+    private PlaceAfterIfCondition PlaceAfterIfCondition;
     private Statement Statement;
+    private PlaceAfterIfBlock PlaceAfterIfBlock;
 
-    public IfStatement (ConditionInIf ConditionInIf, Statement Statement) {
+    public IfStatement (IfStatementStart IfStatementStart, ConditionInIf ConditionInIf, PlaceAfterIfCondition PlaceAfterIfCondition, Statement Statement, PlaceAfterIfBlock PlaceAfterIfBlock) {
+        this.IfStatementStart=IfStatementStart;
+        if(IfStatementStart!=null) IfStatementStart.setParent(this);
         this.ConditionInIf=ConditionInIf;
         if(ConditionInIf!=null) ConditionInIf.setParent(this);
+        this.PlaceAfterIfCondition=PlaceAfterIfCondition;
+        if(PlaceAfterIfCondition!=null) PlaceAfterIfCondition.setParent(this);
         this.Statement=Statement;
         if(Statement!=null) Statement.setParent(this);
+        this.PlaceAfterIfBlock=PlaceAfterIfBlock;
+        if(PlaceAfterIfBlock!=null) PlaceAfterIfBlock.setParent(this);
+    }
+
+    public IfStatementStart getIfStatementStart() {
+        return IfStatementStart;
+    }
+
+    public void setIfStatementStart(IfStatementStart IfStatementStart) {
+        this.IfStatementStart=IfStatementStart;
     }
 
     public ConditionInIf getConditionInIf() {
@@ -27,12 +44,28 @@ public class IfStatement implements SyntaxNode {
         this.ConditionInIf=ConditionInIf;
     }
 
+    public PlaceAfterIfCondition getPlaceAfterIfCondition() {
+        return PlaceAfterIfCondition;
+    }
+
+    public void setPlaceAfterIfCondition(PlaceAfterIfCondition PlaceAfterIfCondition) {
+        this.PlaceAfterIfCondition=PlaceAfterIfCondition;
+    }
+
     public Statement getStatement() {
         return Statement;
     }
 
     public void setStatement(Statement Statement) {
         this.Statement=Statement;
+    }
+
+    public PlaceAfterIfBlock getPlaceAfterIfBlock() {
+        return PlaceAfterIfBlock;
+    }
+
+    public void setPlaceAfterIfBlock(PlaceAfterIfBlock PlaceAfterIfBlock) {
+        this.PlaceAfterIfBlock=PlaceAfterIfBlock;
     }
 
     public SyntaxNode getParent() {
@@ -56,19 +89,28 @@ public class IfStatement implements SyntaxNode {
     }
 
     public void childrenAccept(Visitor visitor) {
+        if(IfStatementStart!=null) IfStatementStart.accept(visitor);
         if(ConditionInIf!=null) ConditionInIf.accept(visitor);
+        if(PlaceAfterIfCondition!=null) PlaceAfterIfCondition.accept(visitor);
         if(Statement!=null) Statement.accept(visitor);
+        if(PlaceAfterIfBlock!=null) PlaceAfterIfBlock.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
+        if(IfStatementStart!=null) IfStatementStart.traverseTopDown(visitor);
         if(ConditionInIf!=null) ConditionInIf.traverseTopDown(visitor);
+        if(PlaceAfterIfCondition!=null) PlaceAfterIfCondition.traverseTopDown(visitor);
         if(Statement!=null) Statement.traverseTopDown(visitor);
+        if(PlaceAfterIfBlock!=null) PlaceAfterIfBlock.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
+        if(IfStatementStart!=null) IfStatementStart.traverseBottomUp(visitor);
         if(ConditionInIf!=null) ConditionInIf.traverseBottomUp(visitor);
+        if(PlaceAfterIfCondition!=null) PlaceAfterIfCondition.traverseBottomUp(visitor);
         if(Statement!=null) Statement.traverseBottomUp(visitor);
+        if(PlaceAfterIfBlock!=null) PlaceAfterIfBlock.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -77,14 +119,32 @@ public class IfStatement implements SyntaxNode {
         buffer.append(tab);
         buffer.append("IfStatement(\n");
 
+        if(IfStatementStart!=null)
+            buffer.append(IfStatementStart.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
         if(ConditionInIf!=null)
             buffer.append(ConditionInIf.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
+        if(PlaceAfterIfCondition!=null)
+            buffer.append(PlaceAfterIfCondition.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
         if(Statement!=null)
             buffer.append(Statement.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        if(PlaceAfterIfBlock!=null)
+            buffer.append(PlaceAfterIfBlock.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

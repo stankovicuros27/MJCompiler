@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 7/0/2023 23:34:55
+// 9/0/2023 21:5:42
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -10,14 +10,17 @@ public class StatementWhile extends Statement {
     private StatementWhileStart StatementWhileStart;
     private Condition Condition;
     private Statement Statement;
+    private PlaceAfterWhileBlock PlaceAfterWhileBlock;
 
-    public StatementWhile (StatementWhileStart StatementWhileStart, Condition Condition, Statement Statement) {
+    public StatementWhile (StatementWhileStart StatementWhileStart, Condition Condition, Statement Statement, PlaceAfterWhileBlock PlaceAfterWhileBlock) {
         this.StatementWhileStart=StatementWhileStart;
         if(StatementWhileStart!=null) StatementWhileStart.setParent(this);
         this.Condition=Condition;
         if(Condition!=null) Condition.setParent(this);
         this.Statement=Statement;
         if(Statement!=null) Statement.setParent(this);
+        this.PlaceAfterWhileBlock=PlaceAfterWhileBlock;
+        if(PlaceAfterWhileBlock!=null) PlaceAfterWhileBlock.setParent(this);
     }
 
     public StatementWhileStart getStatementWhileStart() {
@@ -44,6 +47,14 @@ public class StatementWhile extends Statement {
         this.Statement=Statement;
     }
 
+    public PlaceAfterWhileBlock getPlaceAfterWhileBlock() {
+        return PlaceAfterWhileBlock;
+    }
+
+    public void setPlaceAfterWhileBlock(PlaceAfterWhileBlock PlaceAfterWhileBlock) {
+        this.PlaceAfterWhileBlock=PlaceAfterWhileBlock;
+    }
+
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
@@ -52,6 +63,7 @@ public class StatementWhile extends Statement {
         if(StatementWhileStart!=null) StatementWhileStart.accept(visitor);
         if(Condition!=null) Condition.accept(visitor);
         if(Statement!=null) Statement.accept(visitor);
+        if(PlaceAfterWhileBlock!=null) PlaceAfterWhileBlock.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
@@ -59,12 +71,14 @@ public class StatementWhile extends Statement {
         if(StatementWhileStart!=null) StatementWhileStart.traverseTopDown(visitor);
         if(Condition!=null) Condition.traverseTopDown(visitor);
         if(Statement!=null) Statement.traverseTopDown(visitor);
+        if(PlaceAfterWhileBlock!=null) PlaceAfterWhileBlock.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(StatementWhileStart!=null) StatementWhileStart.traverseBottomUp(visitor);
         if(Condition!=null) Condition.traverseBottomUp(visitor);
         if(Statement!=null) Statement.traverseBottomUp(visitor);
+        if(PlaceAfterWhileBlock!=null) PlaceAfterWhileBlock.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -87,6 +101,12 @@ public class StatementWhile extends Statement {
 
         if(Statement!=null)
             buffer.append(Statement.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        if(PlaceAfterWhileBlock!=null)
+            buffer.append(PlaceAfterWhileBlock.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
