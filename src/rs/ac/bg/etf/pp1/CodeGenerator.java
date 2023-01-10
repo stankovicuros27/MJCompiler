@@ -9,6 +9,7 @@ import rs.ac.bg.etf.pp1.ast.*;
 import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
+import rs.etf.pp1.symboltable.concepts.Struct;
 
 public class CodeGenerator extends VisitorAdaptor {
 	
@@ -43,6 +44,11 @@ public class CodeGenerator extends VisitorAdaptor {
     private Stack<Integer> skipWhileBlockFixupJumpAddresses = new Stack<>();
     private Stack<Integer> begginingOfWhileBlockJumpAddresses = new Stack<>();
     private Stack<List<Integer>> breakWhileFixupJumpAddresses = new Stack<>();
+    
+    // Foreach stacks
+    private Stack<Integer> skipForeachBlockFixupJumpAddresses = new Stack<>();
+    private Stack<Integer> begginingOfForeachBlockJumpAddresses = new Stack<>();
+    private Stack<List<Integer>> breakForeachFixupJumpAddresses = new Stack<>();
 
 
     
@@ -402,6 +408,13 @@ public class CodeGenerator extends VisitorAdaptor {
 		begginingOfWhileBlockJumpAddresses.push(Code.pc);
 	}
 	
+	public void visit(PlaceAfterWhileBlock placeAfterWhileBlock) {
+		Code.putJump(begginingOfWhileBlockJumpAddresses.peek());
+		begginingOfWhileBlockJumpAddresses.pop();
+		Code.fixup(skipWhileBlockFixupJumpAddresses.peek());
+		skipWhileBlockFixupJumpAddresses.pop();
+	}
+	
 	public void visit(StatementWhile statementWhile) {
 		List<Integer> breakJmpFixupList = breakWhileFixupJumpAddresses.pop();
 		for (int addr : breakJmpFixupList) {
@@ -410,20 +423,16 @@ public class CodeGenerator extends VisitorAdaptor {
 		specialStatementStack.pop();
 		loopStack.pop();
 	}
-	
-	public void visit(PlaceAfterWhileBlock placeAfterWhileBlock) {
-		Code.putJump(begginingOfWhileBlockJumpAddresses.peek());
-		begginingOfWhileBlockJumpAddresses.pop();
-		Code.fixup(skipWhileBlockFixupJumpAddresses.pop());
-	}
-	
+		
 	// ~~~~~~~~~~~~~~~~~~~ Statement Continue ~~~~~~~~~~~~~~~~~~~
 
 	public void visit(StatementContinue statementContinue) {
 		Loop currentLoop = loopStack.peek();
 		if (currentLoop == Loop.WHILE_LOOP) {
 			Code.putJump(begginingOfWhileBlockJumpAddresses.peek());
-		}	// TODO foreach
+		} else if (currentLoop == Loop.FOREACH_LOOP) {
+			Code.putJump(begginingOfForeachBlockJumpAddresses.peek());
+		}
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~ Statement Break ~~~~~~~~~~~~~~~~~~~
@@ -433,10 +442,72 @@ public class CodeGenerator extends VisitorAdaptor {
 		Loop currentLoop = loopStack.peek();
 		if (currentLoop == Loop.WHILE_LOOP) {
 			breakWhileFixupJumpAddresses.peek().add(Code.pc - 2);
-		}	// TODO foreach
+		} else if (currentLoop == Loop.FOREACH_LOOP) {
+			breakForeachFixupJumpAddresses.peek().add(Code.pc - 2);
+		}
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~ Statement Foreach ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(StatementForeachStart statementForeachStart) {
+		specialStatementStack.push(SpecialStatement.FOREACH_STMT);
+		loopStack.push(Loop.FOREACH_LOOP);
+		breakForeachFixupJumpAddresses.push(new ArrayList<>());
+	}
+	
+	public void visit(ForeachStatementBeginning foreachStatementBeginning) {
+		Obj arrayDesignator = foreachStatementBeginning.getDesignator().obj;
+		Obj varDesignator = foreachStatementBeginning.getForeachVarDesignator().obj;
+		
+															// STACK
+		Code.load(arrayDesignator);							// arrAddr
+		Code.loadConst(-1);									// arrAddr, i
+		
+		begginingOfForeachBlockJumpAddresses.push(Code.pc); // Beginning of the loop (before inc)
+		
+		Code.loadConst(1);									// arrAddr, i, 1	
+		Code.put(Code.add);									// arrAddr, i = i + 1
+		
+		Code.put(Code.dup2);								// arrAddr, i, arrAddr, i
+		Code.put(Code.dup2);								// arrAddr, i, arrAddr, i, arrAddr, i
+
+		Code.put(Code.pop);									// arrAddr, i, arrAddr, i, arrAddr
+		Code.put(Code.arraylength);							// arrAddr, i, arrAddr, i, arrLength
+		
+		Code.put(getJumpCondition(Code.ge));				// arrAddr, i, arrAddr
+		skipForeachBlockFixupJumpAddresses.push(Code.pc);	// FIXUP THIS -> Change to End
+		Code.put2(0);	// ADDRESS HAS 2 BYTES!				// arrAddr, i, arrAddr
+		
+		Code.put(Code.dup2);								// arrAddr, i, arrAddr, i, arrAddr
+		Code.put(Code.pop);									// arrAddr, i, arrAddr, i
+		Code.put(Code.aload);								// arrAddr, i, arr[i]
+		Code.store(varDesignator);							// arrAddr, i
+		
+		// Next, statements are handled
+	}
+	
+	public void visit(PlaceAfterForeachBlock placeAfterForeachBlock) {
+		Code.putJump(begginingOfForeachBlockJumpAddresses.peek());
+		begginingOfForeachBlockJumpAddresses.pop();
+		Code.fixup(skipForeachBlockFixupJumpAddresses.peek());
+		skipForeachBlockFixupJumpAddresses.pop();
+	}
+	
+	public void visit(ForeachStatement foreachStatement) {
+		List<Integer> breakJmpFixupList = breakForeachFixupJumpAddresses.pop();
+		for (int addr : breakJmpFixupList) {
+			Code.fixup(addr);
+		}
+		
+		// Cleanup stack
+		Code.put(Code.pop);			// i
+		Code.put(Code.pop);			// arrAddr
+		
+		specialStatementStack.pop();
+		loopStack.pop();
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ CondTerm ~~~~~~~~~~~~~~~~~~~
 
 	
 	
@@ -465,10 +536,66 @@ public class CodeGenerator extends VisitorAdaptor {
 	private void saveFixupJumpAddress() {
 		SpecialStatement currentStatement = specialStatementStack.peek();
 		if (currentStatement == SpecialStatement.IF_ELSE_STMT) {
-			skipIfBlockFixupJumpAddresses.add(Code.pc - 2);
+			skipIfBlockFixupJumpAddresses.push(Code.pc - 2);
 		} else if (currentStatement == SpecialStatement.WHILE_STMT) {
 			skipWhileBlockFixupJumpAddresses.push(Code.pc - 2);
 		}
 	}
 	
+	
+	
+	// ~~~~~~~~~~~~~~~~~~~~~~ MODS ~~~~~~~~~~~~~~~~~~~~~~
+
+	// ARRMAX
+	public void visit(FactorArrMax statementArrMax) {
+		Obj arrayDesignator = statementArrMax.getDesignator().obj;
+		Obj iteratorDesignator = statementArrMax.getDesignator1().obj;
+		Obj targetDesignator = statementArrMax.getDesignator2().obj;
+		
+		// i = 0;
+		Code.loadConst(0);
+		Code.store(iteratorDesignator);
+		
+		// Get the beginning PC (for jump back)
+		int beginningPC = Code.pc;
+		
+		// if (i >= arrLength) jump to end;
+		Code.load(iteratorDesignator);
+		Code.load(arrayDesignator);
+		Code.put(Code.arraylength);
+		Code.put(getJumpCondition(Code.ge));
+		int jumpToEnd = Code.pc;
+		Code.put2(0);
+		
+		// if (arr[i] <= max) goto increment (skip max = arr[i])
+		Code.load(arrayDesignator);
+		Code.load(iteratorDesignator);
+		Code.put(Code.aload);
+		Code.load(targetDesignator);
+		Code.put(getJumpCondition(Code.le));
+		int jumpToInc = Code.pc;
+		Code.put2(0);
+		
+		// max = arr[i]
+		Code.load(arrayDesignator);
+		Code.load(iteratorDesignator);
+		Code.put(Code.aload);
+		Code.store(targetDesignator);
+		
+		// i++ (increment)
+		Code.fixup(jumpToInc);
+		Code.load(iteratorDesignator);
+		Code.loadConst(1);
+		Code.put(Code.add);
+		Code.store(iteratorDesignator);
+		
+		// Back to beginning
+		Code.putJump(beginningPC);
+		
+		// End
+		Code.fixup(jumpToEnd);
+		Code.load(targetDesignator);
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~~~~ /MODS ~~~~~~~~~~~~~~~~~~~~~~
 }

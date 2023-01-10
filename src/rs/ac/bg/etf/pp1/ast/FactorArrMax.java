@@ -5,19 +5,19 @@
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class DesignatorAssignopExpression extends DesignatorAssignopExpr {
+public class FactorArrMax extends Factor {
 
     private Designator Designator;
-    private Assignop Assignop;
-    private Expr Expr;
+    private Designator Designator1;
+    private Designator Designator2;
 
-    public DesignatorAssignopExpression (Designator Designator, Assignop Assignop, Expr Expr) {
+    public FactorArrMax (Designator Designator, Designator Designator1, Designator Designator2) {
         this.Designator=Designator;
         if(Designator!=null) Designator.setParent(this);
-        this.Assignop=Assignop;
-        if(Assignop!=null) Assignop.setParent(this);
-        this.Expr=Expr;
-        if(Expr!=null) Expr.setParent(this);
+        this.Designator1=Designator1;
+        if(Designator1!=null) Designator1.setParent(this);
+        this.Designator2=Designator2;
+        if(Designator2!=null) Designator2.setParent(this);
     }
 
     public Designator getDesignator() {
@@ -28,20 +28,20 @@ public class DesignatorAssignopExpression extends DesignatorAssignopExpr {
         this.Designator=Designator;
     }
 
-    public Assignop getAssignop() {
-        return Assignop;
+    public Designator getDesignator1() {
+        return Designator1;
     }
 
-    public void setAssignop(Assignop Assignop) {
-        this.Assignop=Assignop;
+    public void setDesignator1(Designator Designator1) {
+        this.Designator1=Designator1;
     }
 
-    public Expr getExpr() {
-        return Expr;
+    public Designator getDesignator2() {
+        return Designator2;
     }
 
-    public void setExpr(Expr Expr) {
-        this.Expr=Expr;
+    public void setDesignator2(Designator Designator2) {
+        this.Designator2=Designator2;
     }
 
     public void accept(Visitor visitor) {
@@ -50,28 +50,28 @@ public class DesignatorAssignopExpression extends DesignatorAssignopExpr {
 
     public void childrenAccept(Visitor visitor) {
         if(Designator!=null) Designator.accept(visitor);
-        if(Assignop!=null) Assignop.accept(visitor);
-        if(Expr!=null) Expr.accept(visitor);
+        if(Designator1!=null) Designator1.accept(visitor);
+        if(Designator2!=null) Designator2.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(Designator!=null) Designator.traverseTopDown(visitor);
-        if(Assignop!=null) Assignop.traverseTopDown(visitor);
-        if(Expr!=null) Expr.traverseTopDown(visitor);
+        if(Designator1!=null) Designator1.traverseTopDown(visitor);
+        if(Designator2!=null) Designator2.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(Designator!=null) Designator.traverseBottomUp(visitor);
-        if(Assignop!=null) Assignop.traverseBottomUp(visitor);
-        if(Expr!=null) Expr.traverseBottomUp(visitor);
+        if(Designator1!=null) Designator1.traverseBottomUp(visitor);
+        if(Designator2!=null) Designator2.traverseBottomUp(visitor);
         accept(visitor);
     }
 
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("DesignatorAssignopExpression(\n");
+        buffer.append("FactorArrMax(\n");
 
         if(Designator!=null)
             buffer.append(Designator.toString("  "+tab));
@@ -79,20 +79,20 @@ public class DesignatorAssignopExpression extends DesignatorAssignopExpr {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(Assignop!=null)
-            buffer.append(Assignop.toString("  "+tab));
+        if(Designator1!=null)
+            buffer.append(Designator1.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(Expr!=null)
-            buffer.append(Expr.toString("  "+tab));
+        if(Designator2!=null)
+            buffer.append(Designator2.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [DesignatorAssignopExpression]");
+        buffer.append(") [FactorArrMax]");
         return buffer.toString();
     }
 }

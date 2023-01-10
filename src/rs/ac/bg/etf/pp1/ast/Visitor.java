@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 9/0/2023 21:5:42
+// 10/0/2023 15:46:15
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -75,8 +75,7 @@ public interface Visitor {
     public void visit(DesignatorSingle DesignatorSingle);
     public void visit(DesignatorSquareBrackets DesignatorSquareBrackets);
     public void visit(DesignatorDot DesignatorDot);
-    public void visit(NewTypeSuffixClass NewTypeSuffixClass);
-    public void visit(NewTypeSuffixArray NewTypeSuffixArray);
+    public void visit(FactorArrMax FactorArrMax);
     public void visit(FactorExpr FactorExpr);
     public void visit(FactorNewArray FactorNewArray);
     public void visit(FactorBoolConst FactorBoolConst);
@@ -117,8 +116,10 @@ public interface Visitor {
     public void visit(DesignatorStatementAssign DesignatorStatementAssign);
     public void visit(PrintNumConstOptionalEmpty PrintNumConstOptionalEmpty);
     public void visit(PrintNumConstOptionalExists PrintNumConstOptionalExists);
+    public void visit(PlaceAfterForeachBlock PlaceAfterForeachBlock);
     public void visit(StatementForeachStart StatementForeachStart);
-    public void visit(ForeachVar ForeachVar);
+    public void visit(ForeachVarDesignator ForeachVarDesignator);
+    public void visit(ForeachStatementBeginning ForeachStatementBeginning);
     public void visit(ForeachStatement ForeachStatement);
     public void visit(PlaceAfterElseBlock PlaceAfterElseBlock);
     public void visit(ElseStatementStart ElseStatementStart);
@@ -159,16 +160,14 @@ public interface Visitor {
     public void visit(MethodDeclListEExists MethodDeclListEExists);
     public void visit(ClassConstructorsAndMethodsDeclOptionalEmpty ClassConstructorsAndMethodsDeclOptionalEmpty);
     public void visit(ClassConstructorsAndMethodsDeclOptionalExists ClassConstructorsAndMethodsDeclOptionalExists);
-    public void visit(VarDeclListEEmpty VarDeclListEEmpty);
-    public void visit(VarDeclListEExists VarDeclListEExists);
     public void visit(ClassBody ClassBody);
     public void visit(ExtendsTypeOptionalError ExtendsTypeOptionalError);
     public void visit(ExtendsTypeOptionalEmpty ExtendsTypeOptionalEmpty);
     public void visit(ExtendsTypeOptionalExists ExtendsTypeOptionalExists);
     public void visit(ClassName ClassName);
     public void visit(ClassDecl ClassDecl);
-    public void visit(SquareBracketsOptionalEmpty SquareBracketsOptionalEmpty);
-    public void visit(SquareBracketsOptionalExists SquareBracketsOptionalExists);
+    public void visit(VarDeclListEEmpty VarDeclListEEmpty);
+    public void visit(VarDeclListEExists VarDeclListEExists);
     public void visit(VarDeclInnerListElementArray VarDeclInnerListElementArray);
     public void visit(VarDeclInnerListElementVar VarDeclInnerListElementVar);
     public void visit(VarDeclInnerListMultiple VarDeclInnerListMultiple);

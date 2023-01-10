@@ -1,26 +1,15 @@
 // generated with ast extension for cup
 // version 0.8
-// 9/0/2023 21:5:42
+// 10/0/2023 15:46:15
 
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class ForeachVar implements SyntaxNode {
+public class PlaceAfterForeachBlock implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    private String name;
-
-    public ForeachVar (String name) {
-        this.name=name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name=name;
+    public PlaceAfterForeachBlock () {
     }
 
     public SyntaxNode getParent() {
@@ -57,13 +46,10 @@ public class ForeachVar implements SyntaxNode {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("ForeachVar(\n");
-
-        buffer.append(" "+tab+name);
-        buffer.append("\n");
+        buffer.append("PlaceAfterForeachBlock(\n");
 
         buffer.append(tab);
-        buffer.append(") [ForeachVar]");
+        buffer.append(") [PlaceAfterForeachBlock]");
         return buffer.toString();
     }
 }

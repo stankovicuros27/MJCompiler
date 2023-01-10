@@ -5,11 +5,24 @@
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class PlaceAfterIfCondition implements SyntaxNode {
+public class ForeachVarDesignator implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    public PlaceAfterIfCondition () {
+    public rs.etf.pp1.symboltable.concepts.Obj obj = null;
+
+    private String name;
+
+    public ForeachVarDesignator (String name) {
+        this.name=name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name=name;
     }
 
     public SyntaxNode getParent() {
@@ -46,10 +59,13 @@ public class PlaceAfterIfCondition implements SyntaxNode {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("PlaceAfterIfCondition(\n");
+        buffer.append("ForeachVarDesignator(\n");
+
+        buffer.append(" "+tab+name);
+        buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [PlaceAfterIfCondition]");
+        buffer.append(") [ForeachVarDesignator]");
         return buffer.toString();
     }
 }

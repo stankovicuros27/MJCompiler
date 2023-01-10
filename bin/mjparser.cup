@@ -97,17 +97,17 @@ nonterminal StatementWhileStart;
 nonterminal IfStatement, ElseStatement;
 
 // Everything that needs to go inside Tab
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName, Designator, MethodDecl, DesignatorArray;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName, Designator, MethodDecl, DesignatorArray, ForeachVarDesignator;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, Factor, Term, Expr, PrintNumConstOptional, CondFact, CondTerm;
 
 nonterminal ConstDeclInnerListElement, VarDeclInnerListElement, FormParam, DesignatorOptional, ForeachStatement, ConditionInIf;
 nonterminal DesignatorStatementAssignArrayStart;
 nonterminal RelopComparison, RelopEquality, StatementForeachStart;
-nonterminal ForeachVar;
 nonterminal IfStatementStart, ElseStatementStart;
 
-nonterminal PlaceAfterIfCondition, PlaceAfterIfBlock, PlaceAfterElseBlock, PlaceAfterWhileBlock;
+nonterminal PlaceAfterIfCondition, PlaceAfterIfBlock, PlaceAfterElseBlock, PlaceAfterWhileBlock, PlaceAfterForeachBlock;
 
+nonterminal ForeachStatementBeginning;
 
 // ~~~~~~~~~~~~~~~~TERMINALS~~~~~~~~~~~~~~~~
 
@@ -126,14 +126,25 @@ terminal Character CHAR_CONST;
 
 
 
-// ~~~~~~~~~~~~~~~~PRECEDENCE~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~ MODS ~~~~~~~~~~~~~~~~~~~~~~
+
+terminal ARRMAX;
+
+// ~~~~~~~~~~~~~~~~~~~~~~ /MODS ~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+// ~~~~~~~~~~~~~~~~ PRECEDENCE ~~~~~~~~~~~~~~~~
 
 precedence left ELSE;
 
 
 
 
-// ~~~~~~~~~~~~~~~~RULES~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~ RULES ~~~~~~~~~~~~~~~~
+
+
+// ~~~~~~~~~~~~~~~~~~~ PROGRAM ~~~~~~~~~~~~~~~~~~~
 
 Program ::= (Program) PROGRAM ProgramName:programName ProgramDeclListE L_BRACE MethodDeclListE R_BRACE;
 
@@ -147,6 +158,10 @@ ProgramDeclListE ::= (ProgramDeclListEConst) ProgramDeclListE ConstDecl
 				|
 				(ProgramDeclListEEmpty) /* e */
 				;
+				
+				
+				
+// ~~~~~~~~~~~~~~~~~~~ CONST DECL ~~~~~~~~~~~~~~~~~~~
 				
 ConstDecl ::= (ConstDecl) CONST Type ConstDeclInnerList SEMI_COLON;
 
@@ -164,6 +179,10 @@ Const ::= (ConstNum) NUM_CONST:value
 		(ConstChar) CHAR_CONST:value
 		;
 		
+		
+		
+// ~~~~~~~~~~~~~~~~~~~ VAR DECL ~~~~~~~~~~~~~~~~~~~
+		
 VarDeclGlobal ::= (VarDeclGlobalExists) VarDecl
 				|
 				(VarDeclGlobalError) error:e 
@@ -175,13 +194,6 @@ VarDeclGlobal ::= (VarDeclGlobalExists) VarDecl
 
 VarDecl ::= (VarDecl) Type VarDeclInnerList SEMI_COLON;
 
-//VarDeclInnerListGlobal ::= (VarDeclInnerListGlobalSingle) IDENT SquareBracketsOptional
-//				|
-//				(VarDeclInnerListGlobalMultiple) VarDeclInnerListGlobal COMMA IDENT SquareBracketsOptional
-//				|
-//				(VarDeclInnerListGlobalError) error:e {: parser.report_error("Globar var declaration error at line: " + eleft, null); :}
-//				;
-
 VarDeclInnerList ::= (VarDeclInnerListSingle) VarDeclInnerListElement
 				|
 				(VarDeclInnerListMultiple) VarDeclInnerList COMMA VarDeclInnerListElement
@@ -191,14 +203,30 @@ VarDeclInnerListElement ::= (VarDeclInnerListElementVar) IDENT:varName
 						|
 						(VarDeclInnerListElementArray) IDENT:varName L_SQUARE_BRACKET R_SQUARE_BRACKET
 						;
+						
+VarDeclListE ::= (VarDeclListEExists) VarDeclListE VarDecl
+			|
+			(VarDeclListEEmpty) /* e */
+			;
 
-SquareBracketsOptional ::= (SquareBracketsOptionalExists) L_SQUARE_BRACKET R_SQUARE_BRACKET
-						|
-						(SquareBracketsOptionalEmpty) /* e */ 
-						;
+//VarDeclInnerListGlobal ::= (VarDeclInnerListGlobalSingle) IDENT SquareBracketsOptional
+//				|
+//				(VarDeclInnerListGlobalMultiple) VarDeclInnerListGlobal COMMA IDENT SquareBracketsOptional
+//				|
+//				(VarDeclInnerListGlobalError) error:e {: parser.report_error("Globar var declaration error at line: " + eleft, null); :}
+//				;
+
+//SquareBracketsOptional ::= (SquareBracketsOptionalExists) L_SQUARE_BRACKET R_SQUARE_BRACKET
+//						|
+//						(SquareBracketsOptionalEmpty) /* e */ 
+//						;
+					
+					
+					
 						
 			
-						
+// ~~~~~~~~~~~~~~~~~~~ CLASS DECL ~~~~~~~~~~~~~~~~~~~ // LEVEL C
+
 ClassDecl ::= (ClassDecl) CLASS ClassName:className ExtendsTypeOptional L_BRACE ClassBody R_BRACE;
 
 ClassName ::= (ClassName) IDENT:className;
@@ -216,11 +244,6 @@ ExtendsTypeOptional ::= (ExtendsTypeOptionalExists) EXTENDS Type
 
 ClassBody ::= (ClassBody) VarDeclListE ClassConstructorsAndMethodsDeclOptional;
 
-VarDeclListE ::= (VarDeclListEExists) VarDeclListE VarDecl
-			|
-			(VarDeclListEEmpty) /* e */
-			;
-
 ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE /* ConstructorDeclListE */ MethodDeclListE R_BRACE
 										|
 										(ClassConstructorsAndMethodsDeclOptionalEmpty) /* e */
@@ -234,6 +257,12 @@ ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOpti
 //
 //ConstructorDecl ::= (ConstructorDeclEmpty) /* e */; // Level C
 
+
+
+
+
+
+// ~~~~~~~~~~~~~~~~~~~ METHOD DECL ~~~~~~~~~~~~~~~~~~~
 
 MethodDeclListE ::= (MethodDeclListEExists) MethodDeclListE MethodDecl
 				|
@@ -269,6 +298,10 @@ FormParam ::= (FormParamVar) Type:type IDENT:paramName
 			|
 			(FormParamArray) Type:type IDENT:paramName L_SQUARE_BRACKET R_SQUARE_BRACKET
 			;
+			
+			
+
+// ~~~~~~~~~~~~~~~~~~~ TYPE ~~~~~~~~~~~~~~~~~~~
 
 Type ::= (Type) IDENT:typeName;
 
@@ -276,6 +309,11 @@ StatementListE ::= (StatementListEExists) StatementListE Statement
 				|
 				(StatementListEEmpty) /* e */
 				;
+				
+				
+				
+				
+// ~~~~~~~~~~~~~~~~~~~ STATEMENTS ~~~~~~~~~~~~~~~~~~~
 				
 Statement ::= (StatementDesignator) DesignatorStatement SEMI_COLON
 			|
@@ -302,10 +340,18 @@ Statement ::= (StatementDesignator) DesignatorStatement SEMI_COLON
 			(StatementSection) L_BRACE StatementListE R_BRACE
 			;
 			
+			
+			
+// ~~~~~~~~~~~~~~~~~~~ WHILE STATEMENT ~~~~~~~~~~~~~~~~~~~
+
 PlaceAfterWhileBlock ::= (PlaceAfterWhileBlock) /* e */;
 			
 StatementWhileStart ::= (StatementWhileStart) WHILE;
-			
+
+
+
+// ~~~~~~~~~~~~~~~~~~~ IF ELSE STATEMENT ~~~~~~~~~~~~~~~~~~~
+	
 IfStatement ::= (IfStatement) IfStatementStart L_PAREN ConditionInIf PlaceAfterIfCondition R_PAREN Statement PlaceAfterIfBlock;
 
 IfStatementStart ::= (IfStatementStart) IF;
@@ -319,17 +365,32 @@ ElseStatement ::= (ElseStatement) ElseStatementStart Statement PlaceAfterElseBlo
 ElseStatementStart ::= (ElseStatementStart) ELSE;
 
 PlaceAfterElseBlock ::= (PlaceAfterElseBlock) /* e */;
-								
-ForeachStatement ::= (ForeachStatement) Designator DOT StatementForeachStart L_PAREN ForeachVar:var ARROW Statement R_PAREN;
 
-ForeachVar ::= (ForeachVar) IDENT:name;
+
+
+// ~~~~~~~~~~~~~~~~~~~ FOREACH STATEMENT ~~~~~~~~~~~~~~~~~~~
+								
+ForeachStatement ::= (ForeachStatement) ForeachStatementBeginning Statement R_PAREN PlaceAfterForeachBlock;
+
+ForeachStatementBeginning ::= (ForeachStatementBeginning) Designator:arrayDesignator DOT StatementForeachStart L_PAREN ForeachVarDesignator:varDesignator ARROW;
+
+ForeachVarDesignator ::= (ForeachVarDesignator) IDENT:name;
 
 StatementForeachStart ::= (StatementForeachStart) FOREACH;
+
+PlaceAfterForeachBlock ::= (PlaceAfterForeachBlock) /* e */;
+
+
+
+// ~~~~~~~~~~~~~~~~~~~ PRINT STATEMENT ~~~~~~~~~~~~~~~~~~~
 
 PrintNumConstOptional ::= (PrintNumConstOptionalExists) COMMA NUM_CONST:numConst
 						|
 						(PrintNumConstOptionalEmpty) /* e */
 						;
+						
+
+// ~~~~~~~~~~~~~~~~~~~ DESIGNATOR STATEMENT ~~~~~~~~~~~~~~~~~~~
 						
 DesignatorStatement ::= (DesignatorStatementAssign) DesignatorAssignopExpr
 					|
@@ -361,6 +422,11 @@ DesignatorAssignopExpr ::= (DesignatorAssignopExpression) Designator:designator 
 						|
 						(DesignatorAssignopExprError) error:e {: parser.report_error("Assignment operation error at line: " + eleft, null); :}
 						;
+						
+						
+						
+						
+// ~~~~~~~~~~~~~~~~~~~ ACT PARS ~~~~~~~~~~~~~~~~~~~
 				
 ActPars ::= (ActParsMultiple) ActPars COMMA Expr:expr
 		|
@@ -371,6 +437,11 @@ ActParsOptional ::= (ActParsOptionalExist) ActPars
 				|
 				(ActParsOptionalEmpty) /* e */
 				;
+				
+				
+				
+				
+// ~~~~~~~~~~~~~~~~~~~ CONDITIONS ~~~~~~~~~~~~~~~~~~~
 
 ConditionInIf ::= (ConditionInIfExists) Condition
 				|
@@ -397,6 +468,10 @@ CondFact ::= (CondFactSingle) Expr:expr
 			|
 			(CondFactMultipleComparaison) Expr:exprLeft RelopComparison Expr:exprRight
 			;
+			
+			
+			
+// ~~~~~~~~~~~~~~~~~~~ EXPR ~~~~~~~~~~~~~~~~~~~
 
 Expr ::= (ExprSingleMinus) MINUS Term:term
 		|
@@ -404,12 +479,18 @@ Expr ::= (ExprSingleMinus) MINUS Term:term
 		|
 		(ExprMultiple) Expr:expr Addop Term:term
 		;
+		
+		
+// ~~~~~~~~~~~~~~~~~~~ TERM ~~~~~~~~~~~~~~~~~~~
 				
 Term ::= (TermMultiple) Term:term Mulop Factor:factor
 		|
 		(TermSingle) Factor:factor
 		;
-			
+		
+		
+// ~~~~~~~~~~~~~~~~~~~ FACTOR ~~~~~~~~~~~~~~~~~~~
+
 Factor ::= (FactorDesignator) Designator
 		|
 		(FactorDesignatorMethodCall) Designator:designator L_PAREN ActParsOptional R_PAREN
@@ -417,19 +498,21 @@ Factor ::= (FactorDesignator) Designator
 		(FactorNumConst) NUM_CONST
 		| 
 		(FactorCharConst) CHAR_CONST
-		| 
+		|
 		(FactorBoolConst) BOOL_CONST
 		|
 		(FactorNewArray) NEW Type:type L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET
 		|
 		(FactorExpr) L_PAREN Expr R_PAREN
+		|
+		(FactorArrMax) ARRMAX Designator:arrayDesignator COMMA Designator:iteratorDesignator COMMA Designator:targetDesignator	// MODS
 		;
+		
+		
 
-NewTypeSuffix ::= (NewTypeSuffixArray) L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET
-				|
-				(NewTypeSuffixClass) L_PAREN ActParsOptional R_PAREN
-				;		
-				
+
+// ~~~~~~~~~~~~~~~~~~~ DESIGNATOR ~~~~~~~~~~~~~~~~~~~
+
 Designator ::= (DesignatorDot) Designator:designator DOT IDENT:field
 			|
 			(DesignatorSquareBrackets) DesignatorArray L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET
@@ -438,6 +521,11 @@ Designator ::= (DesignatorDot) Designator:designator DOT IDENT:field
 			;
 			
 DesignatorArray ::= (DesignatorArray) Designator;
+
+
+
+
+// ~~~~~~~~~~~~~~~~~~~ UTIL ~~~~~~~~~~~~~~~~~~~
 			
 Label ::= (Label) IDENT;
 

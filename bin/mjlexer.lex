@@ -63,6 +63,14 @@ import java_cup.runtime.Symbol;
 "foreach"	{ return new_symbol(sym.FOREACH, yytext()); }
 
 
+
+// ~~~~~~~~~~~~~~~~~~~~~~ MODS ~~~~~~~~~~~~~~~~~~~~~~
+
+"ARRMAX"	{ return new_symbol(sym.ARRMAX, yytext()); }
+
+// ~~~~~~~~~~~~~~~~~~~~~~ /MODS ~~~~~~~~~~~~~~~~~~~~~~
+
+
 // OPERATORS
 
 "+"   		{ return new_symbol(sym.PLUS, yytext()); }

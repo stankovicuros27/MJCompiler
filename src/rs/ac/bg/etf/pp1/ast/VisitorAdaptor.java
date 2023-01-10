@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 9/0/2023 21:5:42
+// 10/0/2023 15:46:15
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -75,8 +75,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(DesignatorSingle DesignatorSingle) { visit(); }
     public void visit(DesignatorSquareBrackets DesignatorSquareBrackets) { visit(); }
     public void visit(DesignatorDot DesignatorDot) { visit(); }
-    public void visit(NewTypeSuffixClass NewTypeSuffixClass) { visit(); }
-    public void visit(NewTypeSuffixArray NewTypeSuffixArray) { visit(); }
+    public void visit(FactorArrMax FactorArrMax) { visit(); }
     public void visit(FactorExpr FactorExpr) { visit(); }
     public void visit(FactorNewArray FactorNewArray) { visit(); }
     public void visit(FactorBoolConst FactorBoolConst) { visit(); }
@@ -117,8 +116,10 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(DesignatorStatementAssign DesignatorStatementAssign) { visit(); }
     public void visit(PrintNumConstOptionalEmpty PrintNumConstOptionalEmpty) { visit(); }
     public void visit(PrintNumConstOptionalExists PrintNumConstOptionalExists) { visit(); }
+    public void visit(PlaceAfterForeachBlock PlaceAfterForeachBlock) { visit(); }
     public void visit(StatementForeachStart StatementForeachStart) { visit(); }
-    public void visit(ForeachVar ForeachVar) { visit(); }
+    public void visit(ForeachVarDesignator ForeachVarDesignator) { visit(); }
+    public void visit(ForeachStatementBeginning ForeachStatementBeginning) { visit(); }
     public void visit(ForeachStatement ForeachStatement) { visit(); }
     public void visit(PlaceAfterElseBlock PlaceAfterElseBlock) { visit(); }
     public void visit(ElseStatementStart ElseStatementStart) { visit(); }
@@ -159,16 +160,14 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(MethodDeclListEExists MethodDeclListEExists) { visit(); }
     public void visit(ClassConstructorsAndMethodsDeclOptionalEmpty ClassConstructorsAndMethodsDeclOptionalEmpty) { visit(); }
     public void visit(ClassConstructorsAndMethodsDeclOptionalExists ClassConstructorsAndMethodsDeclOptionalExists) { visit(); }
-    public void visit(VarDeclListEEmpty VarDeclListEEmpty) { visit(); }
-    public void visit(VarDeclListEExists VarDeclListEExists) { visit(); }
     public void visit(ClassBody ClassBody) { visit(); }
     public void visit(ExtendsTypeOptionalError ExtendsTypeOptionalError) { visit(); }
     public void visit(ExtendsTypeOptionalEmpty ExtendsTypeOptionalEmpty) { visit(); }
     public void visit(ExtendsTypeOptionalExists ExtendsTypeOptionalExists) { visit(); }
     public void visit(ClassName ClassName) { visit(); }
     public void visit(ClassDecl ClassDecl) { visit(); }
-    public void visit(SquareBracketsOptionalEmpty SquareBracketsOptionalEmpty) { visit(); }
-    public void visit(SquareBracketsOptionalExists SquareBracketsOptionalExists) { visit(); }
+    public void visit(VarDeclListEEmpty VarDeclListEEmpty) { visit(); }
+    public void visit(VarDeclListEExists VarDeclListEExists) { visit(); }
     public void visit(VarDeclInnerListElementArray VarDeclInnerListElementArray) { visit(); }
     public void visit(VarDeclInnerListElementVar VarDeclInnerListElementVar) { visit(); }
     public void visit(VarDeclInnerListMultiple VarDeclInnerListMultiple) { visit(); }

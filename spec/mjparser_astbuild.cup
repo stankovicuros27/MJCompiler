@@ -116,7 +116,7 @@ nonterminal IfStatement IfStatement;
 nonterminal ElseStatement ElseStatement;
 
 // Everything that needs to go inside Tab
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName, Designator, MethodDecl, DesignatorArray;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ProgramName, Program, Const, ClassName, MethodName, Designator, MethodDecl, DesignatorArray, ForeachVarDesignator;
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, Factor, Term, Expr, PrintNumConstOptional, CondFact, CondTerm;
 
 nonterminal ConstDeclInnerListElement ConstDeclInnerListElement;
@@ -129,7 +129,6 @@ nonterminal DesignatorStatementAssignArrayStart DesignatorStatementAssignArraySt
 nonterminal RelopComparison RelopComparison;
 nonterminal RelopEquality RelopEquality;
 nonterminal StatementForeachStart StatementForeachStart;
-nonterminal ForeachVar ForeachVar;
 nonterminal IfStatementStart IfStatementStart;
 nonterminal ElseStatementStart ElseStatementStart;
 
@@ -137,7 +136,9 @@ nonterminal PlaceAfterIfCondition PlaceAfterIfCondition;
 nonterminal PlaceAfterIfBlock PlaceAfterIfBlock;
 nonterminal PlaceAfterElseBlock PlaceAfterElseBlock;
 nonterminal PlaceAfterWhileBlock PlaceAfterWhileBlock;
+nonterminal PlaceAfterForeachBlock PlaceAfterForeachBlock;
 
+nonterminal ForeachStatementBeginning ForeachStatementBeginning;
 
 // ~~~~~~~~~~~~~~~~TERMINALS~~~~~~~~~~~~~~~~
 
@@ -156,14 +157,25 @@ terminal Character CHAR_CONST;
 
 
 
-// ~~~~~~~~~~~~~~~~PRECEDENCE~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~ MODS ~~~~~~~~~~~~~~~~~~~~~~
+
+terminal ARRMAX;
+
+// ~~~~~~~~~~~~~~~~~~~~~~ /MODS ~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+// ~~~~~~~~~~~~~~~~ PRECEDENCE ~~~~~~~~~~~~~~~~
 
 precedence left ELSE;
 
 
 
 
-// ~~~~~~~~~~~~~~~~RULES~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~ RULES ~~~~~~~~~~~~~~~~
+
+
+// ~~~~~~~~~~~~~~~~~~~ PROGRAM ~~~~~~~~~~~~~~~~~~~
 
 Program ::= (Program) PROGRAM ProgramName:programName ProgramDeclListE:P1 L_BRACE MethodDeclListE:M2 R_BRACE {: RESULT=new Program(programName, P1, M2); RESULT.setLine(programNameleft); :};
 
@@ -177,6 +189,10 @@ ProgramDeclListE ::= (ProgramDeclListEConst) ProgramDeclListE:P1 ConstDecl:C2 {:
 				|
 				(ProgramDeclListEEmpty) {: RESULT=new ProgramDeclListEEmpty(); :} /* e */
 				;
+				
+				
+				
+// ~~~~~~~~~~~~~~~~~~~ CONST DECL ~~~~~~~~~~~~~~~~~~~
 				
 ConstDecl ::= (ConstDecl) CONST Type:T1 ConstDeclInnerList:C2 SEMI_COLON {: RESULT=new ConstDecl(T1, C2); RESULT.setLine(T1left); :};
 
@@ -194,6 +210,10 @@ Const ::= (ConstNum) NUM_CONST:value {: RESULT=new ConstNum(value); RESULT.setLi
 		(ConstChar) CHAR_CONST:value {: RESULT=new ConstChar(value); RESULT.setLine(valueleft); :}
 		;
 		
+		
+		
+// ~~~~~~~~~~~~~~~~~~~ VAR DECL ~~~~~~~~~~~~~~~~~~~
+		
 VarDeclGlobal ::= (VarDeclGlobalExists) VarDecl:V1 {: RESULT=new VarDeclGlobalExists(V1); RESULT.setLine(V1left); :}
 				|
 				(VarDeclGlobalError) error:e 
@@ -205,13 +225,6 @@ VarDeclGlobal ::= (VarDeclGlobalExists) VarDecl:V1 {: RESULT=new VarDeclGlobalEx
 
 VarDecl ::= (VarDecl) Type:T1 VarDeclInnerList:V2 SEMI_COLON {: RESULT=new VarDecl(T1, V2); RESULT.setLine(T1left); :};
 
-//VarDeclInnerListGlobal ::= (VarDeclInnerListGlobalSingle) IDENT SquareBracketsOptional
-//				|
-//				(VarDeclInnerListGlobalMultiple) VarDeclInnerListGlobal COMMA IDENT SquareBracketsOptional
-//				|
-//				(VarDeclInnerListGlobalError) error:e {: parser.report_error("Globar var declaration error at line: " + eleft, null); :}
-//				;
-
 VarDeclInnerList ::= (VarDeclInnerListSingle) VarDeclInnerListElement:V1 {: RESULT=new VarDeclInnerListSingle(V1); RESULT.setLine(V1left); :}
 				|
 				(VarDeclInnerListMultiple) VarDeclInnerList:V1 COMMA VarDeclInnerListElement:V2 {: RESULT=new VarDeclInnerListMultiple(V1, V2); RESULT.setLine(V1left); :}
@@ -221,14 +234,30 @@ VarDeclInnerListElement ::= (VarDeclInnerListElementVar) IDENT:varName {: RESULT
 						|
 						(VarDeclInnerListElementArray) IDENT:varName L_SQUARE_BRACKET R_SQUARE_BRACKET {: RESULT=new VarDeclInnerListElementArray(varName); RESULT.setLine(varNameleft); :}
 						;
+						
+VarDeclListE ::= (VarDeclListEExists) VarDeclListE:V1 VarDecl:V2 {: RESULT=new VarDeclListEExists(V1, V2); RESULT.setLine(V1left); :}
+			|
+			(VarDeclListEEmpty) {: RESULT=new VarDeclListEEmpty(); :} /* e */
+			;
 
-SquareBracketsOptional ::= (SquareBracketsOptionalExists) L_SQUARE_BRACKET R_SQUARE_BRACKET {: RESULT=new SquareBracketsOptionalExists(); :}
-						|
-						(SquareBracketsOptionalEmpty) {: RESULT=new SquareBracketsOptionalEmpty(); :} /* e */ 
-						;
+//VarDeclInnerListGlobal ::= (VarDeclInnerListGlobalSingle) IDENT SquareBracketsOptional
+//				|
+//				(VarDeclInnerListGlobalMultiple) VarDeclInnerListGlobal COMMA IDENT SquareBracketsOptional
+//				|
+//				(VarDeclInnerListGlobalError) error:e {: parser.report_error("Globar var declaration error at line: " + eleft, null); :}
+//				;
+
+//SquareBracketsOptional ::= (SquareBracketsOptionalExists) L_SQUARE_BRACKET R_SQUARE_BRACKET
+//						|
+//						(SquareBracketsOptionalEmpty) /* e */ 
+//						;
+					
+					
+					
 						
 			
-						
+// ~~~~~~~~~~~~~~~~~~~ CLASS DECL ~~~~~~~~~~~~~~~~~~~ // LEVEL C
+
 ClassDecl ::= (ClassDecl) CLASS ClassName:className ExtendsTypeOptional:E1 L_BRACE ClassBody:C2 R_BRACE {: RESULT=new ClassDecl(className, E1, C2); RESULT.setLine(classNameleft); :};
 
 ClassName ::= (ClassName) IDENT:className {: RESULT=new ClassName(className); RESULT.setLine(classNameleft); :};
@@ -246,11 +275,6 @@ ExtendsTypeOptional ::= (ExtendsTypeOptionalExists) EXTENDS Type:T1 {: RESULT=ne
 
 ClassBody ::= (ClassBody) VarDeclListE:V1 ClassConstructorsAndMethodsDeclOptional:C2 {: RESULT=new ClassBody(V1, C2); RESULT.setLine(V1left); :};
 
-VarDeclListE ::= (VarDeclListEExists) VarDeclListE:V1 VarDecl:V2 {: RESULT=new VarDeclListEExists(V1, V2); RESULT.setLine(V1left); :}
-			|
-			(VarDeclListEEmpty) {: RESULT=new VarDeclListEEmpty(); :} /* e */
-			;
-
 ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOptionalExists) L_BRACE /* ConstructorDeclListE */ MethodDeclListE:M1 R_BRACE {: RESULT=new ClassConstructorsAndMethodsDeclOptionalExists(M1); RESULT.setLine(M1left); :}
 										|
 										(ClassConstructorsAndMethodsDeclOptionalEmpty) {: RESULT=new ClassConstructorsAndMethodsDeclOptionalEmpty(); :} /* e */
@@ -264,6 +288,12 @@ ClassConstructorsAndMethodsDeclOptional ::= (ClassConstructorsAndMethodsDeclOpti
 //
 //ConstructorDecl ::= (ConstructorDeclEmpty) /* e */; // Level C
 
+
+
+
+
+
+// ~~~~~~~~~~~~~~~~~~~ METHOD DECL ~~~~~~~~~~~~~~~~~~~
 
 MethodDeclListE ::= (MethodDeclListEExists) MethodDeclListE:M1 MethodDecl:M2 {: RESULT=new MethodDeclListEExists(M1, M2); RESULT.setLine(M1left); :}
 				|
@@ -299,6 +329,10 @@ FormParam ::= (FormParamVar) Type:type IDENT:paramName {: RESULT=new FormParamVa
 			|
 			(FormParamArray) Type:type IDENT:paramName L_SQUARE_BRACKET R_SQUARE_BRACKET {: RESULT=new FormParamArray(type, paramName); RESULT.setLine(typeleft); :}
 			;
+			
+			
+
+// ~~~~~~~~~~~~~~~~~~~ TYPE ~~~~~~~~~~~~~~~~~~~
 
 Type ::= (Type) IDENT:typeName {: RESULT=new Type(typeName); RESULT.setLine(typeNameleft); :};
 
@@ -306,6 +340,11 @@ StatementListE ::= (StatementListEExists) StatementListE:S1 Statement:S2 {: RESU
 				|
 				(StatementListEEmpty) {: RESULT=new StatementListEEmpty(); :} /* e */
 				;
+				
+				
+				
+				
+// ~~~~~~~~~~~~~~~~~~~ STATEMENTS ~~~~~~~~~~~~~~~~~~~
 				
 Statement ::= (StatementDesignator) DesignatorStatement:D1 SEMI_COLON {: RESULT=new StatementDesignator(D1); RESULT.setLine(D1left); :}
 			|
@@ -332,10 +371,18 @@ Statement ::= (StatementDesignator) DesignatorStatement:D1 SEMI_COLON {: RESULT=
 			(StatementSection) L_BRACE StatementListE:S1 R_BRACE {: RESULT=new StatementSection(S1); RESULT.setLine(S1left); :}
 			;
 			
+			
+			
+// ~~~~~~~~~~~~~~~~~~~ WHILE STATEMENT ~~~~~~~~~~~~~~~~~~~
+
 PlaceAfterWhileBlock ::= (PlaceAfterWhileBlock) {: RESULT=new PlaceAfterWhileBlock(); :} /* e */;
 			
 StatementWhileStart ::= (StatementWhileStart) WHILE {: RESULT=new StatementWhileStart(); :};
-			
+
+
+
+// ~~~~~~~~~~~~~~~~~~~ IF ELSE STATEMENT ~~~~~~~~~~~~~~~~~~~
+	
 IfStatement ::= (IfStatement) IfStatementStart:I1 L_PAREN ConditionInIf:C2 PlaceAfterIfCondition:P3 R_PAREN Statement:S4 PlaceAfterIfBlock:P5 {: RESULT=new IfStatement(I1, C2, P3, S4, P5); RESULT.setLine(I1left); :};
 
 IfStatementStart ::= (IfStatementStart) IF {: RESULT=new IfStatementStart(); :};
@@ -349,17 +396,32 @@ ElseStatement ::= (ElseStatement) ElseStatementStart:E1 Statement:S2 PlaceAfterE
 ElseStatementStart ::= (ElseStatementStart) ELSE {: RESULT=new ElseStatementStart(); :};
 
 PlaceAfterElseBlock ::= (PlaceAfterElseBlock) {: RESULT=new PlaceAfterElseBlock(); :} /* e */;
-								
-ForeachStatement ::= (ForeachStatement) Designator:D1 DOT StatementForeachStart:S2 L_PAREN ForeachVar:var ARROW Statement:S3 R_PAREN {: RESULT=new ForeachStatement(D1, S2, var, S3); RESULT.setLine(D1left); :};
 
-ForeachVar ::= (ForeachVar) IDENT:name {: RESULT=new ForeachVar(name); RESULT.setLine(nameleft); :};
+
+
+// ~~~~~~~~~~~~~~~~~~~ FOREACH STATEMENT ~~~~~~~~~~~~~~~~~~~
+								
+ForeachStatement ::= (ForeachStatement) ForeachStatementBeginning:F1 Statement:S2 R_PAREN PlaceAfterForeachBlock:P3 {: RESULT=new ForeachStatement(F1, S2, P3); RESULT.setLine(F1left); :};
+
+ForeachStatementBeginning ::= (ForeachStatementBeginning) Designator:arrayDesignator DOT StatementForeachStart:S1 L_PAREN ForeachVarDesignator:varDesignator ARROW {: RESULT=new ForeachStatementBeginning(arrayDesignator, S1, varDesignator); RESULT.setLine(arrayDesignatorleft); :};
+
+ForeachVarDesignator ::= (ForeachVarDesignator) IDENT:name {: RESULT=new ForeachVarDesignator(name); RESULT.setLine(nameleft); :};
 
 StatementForeachStart ::= (StatementForeachStart) FOREACH {: RESULT=new StatementForeachStart(); :};
+
+PlaceAfterForeachBlock ::= (PlaceAfterForeachBlock) {: RESULT=new PlaceAfterForeachBlock(); :} /* e */;
+
+
+
+// ~~~~~~~~~~~~~~~~~~~ PRINT STATEMENT ~~~~~~~~~~~~~~~~~~~
 
 PrintNumConstOptional ::= (PrintNumConstOptionalExists) COMMA NUM_CONST:numConst {: RESULT=new PrintNumConstOptionalExists(numConst); RESULT.setLine(numConstleft); :}
 						|
 						(PrintNumConstOptionalEmpty) {: RESULT=new PrintNumConstOptionalEmpty(); :} /* e */
 						;
+						
+
+// ~~~~~~~~~~~~~~~~~~~ DESIGNATOR STATEMENT ~~~~~~~~~~~~~~~~~~~
 						
 DesignatorStatement ::= (DesignatorStatementAssign) DesignatorAssignopExpr:D1 {: RESULT=new DesignatorStatementAssign(D1); RESULT.setLine(D1left); :}
 					|
@@ -391,6 +453,11 @@ DesignatorAssignopExpr ::= (DesignatorAssignopExpression) Designator:designator 
 						|
 						(DesignatorAssignopExprError) error:e {: parser.report_error("Assignment operation error at line: " + eleft, null); :} {: RESULT=new DesignatorAssignopExprError(); :}
 						;
+						
+						
+						
+						
+// ~~~~~~~~~~~~~~~~~~~ ACT PARS ~~~~~~~~~~~~~~~~~~~
 				
 ActPars ::= (ActParsMultiple) ActPars:A1 COMMA Expr:expr {: RESULT=new ActParsMultiple(A1, expr); RESULT.setLine(A1left); :}
 		|
@@ -401,6 +468,11 @@ ActParsOptional ::= (ActParsOptionalExist) ActPars:A1 {: RESULT=new ActParsOptio
 				|
 				(ActParsOptionalEmpty) {: RESULT=new ActParsOptionalEmpty(); :} /* e */
 				;
+				
+				
+				
+				
+// ~~~~~~~~~~~~~~~~~~~ CONDITIONS ~~~~~~~~~~~~~~~~~~~
 
 ConditionInIf ::= (ConditionInIfExists) Condition:C1 {: RESULT=new ConditionInIfExists(C1); RESULT.setLine(C1left); :}
 				|
@@ -427,6 +499,10 @@ CondFact ::= (CondFactSingle) Expr:expr {: RESULT=new CondFactSingle(expr); RESU
 			|
 			(CondFactMultipleComparaison) Expr:exprLeft RelopComparison:R1 Expr:exprRight {: RESULT=new CondFactMultipleComparaison(exprLeft, R1, exprRight); RESULT.setLine(exprLeftleft); :}
 			;
+			
+			
+			
+// ~~~~~~~~~~~~~~~~~~~ EXPR ~~~~~~~~~~~~~~~~~~~
 
 Expr ::= (ExprSingleMinus) MINUS Term:term {: RESULT=new ExprSingleMinus(term); RESULT.setLine(termleft); :}
 		|
@@ -434,12 +510,18 @@ Expr ::= (ExprSingleMinus) MINUS Term:term {: RESULT=new ExprSingleMinus(term); 
 		|
 		(ExprMultiple) Expr:expr Addop:A1 Term:term {: RESULT=new ExprMultiple(expr, A1, term); RESULT.setLine(exprleft); :}
 		;
+		
+		
+// ~~~~~~~~~~~~~~~~~~~ TERM ~~~~~~~~~~~~~~~~~~~
 				
 Term ::= (TermMultiple) Term:term Mulop:M1 Factor:factor {: RESULT=new TermMultiple(term, M1, factor); RESULT.setLine(termleft); :}
 		|
 		(TermSingle) Factor:factor {: RESULT=new TermSingle(factor); RESULT.setLine(factorleft); :}
 		;
-			
+		
+		
+// ~~~~~~~~~~~~~~~~~~~ FACTOR ~~~~~~~~~~~~~~~~~~~
+
 Factor ::= (FactorDesignator) Designator:D1 {: RESULT=new FactorDesignator(D1); RESULT.setLine(D1left); :}
 		|
 		(FactorDesignatorMethodCall) Designator:designator L_PAREN ActParsOptional:A1 R_PAREN {: RESULT=new FactorDesignatorMethodCall(designator, A1); RESULT.setLine(designatorleft); :}
@@ -447,19 +529,21 @@ Factor ::= (FactorDesignator) Designator:D1 {: RESULT=new FactorDesignator(D1); 
 		(FactorNumConst) NUM_CONST:N1 {: RESULT=new FactorNumConst(N1); RESULT.setLine(N1left); :}
 		| 
 		(FactorCharConst) CHAR_CONST:C1 {: RESULT=new FactorCharConst(C1); RESULT.setLine(C1left); :}
-		| 
+		|
 		(FactorBoolConst) BOOL_CONST:B1 {: RESULT=new FactorBoolConst(B1); RESULT.setLine(B1left); :}
 		|
 		(FactorNewArray) NEW Type:type L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET {: RESULT=new FactorNewArray(type, expr); RESULT.setLine(typeleft); :}
 		|
 		(FactorExpr) L_PAREN Expr:E1 R_PAREN {: RESULT=new FactorExpr(E1); RESULT.setLine(E1left); :}
+		|
+		(FactorArrMax) ARRMAX Designator:arrayDesignator COMMA Designator:iteratorDesignator COMMA Designator:targetDesignator {: RESULT=new FactorArrMax(arrayDesignator, iteratorDesignator, targetDesignator); RESULT.setLine(arrayDesignatorleft); :}	// MODS
 		;
+		
+		
 
-NewTypeSuffix ::= (NewTypeSuffixArray) L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET {: RESULT=new NewTypeSuffixArray(expr); RESULT.setLine(exprleft); :}
-				|
-				(NewTypeSuffixClass) L_PAREN ActParsOptional:A1 R_PAREN {: RESULT=new NewTypeSuffixClass(A1); RESULT.setLine(A1left); :}
-				;		
-				
+
+// ~~~~~~~~~~~~~~~~~~~ DESIGNATOR ~~~~~~~~~~~~~~~~~~~
+
 Designator ::= (DesignatorDot) Designator:designator DOT IDENT:field {: RESULT=new DesignatorDot(designator, field); RESULT.setLine(designatorleft); :}
 			|
 			(DesignatorSquareBrackets) DesignatorArray:D1 L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET {: RESULT=new DesignatorSquareBrackets(D1, expr); RESULT.setLine(D1left); :}
@@ -468,6 +552,11 @@ Designator ::= (DesignatorDot) Designator:designator DOT IDENT:field {: RESULT=n
 			;
 			
 DesignatorArray ::= (DesignatorArray) Designator:D1 {: RESULT=new DesignatorArray(D1); RESULT.setLine(D1left); :};
+
+
+
+
+// ~~~~~~~~~~~~~~~~~~~ UTIL ~~~~~~~~~~~~~~~~~~~
 			
 Label ::= (Label) IDENT:I1 {: RESULT=new Label(I1); RESULT.setLine(I1left); :};
 

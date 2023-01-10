@@ -51,7 +51,7 @@ public class SemanticPass extends VisitorAdaptor {
 	
 	private int nestedLoopCnt = 0;
 	
-	private String foreachUnmodifiableVarName = null;
+	private Stack<String> foreachUnmodifiableVarNames = new Stack<>();
 	
 	private List<Obj> designatorStatementAssignArrayObjects = null;
 
@@ -305,9 +305,11 @@ public class SemanticPass extends VisitorAdaptor {
 		if (!checkIfTypeIsAssignableToGivenType(exprStruct, designatorObj.getType(), designatorAssignopExpression)) {
 			return;
 		}
-		if (designatorObj.getName().equals(foreachUnmodifiableVarName)) {
-			report_error("Designator " + designatorObj.getName() + " can't be assigned a value because it's a Foreach Var!", designatorAssignopExpression);
-			return;
+		for (String varName : foreachUnmodifiableVarNames) {
+			if (designatorObj.getName().equals(varName)) {
+				report_error("Designator " + designatorObj.getName() + " can't be assigned a value because it's a Foreach Var!", designatorAssignopExpression);
+				return;
+			}
 		}
 		report_info("DesignatorAssignopExpression", designatorAssignopExpression);
 	}
@@ -466,23 +468,24 @@ public class SemanticPass extends VisitorAdaptor {
 		report_info("StatementForeachStart", statementForeachStart);
 	}
 	
-	public void visit(ForeachVar foreachVar) {
-		foreachUnmodifiableVarName = foreachVar.getName();
-		report_info("ForeachVar", foreachVar);
+	public void visit(ForeachVarDesignator foreachVarDesignator) {
+		foreachUnmodifiableVarNames.push(foreachVarDesignator.getName());
+		report_info("ForeachVar", foreachVarDesignator);
 	}
 	
 	public void visit(ForeachStatement foreachStatement) {
 		nestedLoopCnt--;
-		Obj designatorObj = foreachStatement.getDesignator().obj;
+		Obj designatorObj = foreachStatement.getForeachStatementBeginning().getDesignator().obj;
 		if (designatorObj.getType().getKind() != Struct.Array) {
 			report_error("Foreach statement must be performed on an Array!", foreachStatement);
 			return;
 		}
-		Obj varObj = Tab.find(foreachStatement.getForeachVar().getName());
+		Obj varObj = Tab.find(foreachStatement.getForeachStatementBeginning().getForeachVarDesignator().getName());
 		if (varObj == Tab.noObj) {
 			report_error("Foreach statement Var is not declared!", foreachStatement);
 			return;
 		}
+		foreachStatement.getForeachStatementBeginning().getForeachVarDesignator().obj = varObj;
 		if (varObj.getKind() != Obj.Var) {
 			report_error("Foreach statement Var must have Variable Kind!", foreachStatement);
 			return;
@@ -491,7 +494,7 @@ public class SemanticPass extends VisitorAdaptor {
 			report_error("Foreach statement Var must have the same type as Array Elem!", foreachStatement);
 			return;
 		}
-		foreachUnmodifiableVarName = null;
+		foreachUnmodifiableVarNames.pop();
 		report_info("ForeachStatement", foreachStatement);
 	}
 	
@@ -713,5 +716,35 @@ public class SemanticPass extends VisitorAdaptor {
 		currentActParsTypesStack.push(new ArrayList<>());
 		report_info("ActParsOptionalEmpty", actParsOptionalEmpty);
 	}
+	
+	
+	
+	// ~~~~~~~~~~~~~~~~~~~~~~ MODS ~~~~~~~~~~~~~~~~~~~~~~
+
+	// ARRMAX
+	public void visit(FactorArrMax factorArrMax) {
+		Obj arrayDesignator = factorArrMax.getDesignator().obj;
+		if (arrayDesignator.getType().getKind() != Struct.Array) {
+			report_error("Left Designator must be Array for #ARRMAX!", factorArrMax);
+			factorArrMax.struct = Tab.noType;
+			return;
+		}
+		Obj iteratorDesignator = factorArrMax.getDesignator1().obj;
+		if (iteratorDesignator.getKind() != Obj.Var && iteratorDesignator.getType() != Tab.intType) {
+			report_error("Right Designator must be Var, int for #ARRMAX!", factorArrMax);
+			factorArrMax.struct = Tab.noType;
+			return;
+		}
+		Obj targetDesignator = factorArrMax.getDesignator2().obj;
+		if (targetDesignator.getKind() != Obj.Var && targetDesignator.getType() != Tab.intType) {
+			report_error("Right Designator must be Var, int for #ARRMAX!", factorArrMax);
+			factorArrMax.struct = Tab.noType;
+			return;
+		}
+		factorArrMax.struct = Tab.intType;
+		report_info("FactorArrMax", factorArrMax);
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~~~~ /MODS ~~~~~~~~~~~~~~~~~~~~~~
 	
 }

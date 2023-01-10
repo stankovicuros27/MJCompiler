@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 9/0/2023 21:5:42
+// 10/0/2023 15:46:15
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,44 +9,25 @@ public class ForeachStatement implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    private Designator Designator;
-    private StatementForeachStart StatementForeachStart;
-    private ForeachVar ForeachVar;
+    private ForeachStatementBeginning ForeachStatementBeginning;
     private Statement Statement;
+    private PlaceAfterForeachBlock PlaceAfterForeachBlock;
 
-    public ForeachStatement (Designator Designator, StatementForeachStart StatementForeachStart, ForeachVar ForeachVar, Statement Statement) {
-        this.Designator=Designator;
-        if(Designator!=null) Designator.setParent(this);
-        this.StatementForeachStart=StatementForeachStart;
-        if(StatementForeachStart!=null) StatementForeachStart.setParent(this);
-        this.ForeachVar=ForeachVar;
-        if(ForeachVar!=null) ForeachVar.setParent(this);
+    public ForeachStatement (ForeachStatementBeginning ForeachStatementBeginning, Statement Statement, PlaceAfterForeachBlock PlaceAfterForeachBlock) {
+        this.ForeachStatementBeginning=ForeachStatementBeginning;
+        if(ForeachStatementBeginning!=null) ForeachStatementBeginning.setParent(this);
         this.Statement=Statement;
         if(Statement!=null) Statement.setParent(this);
+        this.PlaceAfterForeachBlock=PlaceAfterForeachBlock;
+        if(PlaceAfterForeachBlock!=null) PlaceAfterForeachBlock.setParent(this);
     }
 
-    public Designator getDesignator() {
-        return Designator;
+    public ForeachStatementBeginning getForeachStatementBeginning() {
+        return ForeachStatementBeginning;
     }
 
-    public void setDesignator(Designator Designator) {
-        this.Designator=Designator;
-    }
-
-    public StatementForeachStart getStatementForeachStart() {
-        return StatementForeachStart;
-    }
-
-    public void setStatementForeachStart(StatementForeachStart StatementForeachStart) {
-        this.StatementForeachStart=StatementForeachStart;
-    }
-
-    public ForeachVar getForeachVar() {
-        return ForeachVar;
-    }
-
-    public void setForeachVar(ForeachVar ForeachVar) {
-        this.ForeachVar=ForeachVar;
+    public void setForeachStatementBeginning(ForeachStatementBeginning ForeachStatementBeginning) {
+        this.ForeachStatementBeginning=ForeachStatementBeginning;
     }
 
     public Statement getStatement() {
@@ -55,6 +36,14 @@ public class ForeachStatement implements SyntaxNode {
 
     public void setStatement(Statement Statement) {
         this.Statement=Statement;
+    }
+
+    public PlaceAfterForeachBlock getPlaceAfterForeachBlock() {
+        return PlaceAfterForeachBlock;
+    }
+
+    public void setPlaceAfterForeachBlock(PlaceAfterForeachBlock PlaceAfterForeachBlock) {
+        this.PlaceAfterForeachBlock=PlaceAfterForeachBlock;
     }
 
     public SyntaxNode getParent() {
@@ -78,25 +67,22 @@ public class ForeachStatement implements SyntaxNode {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(Designator!=null) Designator.accept(visitor);
-        if(StatementForeachStart!=null) StatementForeachStart.accept(visitor);
-        if(ForeachVar!=null) ForeachVar.accept(visitor);
+        if(ForeachStatementBeginning!=null) ForeachStatementBeginning.accept(visitor);
         if(Statement!=null) Statement.accept(visitor);
+        if(PlaceAfterForeachBlock!=null) PlaceAfterForeachBlock.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(Designator!=null) Designator.traverseTopDown(visitor);
-        if(StatementForeachStart!=null) StatementForeachStart.traverseTopDown(visitor);
-        if(ForeachVar!=null) ForeachVar.traverseTopDown(visitor);
+        if(ForeachStatementBeginning!=null) ForeachStatementBeginning.traverseTopDown(visitor);
         if(Statement!=null) Statement.traverseTopDown(visitor);
+        if(PlaceAfterForeachBlock!=null) PlaceAfterForeachBlock.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(Designator!=null) Designator.traverseBottomUp(visitor);
-        if(StatementForeachStart!=null) StatementForeachStart.traverseBottomUp(visitor);
-        if(ForeachVar!=null) ForeachVar.traverseBottomUp(visitor);
+        if(ForeachStatementBeginning!=null) ForeachStatementBeginning.traverseBottomUp(visitor);
         if(Statement!=null) Statement.traverseBottomUp(visitor);
+        if(PlaceAfterForeachBlock!=null) PlaceAfterForeachBlock.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -105,26 +91,20 @@ public class ForeachStatement implements SyntaxNode {
         buffer.append(tab);
         buffer.append("ForeachStatement(\n");
 
-        if(Designator!=null)
-            buffer.append(Designator.toString("  "+tab));
-        else
-            buffer.append(tab+"  null");
-        buffer.append("\n");
-
-        if(StatementForeachStart!=null)
-            buffer.append(StatementForeachStart.toString("  "+tab));
-        else
-            buffer.append(tab+"  null");
-        buffer.append("\n");
-
-        if(ForeachVar!=null)
-            buffer.append(ForeachVar.toString("  "+tab));
+        if(ForeachStatementBeginning!=null)
+            buffer.append(ForeachStatementBeginning.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");
 
         if(Statement!=null)
             buffer.append(Statement.toString("  "+tab));
+        else
+            buffer.append(tab+"  null");
+        buffer.append("\n");
+
+        if(PlaceAfterForeachBlock!=null)
+            buffer.append(PlaceAfterForeachBlock.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

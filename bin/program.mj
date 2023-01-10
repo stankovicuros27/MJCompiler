@@ -1,31 +1,58 @@
 program p 
 
 {
-	void main() int a; int b; {
+	void main() int a[], b[], i, max, ai, bi; {
 	
-		a = 0;
+		a = new int[10];
+		a[0] = 3;
+		a[1] = 2;
+		a[2] = 120;
+		a[3] = 2;
+		a[4] = 99;
+		a[5] = 120;
+		a[6] = -123;
+		a[7] = 8;
+		a[8] = 8;
+		a[9] = 100;
 		
-		while (a < 10) {
+		b = new int[3];
+		b[0] = 1;
+		b[1] = 2;
+		b[2] = 3;
 		
-			a++;
-			
-			if (a == 3) {
-				continue;
+		
+		
+		a.foreach(ai => 
+			{
+				
+				if (ai == 3) {
+					max = 5;
+					while (max > 0) {
+						print(max);
+						max--;
+					}
+				}
+				
+				if (ai == 99) {
+					continue;
+				}
+				
+				print(ai);
+				
+				if (ai == -123) {
+					b.foreach(bi => {
+							print(bi);
+						}
+					);
+				} else {
+					print('n');
+				}
+				
+				if (ai == 8) {
+					break;
+				}
 			}
-			
-			if (a == 6) {
-				continue;
-			}
-			
-			if (a == 8) {
-				break;
-			}
-			
-			print(a);
-		
-		}
-		
-		print(0);
+		);
 		
 	}
 }
