@@ -154,11 +154,13 @@ terminal Character CHAR_CONST;
 
 
 
-// ~~~~~~~~~~~~~~~~~~~~~~ MODS ~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
 terminal ARRMAX;
 
-// ~~~~~~~~~~~~~~~~~~~~~~ /MODS ~~~~~~~~~~~~~~~~~~~~~~
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ArrMaxArrDesignator, ArrMaxVarDesignator;
+
+// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -366,6 +368,8 @@ Statement ::= (StatementDesignator) DesignatorStatement:D1 SEMI_COLON {: RESULT=
 			(StatementPrint) PRINT L_PAREN Expr:E1 PrintNumConstOptional:P2 R_PAREN SEMI_COLON {: RESULT=new StatementPrint(E1, P2); RESULT.setLine(E1left); :}
 			|
 			(StatementSection) L_BRACE StatementListE:S1 R_BRACE {: RESULT=new StatementSection(S1); RESULT.setLine(S1left); :}
+			|
+			(StatementArrMax) ARRMAX ArrMaxArrDesignator:A1 COLON ArrMaxVarDesignator:A2 SEMI_COLON {: RESULT=new StatementArrMax(A1, A2); RESULT.setLine(A1left); :} 	// ADDITIONAL
 			;
 			
 			
@@ -526,8 +530,6 @@ Factor ::= (FactorDesignator) Designator:D1 {: RESULT=new FactorDesignator(D1); 
 		(FactorNewArray) NEW Type:type L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET {: RESULT=new FactorNewArray(type, expr); RESULT.setLine(typeleft); :}
 		|
 		(FactorExpr) L_PAREN Expr:E1 R_PAREN {: RESULT=new FactorExpr(E1); RESULT.setLine(E1left); :}
-		|
-		(FactorArrMax) ARRMAX Designator:arrayDesignator COMMA Designator:iteratorDesignator COMMA Designator:targetDesignator {: RESULT=new FactorArrMax(arrayDesignator, iteratorDesignator, targetDesignator); RESULT.setLine(arrayDesignatorleft); :}	// MODS
 		;
 		
 		
@@ -582,7 +584,15 @@ Mulop ::= (AddopMul) MUL {: RESULT=new AddopMul(); :}
 		(AddopDiv) DIV {: RESULT=new AddopDiv(); :}
 		|
 		(AddopMod) MOD {: RESULT=new AddopMod(); :}
-		;	
+		;
 		
+		
+// ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
+		
+ArrMaxArrDesignator ::= (ArrMaxArrDesignator) IDENT:name {: RESULT=new ArrMaxArrDesignator(name); RESULT.setLine(nameleft); :};
+ArrMaxVarDesignator ::= (ArrMaxVarDesignator) IDENT:name {: RESULT=new ArrMaxVarDesignator(name); RESULT.setLine(nameleft); :};
+
+// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
+
 		
 		

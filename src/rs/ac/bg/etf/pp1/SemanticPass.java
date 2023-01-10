@@ -719,32 +719,53 @@ public class SemanticPass extends VisitorAdaptor {
 	
 	
 	
-	// ~~~~~~~~~~~~~~~~~~~~~~ MODS ~~~~~~~~~~~~~~~~~~~~~~
-
-	// ARRMAX
-	public void visit(FactorArrMax factorArrMax) {
-		Obj arrayDesignator = factorArrMax.getDesignator().obj;
-		if (arrayDesignator.getType().getKind() != Struct.Array) {
-			report_error("Left Designator must be Array for #ARRMAX!", factorArrMax);
-			factorArrMax.struct = Tab.noType;
+	// ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(ArrMaxArrDesignator arrMaxArrDesignator) {
+		Obj designatorObj = Tab.find(arrMaxArrDesignator.getName());
+		if (designatorObj == Tab.noObj) {
+			report_error("ArrDesignator " + arrMaxArrDesignator.getName() + " was not declared!", arrMaxArrDesignator);
+			arrMaxArrDesignator.obj = Tab.noObj;
 			return;
 		}
-		Obj iteratorDesignator = factorArrMax.getDesignator1().obj;
-		if (iteratorDesignator.getKind() != Obj.Var && iteratorDesignator.getType() != Tab.intType) {
-			report_error("Right Designator must be Var, int for #ARRMAX!", factorArrMax);
-			factorArrMax.struct = Tab.noType;
+		if (designatorObj.getType().getKind() != Struct.Array) {
+			report_error("ArrDesignator must have Array Kind!", arrMaxArrDesignator);
+			arrMaxArrDesignator.obj = Tab.noObj;
 			return;
 		}
-		Obj targetDesignator = factorArrMax.getDesignator2().obj;
-		if (targetDesignator.getKind() != Obj.Var && targetDesignator.getType() != Tab.intType) {
-			report_error("Right Designator must be Var, int for #ARRMAX!", factorArrMax);
-			factorArrMax.struct = Tab.noType;
-			return;
-		}
-		factorArrMax.struct = Tab.intType;
-		report_info("FactorArrMax", factorArrMax);
+		arrMaxArrDesignator.obj = designatorObj;
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~~~~ /MODS ~~~~~~~~~~~~~~~~~~~~~~
+	public void visit(ArrMaxVarDesignator arrMaxVarDesignator) {
+		Obj designatorObj = Tab.find(arrMaxVarDesignator.getName());
+		if (designatorObj == Tab.noObj) {
+			report_error("VarDesignator " + arrMaxVarDesignator.getName() + " was not declared!", arrMaxVarDesignator);
+			arrMaxVarDesignator.obj = Tab.noObj;
+			return;
+		}
+		if (designatorObj.getKind() != Obj.Var) {
+			report_error("VarDesignator must be Var!", arrMaxVarDesignator);
+			arrMaxVarDesignator.obj = Tab.noObj;
+			return;
+		}
+		arrMaxVarDesignator.obj = designatorObj;
+	}
+
+	// ARRMAX
+	public void visit(StatementArrMax statementArrMax) {
+		Obj arrayDesignator = statementArrMax.getArrMaxArrDesignator().obj;
+		if (arrayDesignator.getType().getKind() != Struct.Array) {
+			report_error("Left Designator must be Array for #ARRMAX!", statementArrMax);
+			return;
+		}
+		Obj targetDesignator = statementArrMax.getArrMaxVarDesignator().obj;
+		if (targetDesignator.getKind() != Obj.Var && targetDesignator.getType() != Tab.intType) {
+			report_error("Right Designator must be Var, int for #ARRMAX!", statementArrMax);
+			return;
+		}
+		report_info("FactorArrMax", statementArrMax);
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 	
 }

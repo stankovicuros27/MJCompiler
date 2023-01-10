@@ -126,11 +126,13 @@ terminal Character CHAR_CONST;
 
 
 
-// ~~~~~~~~~~~~~~~~~~~~~~ MODS ~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
 terminal ARRMAX;
 
-// ~~~~~~~~~~~~~~~~~~~~~~ /MODS ~~~~~~~~~~~~~~~~~~~~~~
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ArrMaxArrDesignator, ArrMaxVarDesignator;
+
+// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -338,6 +340,8 @@ Statement ::= (StatementDesignator) DesignatorStatement SEMI_COLON
 			(StatementPrint) PRINT L_PAREN Expr PrintNumConstOptional R_PAREN SEMI_COLON
 			|
 			(StatementSection) L_BRACE StatementListE R_BRACE
+			|
+			(StatementArrMax) ARRMAX ArrMaxArrDesignator COLON ArrMaxVarDesignator SEMI_COLON 	// ADDITIONAL
 			;
 			
 			
@@ -498,8 +502,6 @@ Factor ::= (FactorDesignator) Designator
 		(FactorNewArray) NEW Type:type L_SQUARE_BRACKET Expr:expr R_SQUARE_BRACKET
 		|
 		(FactorExpr) L_PAREN Expr R_PAREN
-		|
-		(FactorArrMax) ARRMAX Designator:arrayDesignator COMMA Designator:iteratorDesignator COMMA Designator:targetDesignator	// MODS
 		;
 		
 		
@@ -554,7 +556,15 @@ Mulop ::= (AddopMul) MUL
 		(AddopDiv) DIV
 		|
 		(AddopMod) MOD
-		;	
+		;
 		
+		
+// ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
+		
+ArrMaxArrDesignator ::= (ArrMaxArrDesignator) IDENT:name;
+ArrMaxVarDesignator ::= (ArrMaxVarDesignator) IDENT:name;
+
+// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
+
 		
 		

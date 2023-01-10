@@ -5,11 +5,24 @@
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class Assignop implements SyntaxNode {
+public class ArrMaxVarDesignator implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    public Assignop () {
+    public rs.etf.pp1.symboltable.concepts.Obj obj = null;
+
+    private String name;
+
+    public ArrMaxVarDesignator (String name) {
+        this.name=name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name=name;
     }
 
     public SyntaxNode getParent() {
@@ -46,10 +59,13 @@ public class Assignop implements SyntaxNode {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("Assignop(\n");
+        buffer.append("ArrMaxVarDesignator(\n");
+
+        buffer.append(" "+tab+name);
+        buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [Assignop]");
+        buffer.append(") [ArrMaxVarDesignator]");
         return buffer.toString();
     }
 }

@@ -64,11 +64,11 @@ import java_cup.runtime.Symbol;
 
 
 
-// ~~~~~~~~~~~~~~~~~~~~~~ MODS ~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
 "ARRMAX"	{ return new_symbol(sym.ARRMAX, yytext()); }
 
-// ~~~~~~~~~~~~~~~~~~~~~~ /MODS ~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
 
 // OPERATORS

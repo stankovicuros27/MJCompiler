@@ -3,56 +3,25 @@ program p
 {
 	void main() int a[], b[], i, max, ai, bi; {
 	
-		a = new int[10];
-		a[0] = 3;
-		a[1] = 2;
-		a[2] = 120;
-		a[3] = 2;
-		a[4] = 99;
-		a[5] = 120;
-		a[6] = -123;
-		a[7] = 8;
-		a[8] = 8;
-		a[9] = 100;
+		a = new int[7];
+		a[0] = 6;
+		a[1] = 5;
+		a[2] = 7;
+		a[3] = 8;
+		a[4] = 11;
+		a[5] = 1;
+		a[6] = -5;
 		
-		b = new int[3];
-		b[0] = 1;
-		b[1] = 2;
-		b[2] = 3;
+		ARRMAX a:max;
+		print(max);
 		
 		
+		a = new int[3];
+		a[0] = -2;
+		a[1] = -3;
+		a[2] = -3;
 		
-		a.foreach(ai => 
-			{
-				
-				if (ai == 3) {
-					max = 5;
-					while (max > 0) {
-						print(max);
-						max--;
-					}
-				}
-				
-				if (ai == 99) {
-					continue;
-				}
-				
-				print(ai);
-				
-				if (ai == -123) {
-					b.foreach(bi => {
-							print(bi);
-						}
-					);
-				} else {
-					print('n');
-				}
-				
-				if (ai == 8) {
-					break;
-				}
-			}
-		);
-		
+		ARRMAX a:max;
+		print(max);
 	}
 }

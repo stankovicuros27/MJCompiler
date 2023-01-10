@@ -536,58 +536,66 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	
 	
-	// ~~~~~~~~~~~~~~~~~~~~~~ MODS ~~~~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
-	// ARRMAX
-	public void visit(FactorArrMax statementArrMax) {
-		Obj arrayDesignator = statementArrMax.getDesignator().obj;
-		Obj iteratorDesignator = statementArrMax.getDesignator1().obj;
-		Obj targetDesignator = statementArrMax.getDesignator2().obj;
+	// ARRMAX (array must have len > 0)
+	public void visit(StatementArrMax statementArrMax) {
+		Obj arrayDesignator = statementArrMax.getArrMaxArrDesignator().obj;
+		Obj maxVarDesignator = statementArrMax.getArrMaxVarDesignator().obj;
 		
-		// i = 0;
+		// Set max = arr[0]
+		Code.load(arrayDesignator);
 		Code.loadConst(0);
-		Code.store(iteratorDesignator);
-		
-		// Get the beginning PC (for jump back)
-		int beginningPC = Code.pc;
-		
-		// if (i >= arrLength) jump to end;
-		Code.load(iteratorDesignator);
-		Code.load(arrayDesignator);
-		Code.put(Code.arraylength);
-		Code.put(getJumpCondition(Code.ge));
-		int jumpToEnd = Code.pc;
-		Code.put2(0);
-		
-		// if (arr[i] <= max) goto increment (skip max = arr[i])
-		Code.load(arrayDesignator);
-		Code.load(iteratorDesignator);
 		Code.put(Code.aload);
-		Code.load(targetDesignator);
+		Code.store(maxVarDesignator);
+		
+		
+		Code.load(arrayDesignator);						// arrAddr
+		Code.loadConst(-1);								// arrAddr, i
+		
+		int loopStart = Code.pc;
+		
+		Code.loadConst(1);								// arrAddr, i, 1
+		Code.put(Code.add);								// arrAddr, i
+		
+		Code.put(Code.dup2);							// arrAddr, i, arrAddr, i
+		Code.put(Code.dup2);							// arrAddr, i, arrAddr, i, arrAddr, i
+
+		Code.put(Code.pop);								// arrAddr, i, arrAddr, i, arrAddr
+		Code.put(Code.arraylength);						// arrAddr, i, arrAddr, i, arrLength
+		
+		Code.put(getJumpCondition(Code.ge));			
+		int fixupJumpToFinalEnd = Code.pc;
+		Code.put2(0);									// arrAddr, i, arrAddr
+		
+		Code.put(Code.dup2);							// arrAddr, i, arrAddr, i, arrAddr
+		Code.put(Code.pop);								// arrAddr, i, arrAddr, i
+		Code.put(Code.aload);							// arrAddr, i, arr[i]
+		
+		Code.put(Code.dup);								// arrAddr, i, arr[i], arr[i]
+		
+		Code.load(maxVarDesignator);					// arrAddr, i, arr[i], arr[i], max
+		
 		Code.put(getJumpCondition(Code.le));
-		int jumpToInc = Code.pc;
-		Code.put2(0);
+		int fixupJumpToLoopEndBeforePop = Code.pc;
+		Code.put2(0); 									// arrAddr, i, arr[i]
 		
-		// max = arr[i]
-		Code.load(arrayDesignator);
-		Code.load(iteratorDesignator);
-		Code.put(Code.aload);
-		Code.store(targetDesignator);
+		Code.store(maxVarDesignator);					// arrAddr, i		
+		Code.putJump(0);
+		int fixupJumpToLoopEndAfterPop = Code.pc - 2;
 		
-		// i++ (increment)
-		Code.fixup(jumpToInc);
-		Code.load(iteratorDesignator);
-		Code.loadConst(1);
-		Code.put(Code.add);
-		Code.store(iteratorDesignator);
+		Code.fixup(fixupJumpToLoopEndBeforePop);		
+		Code.put(Code.pop);								// arrAddr, i
+		Code.fixup(fixupJumpToLoopEndAfterPop);
 		
-		// Back to beginning
-		Code.putJump(beginningPC);
+		Code.putJump(loopStart);						// arrAddr, i
 		
-		// End
-		Code.fixup(jumpToEnd);
-		Code.load(targetDesignator);
+		Code.fixup(fixupJumpToFinalEnd);
+		
+		Code.put(Code.pop);								// arrAddr, i, arrAddr				
+		Code.put(Code.pop);								// arrAddr, i
+		Code.put(Code.pop);								// arrAddr
 	}
 	
-	// ~~~~~~~~~~~~~~~~~~~~~~ /MODS ~~~~~~~~~~~~~~~~~~~~~~
+	// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 }

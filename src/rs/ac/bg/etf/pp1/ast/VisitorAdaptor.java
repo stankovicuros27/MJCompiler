@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 10/0/2023 16:53:22
+// 10/0/2023 21:21:20
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -56,6 +56,8 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(VarDeclListE VarDeclListE) { }
     public void visit(StatementListE StatementListE) { }
     public void visit(MethodReturnType MethodReturnType) { }
+    public void visit(ArrMaxVarDesignator ArrMaxVarDesignator) { visit(); }
+    public void visit(ArrMaxArrDesignator ArrMaxArrDesignator) { visit(); }
     public void visit(AddopMod AddopMod) { visit(); }
     public void visit(AddopDiv AddopDiv) { visit(); }
     public void visit(AddopMul AddopMul) { visit(); }
@@ -75,7 +77,6 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(DesignatorSingle DesignatorSingle) { visit(); }
     public void visit(DesignatorSquareBrackets DesignatorSquareBrackets) { visit(); }
     public void visit(DesignatorDot DesignatorDot) { visit(); }
-    public void visit(FactorArrMax FactorArrMax) { visit(); }
     public void visit(FactorExpr FactorExpr) { visit(); }
     public void visit(FactorNewArray FactorNewArray) { visit(); }
     public void visit(FactorBoolConst FactorBoolConst) { visit(); }
@@ -127,6 +128,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(IfStatementStart IfStatementStart) { visit(); }
     public void visit(IfStatement IfStatement) { visit(); }
     public void visit(StatementWhileStart StatementWhileStart) { visit(); }
+    public void visit(StatementArrMax StatementArrMax) { visit(); }
     public void visit(StatementSection StatementSection) { visit(); }
     public void visit(StatementPrint StatementPrint) { visit(); }
     public void visit(StatementRead StatementRead) { visit(); }
