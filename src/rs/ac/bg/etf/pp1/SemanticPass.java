@@ -463,9 +463,9 @@ public class SemanticPass extends VisitorAdaptor {
 	
 	// ~~~~~~~~~~~~~~~~~~~ Statements Foreach ~~~~~~~~~~~~~~~~~~~
 
-	public void visit(StatementForeachStart statementForeachStart) {
+	public void visit(ForeachStatementBeginning foreachStatementBeginning) {
 		nestedLoopCnt++;
-		report_info("StatementForeachStart", statementForeachStart);
+		report_info("ForeachStatementBeginning", foreachStatementBeginning);
 	}
 	
 	public void visit(ForeachVarDesignator foreachVarDesignator) {

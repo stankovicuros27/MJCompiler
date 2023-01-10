@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 10/0/2023 15:46:15
+// 10/0/2023 16:53:22
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -116,8 +116,6 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(DesignatorStatementAssign DesignatorStatementAssign) { visit(); }
     public void visit(PrintNumConstOptionalEmpty PrintNumConstOptionalEmpty) { visit(); }
     public void visit(PrintNumConstOptionalExists PrintNumConstOptionalExists) { visit(); }
-    public void visit(PlaceAfterForeachBlock PlaceAfterForeachBlock) { visit(); }
-    public void visit(StatementForeachStart StatementForeachStart) { visit(); }
     public void visit(ForeachVarDesignator ForeachVarDesignator) { visit(); }
     public void visit(ForeachStatementBeginning ForeachStatementBeginning) { visit(); }
     public void visit(ForeachStatement ForeachStatement) { visit(); }
@@ -129,7 +127,6 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(IfStatementStart IfStatementStart) { visit(); }
     public void visit(IfStatement IfStatement) { visit(); }
     public void visit(StatementWhileStart StatementWhileStart) { visit(); }
-    public void visit(PlaceAfterWhileBlock PlaceAfterWhileBlock) { visit(); }
     public void visit(StatementSection StatementSection) { visit(); }
     public void visit(StatementPrint StatementPrint) { visit(); }
     public void visit(StatementRead StatementRead) { visit(); }

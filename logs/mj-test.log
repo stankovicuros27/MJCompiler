@@ -1,235 +1,235 @@
-INFO  16:37:51,223 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
-INFO  16:37:51,232 - #2 program
-INFO  16:37:51,232 - #44 p
-INFO  16:37:51,232 - #41 {
-INFO  16:37:51,234 - #13 void
-INFO  16:37:51,234 - #44 main
-INFO  16:37:51,234 - #37 (
-INFO  16:37:51,235 - #38 )
-INFO  16:37:51,235 - #44 int
-INFO  16:37:51,235 - #44 a
-INFO  16:37:51,235 - #39 [
-INFO  16:37:51,235 - #40 ]
-INFO  16:37:51,235 - #35 ,
-INFO  16:37:51,235 - #44 b
-INFO  16:37:51,235 - #39 [
-INFO  16:37:51,235 - #40 ]
-INFO  16:37:51,235 - #35 ,
-INFO  16:37:51,235 - #44 i
-INFO  16:37:51,235 - #35 ,
-INFO  16:37:51,235 - #44 max
-INFO  16:37:51,236 - #35 ,
-INFO  16:37:51,236 - #44 ai
-INFO  16:37:51,236 - #35 ,
-INFO  16:37:51,236 - #44 bi
-INFO  16:37:51,236 - #33 ;
-INFO  16:37:51,236 - #41 {
-INFO  16:37:51,236 - #44 a
-INFO  16:37:51,236 - #30 =
-INFO  16:37:51,236 - #9 new
-INFO  16:37:51,236 - #44 int
-INFO  16:37:51,236 - #39 [
-INFO  16:37:51,236 - #45 10
-INFO  16:37:51,236 - #40 ]
-INFO  16:37:51,236 - #33 ;
-INFO  16:37:51,236 - #44 a
-INFO  16:37:51,237 - #39 [
-INFO  16:37:51,237 - #45 0
-INFO  16:37:51,237 - #40 ]
-INFO  16:37:51,237 - #30 =
-INFO  16:37:51,237 - #45 3
-INFO  16:37:51,237 - #33 ;
-INFO  16:37:51,237 - #44 a
-INFO  16:37:51,237 - #39 [
-INFO  16:37:51,237 - #45 1
-INFO  16:37:51,237 - #40 ]
-INFO  16:37:51,237 - #30 =
-INFO  16:37:51,237 - #45 2
-INFO  16:37:51,237 - #33 ;
-INFO  16:37:51,237 - #44 a
-INFO  16:37:51,237 - #39 [
-INFO  16:37:51,237 - #45 2
-INFO  16:37:51,237 - #40 ]
-INFO  16:37:51,237 - #30 =
-INFO  16:37:51,237 - #45 120
-INFO  16:37:51,237 - #33 ;
-INFO  16:37:51,238 - #44 a
-INFO  16:37:51,238 - #39 [
-INFO  16:37:51,238 - #45 3
-INFO  16:37:51,238 - #40 ]
-INFO  16:37:51,238 - #30 =
-INFO  16:37:51,238 - #45 2
-INFO  16:37:51,238 - #33 ;
-INFO  16:37:51,238 - #44 a
-INFO  16:37:51,238 - #39 [
-INFO  16:37:51,238 - #45 4
-INFO  16:37:51,238 - #40 ]
-INFO  16:37:51,238 - #30 =
-INFO  16:37:51,238 - #45 99
-INFO  16:37:51,238 - #33 ;
-INFO  16:37:51,238 - #44 a
-INFO  16:37:51,238 - #39 [
-INFO  16:37:51,238 - #45 5
-INFO  16:37:51,238 - #40 ]
-INFO  16:37:51,238 - #30 =
-INFO  16:37:51,238 - #45 120
-INFO  16:37:51,238 - #33 ;
-INFO  16:37:51,238 - #44 a
-INFO  16:37:51,238 - #39 [
-INFO  16:37:51,238 - #45 6
-INFO  16:37:51,238 - #40 ]
-INFO  16:37:51,238 - #30 =
-INFO  16:37:51,238 - #18 -
-INFO  16:37:51,238 - #45 123
-INFO  16:37:51,239 - #33 ;
-INFO  16:37:51,239 - #44 a
-INFO  16:37:51,239 - #39 [
-INFO  16:37:51,239 - #45 7
-INFO  16:37:51,239 - #40 ]
-INFO  16:37:51,239 - #30 =
-INFO  16:37:51,239 - #45 8
-INFO  16:37:51,239 - #33 ;
-INFO  16:37:51,239 - #44 a
-INFO  16:37:51,239 - #39 [
-INFO  16:37:51,239 - #45 8
-INFO  16:37:51,239 - #40 ]
-INFO  16:37:51,239 - #30 =
-INFO  16:37:51,239 - #45 8
-INFO  16:37:51,239 - #33 ;
-INFO  16:37:51,239 - #44 a
-INFO  16:37:51,239 - #39 [
-INFO  16:37:51,239 - #45 9
-INFO  16:37:51,239 - #40 ]
-INFO  16:37:51,239 - #30 =
-INFO  16:37:51,239 - #45 100
-INFO  16:37:51,239 - #33 ;
-INFO  16:37:51,239 - #44 b
-INFO  16:37:51,239 - #30 =
-INFO  16:37:51,239 - #9 new
-INFO  16:37:51,239 - #44 int
-INFO  16:37:51,239 - #39 [
-INFO  16:37:51,239 - #45 3
-INFO  16:37:51,239 - #40 ]
-INFO  16:37:51,239 - #33 ;
-INFO  16:37:51,240 - #44 b
-INFO  16:37:51,240 - #39 [
-INFO  16:37:51,240 - #45 0
-INFO  16:37:51,240 - #40 ]
-INFO  16:37:51,240 - #30 =
-INFO  16:37:51,240 - #45 1
-INFO  16:37:51,240 - #33 ;
-INFO  16:37:51,240 - #44 b
-INFO  16:37:51,240 - #39 [
-INFO  16:37:51,240 - #45 1
-INFO  16:37:51,240 - #40 ]
-INFO  16:37:51,240 - #30 =
-INFO  16:37:51,240 - #45 2
-INFO  16:37:51,240 - #33 ;
-INFO  16:37:51,240 - #44 b
-INFO  16:37:51,240 - #39 [
-INFO  16:37:51,240 - #45 2
-INFO  16:37:51,240 - #40 ]
-INFO  16:37:51,240 - #30 =
-INFO  16:37:51,240 - #45 3
-INFO  16:37:51,240 - #33 ;
-INFO  16:37:51,240 - #44 a
-INFO  16:37:51,240 - #36 .
-INFO  16:37:51,240 - #16 foreach
-INFO  16:37:51,240 - #37 (
-INFO  16:37:51,240 - #44 ai
-INFO  16:37:51,240 - #43 =>
-INFO  16:37:51,240 - #41 {
-INFO  16:37:51,241 - #7 if
-INFO  16:37:51,241 - #37 (
-INFO  16:37:51,241 - #44 ai
-INFO  16:37:51,241 - #22 ==
-INFO  16:37:51,241 - #45 3
-INFO  16:37:51,241 - #38 )
-INFO  16:37:51,241 - #41 {
-INFO  16:37:51,241 - #44 max
-INFO  16:37:51,241 - #30 =
-INFO  16:37:51,241 - #45 5
-INFO  16:37:51,241 - #33 ;
-INFO  16:37:51,241 - #8 while
-INFO  16:37:51,241 - #37 (
-INFO  16:37:51,242 - #44 max
-INFO  16:37:51,242 - #24 >
-INFO  16:37:51,242 - #45 0
-INFO  16:37:51,242 - #38 )
-INFO  16:37:51,242 - #41 {
-INFO  16:37:51,242 - #10 print
-INFO  16:37:51,242 - #37 (
-INFO  16:37:51,242 - #44 max
-INFO  16:37:51,242 - #38 )
-INFO  16:37:51,242 - #33 ;
-INFO  16:37:51,242 - #44 max
-INFO  16:37:51,242 - #32 --
-INFO  16:37:51,242 - #33 ;
-INFO  16:37:51,242 - #42 }
-INFO  16:37:51,242 - #42 }
-INFO  16:37:51,242 - #7 if
-INFO  16:37:51,243 - #37 (
-INFO  16:37:51,243 - #44 ai
-INFO  16:37:51,243 - #22 ==
-INFO  16:37:51,243 - #45 99
-INFO  16:37:51,243 - #38 )
-INFO  16:37:51,243 - #41 {
-INFO  16:37:51,243 - #15 continue
-INFO  16:37:51,243 - #33 ;
-INFO  16:37:51,243 - #42 }
-INFO  16:37:51,243 - #10 print
-INFO  16:37:51,243 - #37 (
-INFO  16:37:51,243 - #44 ai
-INFO  16:37:51,243 - #38 )
-INFO  16:37:51,243 - #33 ;
-INFO  16:37:51,243 - #7 if
-INFO  16:37:51,243 - #37 (
-INFO  16:37:51,243 - #44 ai
-INFO  16:37:51,243 - #22 ==
-INFO  16:37:51,243 - #18 -
-INFO  16:37:51,243 - #45 123
-INFO  16:37:51,243 - #38 )
-INFO  16:37:51,243 - #41 {
-INFO  16:37:51,243 - #44 b
-INFO  16:37:51,243 - #36 .
-INFO  16:37:51,243 - #16 foreach
-INFO  16:37:51,243 - #37 (
-INFO  16:37:51,244 - #44 bi
-INFO  16:37:51,244 - #43 =>
-INFO  16:37:51,244 - #41 {
-INFO  16:37:51,244 - #10 print
-INFO  16:37:51,244 - #37 (
-INFO  16:37:51,244 - #44 bi
-INFO  16:37:51,244 - #38 )
-INFO  16:37:51,244 - #33 ;
-INFO  16:37:51,244 - #42 }
-INFO  16:37:51,244 - #38 )
-INFO  16:37:51,244 - #33 ;
-INFO  16:37:51,244 - #42 }
-INFO  16:37:51,244 - #5 else
-INFO  16:37:51,244 - #41 {
-INFO  16:37:51,244 - #10 print
-INFO  16:37:51,244 - #37 (
-INFO  16:37:51,244 - #47 n
-INFO  16:37:51,244 - #38 )
-INFO  16:37:51,244 - #33 ;
-INFO  16:37:51,244 - #42 }
-INFO  16:37:51,244 - #7 if
-INFO  16:37:51,245 - #37 (
-INFO  16:37:51,245 - #44 ai
-INFO  16:37:51,245 - #22 ==
-INFO  16:37:51,245 - #45 8
-INFO  16:37:51,245 - #38 )
-INFO  16:37:51,245 - #41 {
-INFO  16:37:51,245 - #3 break
-INFO  16:37:51,245 - #33 ;
-INFO  16:37:51,245 - #42 }
-INFO  16:37:51,245 - #42 }
-INFO  16:37:51,245 - #38 )
-INFO  16:37:51,245 - #33 ;
-INFO  16:37:51,245 - #42 }
-INFO  16:37:51,245 - #42 }
-INFO  16:37:51,247 - Program(
+INFO  17:48:46,159 - Compiling source file: /Users/stankovicuros27/Code/university/pp1_project/workspace/MJCompiler/test/program.mj
+INFO  17:48:46,169 - #2 program
+INFO  17:48:46,169 - #44 p
+INFO  17:48:46,169 - #41 {
+INFO  17:48:46,169 - #13 void
+INFO  17:48:46,169 - #44 main
+INFO  17:48:46,170 - #37 (
+INFO  17:48:46,170 - #38 )
+INFO  17:48:46,170 - #44 int
+INFO  17:48:46,170 - #44 a
+INFO  17:48:46,170 - #39 [
+INFO  17:48:46,170 - #40 ]
+INFO  17:48:46,170 - #35 ,
+INFO  17:48:46,170 - #44 b
+INFO  17:48:46,170 - #39 [
+INFO  17:48:46,170 - #40 ]
+INFO  17:48:46,170 - #35 ,
+INFO  17:48:46,170 - #44 i
+INFO  17:48:46,170 - #35 ,
+INFO  17:48:46,170 - #44 max
+INFO  17:48:46,170 - #35 ,
+INFO  17:48:46,170 - #44 ai
+INFO  17:48:46,170 - #35 ,
+INFO  17:48:46,170 - #44 bi
+INFO  17:48:46,171 - #33 ;
+INFO  17:48:46,171 - #41 {
+INFO  17:48:46,171 - #44 a
+INFO  17:48:46,171 - #30 =
+INFO  17:48:46,171 - #9 new
+INFO  17:48:46,171 - #44 int
+INFO  17:48:46,171 - #39 [
+INFO  17:48:46,171 - #45 10
+INFO  17:48:46,171 - #40 ]
+INFO  17:48:46,171 - #33 ;
+INFO  17:48:46,171 - #44 a
+INFO  17:48:46,171 - #39 [
+INFO  17:48:46,172 - #45 0
+INFO  17:48:46,172 - #40 ]
+INFO  17:48:46,172 - #30 =
+INFO  17:48:46,172 - #45 3
+INFO  17:48:46,172 - #33 ;
+INFO  17:48:46,172 - #44 a
+INFO  17:48:46,172 - #39 [
+INFO  17:48:46,172 - #45 1
+INFO  17:48:46,172 - #40 ]
+INFO  17:48:46,172 - #30 =
+INFO  17:48:46,172 - #45 2
+INFO  17:48:46,172 - #33 ;
+INFO  17:48:46,172 - #44 a
+INFO  17:48:46,172 - #39 [
+INFO  17:48:46,172 - #45 2
+INFO  17:48:46,172 - #40 ]
+INFO  17:48:46,172 - #30 =
+INFO  17:48:46,172 - #45 120
+INFO  17:48:46,172 - #33 ;
+INFO  17:48:46,172 - #44 a
+INFO  17:48:46,172 - #39 [
+INFO  17:48:46,172 - #45 3
+INFO  17:48:46,172 - #40 ]
+INFO  17:48:46,172 - #30 =
+INFO  17:48:46,172 - #45 2
+INFO  17:48:46,172 - #33 ;
+INFO  17:48:46,173 - #44 a
+INFO  17:48:46,173 - #39 [
+INFO  17:48:46,173 - #45 4
+INFO  17:48:46,173 - #40 ]
+INFO  17:48:46,173 - #30 =
+INFO  17:48:46,173 - #45 99
+INFO  17:48:46,173 - #33 ;
+INFO  17:48:46,173 - #44 a
+INFO  17:48:46,173 - #39 [
+INFO  17:48:46,173 - #45 5
+INFO  17:48:46,173 - #40 ]
+INFO  17:48:46,173 - #30 =
+INFO  17:48:46,173 - #45 120
+INFO  17:48:46,173 - #33 ;
+INFO  17:48:46,173 - #44 a
+INFO  17:48:46,173 - #39 [
+INFO  17:48:46,173 - #45 6
+INFO  17:48:46,173 - #40 ]
+INFO  17:48:46,173 - #30 =
+INFO  17:48:46,173 - #18 -
+INFO  17:48:46,173 - #45 123
+INFO  17:48:46,173 - #33 ;
+INFO  17:48:46,173 - #44 a
+INFO  17:48:46,173 - #39 [
+INFO  17:48:46,173 - #45 7
+INFO  17:48:46,173 - #40 ]
+INFO  17:48:46,173 - #30 =
+INFO  17:48:46,175 - #45 8
+INFO  17:48:46,175 - #33 ;
+INFO  17:48:46,175 - #44 a
+INFO  17:48:46,175 - #39 [
+INFO  17:48:46,175 - #45 8
+INFO  17:48:46,175 - #40 ]
+INFO  17:48:46,175 - #30 =
+INFO  17:48:46,175 - #45 8
+INFO  17:48:46,175 - #33 ;
+INFO  17:48:46,175 - #44 a
+INFO  17:48:46,175 - #39 [
+INFO  17:48:46,175 - #45 9
+INFO  17:48:46,175 - #40 ]
+INFO  17:48:46,175 - #30 =
+INFO  17:48:46,175 - #45 100
+INFO  17:48:46,175 - #33 ;
+INFO  17:48:46,175 - #44 b
+INFO  17:48:46,176 - #30 =
+INFO  17:48:46,176 - #9 new
+INFO  17:48:46,176 - #44 int
+INFO  17:48:46,176 - #39 [
+INFO  17:48:46,176 - #45 3
+INFO  17:48:46,176 - #40 ]
+INFO  17:48:46,176 - #33 ;
+INFO  17:48:46,176 - #44 b
+INFO  17:48:46,176 - #39 [
+INFO  17:48:46,176 - #45 0
+INFO  17:48:46,176 - #40 ]
+INFO  17:48:46,176 - #30 =
+INFO  17:48:46,176 - #45 1
+INFO  17:48:46,176 - #33 ;
+INFO  17:48:46,176 - #44 b
+INFO  17:48:46,176 - #39 [
+INFO  17:48:46,176 - #45 1
+INFO  17:48:46,176 - #40 ]
+INFO  17:48:46,176 - #30 =
+INFO  17:48:46,176 - #45 2
+INFO  17:48:46,176 - #33 ;
+INFO  17:48:46,176 - #44 b
+INFO  17:48:46,176 - #39 [
+INFO  17:48:46,176 - #45 2
+INFO  17:48:46,176 - #40 ]
+INFO  17:48:46,176 - #30 =
+INFO  17:48:46,176 - #45 3
+INFO  17:48:46,176 - #33 ;
+INFO  17:48:46,176 - #44 a
+INFO  17:48:46,176 - #36 .
+INFO  17:48:46,176 - #16 foreach
+INFO  17:48:46,176 - #37 (
+INFO  17:48:46,177 - #44 ai
+INFO  17:48:46,177 - #43 =>
+INFO  17:48:46,177 - #41 {
+INFO  17:48:46,177 - #7 if
+INFO  17:48:46,177 - #37 (
+INFO  17:48:46,178 - #44 ai
+INFO  17:48:46,178 - #22 ==
+INFO  17:48:46,178 - #45 3
+INFO  17:48:46,179 - #38 )
+INFO  17:48:46,179 - #41 {
+INFO  17:48:46,179 - #44 max
+INFO  17:48:46,179 - #30 =
+INFO  17:48:46,179 - #45 5
+INFO  17:48:46,179 - #33 ;
+INFO  17:48:46,179 - #8 while
+INFO  17:48:46,179 - #37 (
+INFO  17:48:46,180 - #44 max
+INFO  17:48:46,180 - #24 >
+INFO  17:48:46,180 - #45 0
+INFO  17:48:46,180 - #38 )
+INFO  17:48:46,180 - #41 {
+INFO  17:48:46,180 - #10 print
+INFO  17:48:46,180 - #37 (
+INFO  17:48:46,180 - #44 max
+INFO  17:48:46,180 - #38 )
+INFO  17:48:46,180 - #33 ;
+INFO  17:48:46,180 - #44 max
+INFO  17:48:46,180 - #32 --
+INFO  17:48:46,180 - #33 ;
+INFO  17:48:46,181 - #42 }
+INFO  17:48:46,181 - #42 }
+INFO  17:48:46,181 - #7 if
+INFO  17:48:46,181 - #37 (
+INFO  17:48:46,181 - #44 ai
+INFO  17:48:46,181 - #22 ==
+INFO  17:48:46,181 - #45 99
+INFO  17:48:46,181 - #38 )
+INFO  17:48:46,181 - #41 {
+INFO  17:48:46,181 - #15 continue
+INFO  17:48:46,181 - #33 ;
+INFO  17:48:46,181 - #42 }
+INFO  17:48:46,182 - #10 print
+INFO  17:48:46,182 - #37 (
+INFO  17:48:46,182 - #44 ai
+INFO  17:48:46,182 - #38 )
+INFO  17:48:46,182 - #33 ;
+INFO  17:48:46,182 - #7 if
+INFO  17:48:46,182 - #37 (
+INFO  17:48:46,182 - #44 ai
+INFO  17:48:46,182 - #22 ==
+INFO  17:48:46,182 - #18 -
+INFO  17:48:46,182 - #45 123
+INFO  17:48:46,182 - #38 )
+INFO  17:48:46,182 - #41 {
+INFO  17:48:46,182 - #44 b
+INFO  17:48:46,182 - #36 .
+INFO  17:48:46,182 - #16 foreach
+INFO  17:48:46,182 - #37 (
+INFO  17:48:46,182 - #44 bi
+INFO  17:48:46,182 - #43 =>
+INFO  17:48:46,182 - #41 {
+INFO  17:48:46,182 - #10 print
+INFO  17:48:46,182 - #37 (
+INFO  17:48:46,182 - #44 bi
+INFO  17:48:46,182 - #38 )
+INFO  17:48:46,182 - #33 ;
+INFO  17:48:46,182 - #42 }
+INFO  17:48:46,182 - #38 )
+INFO  17:48:46,182 - #33 ;
+INFO  17:48:46,182 - #42 }
+INFO  17:48:46,182 - #5 else
+INFO  17:48:46,182 - #41 {
+INFO  17:48:46,183 - #10 print
+INFO  17:48:46,183 - #37 (
+INFO  17:48:46,183 - #47 n
+INFO  17:48:46,183 - #38 )
+INFO  17:48:46,183 - #33 ;
+INFO  17:48:46,183 - #42 }
+INFO  17:48:46,183 - #7 if
+INFO  17:48:46,183 - #37 (
+INFO  17:48:46,183 - #44 ai
+INFO  17:48:46,183 - #22 ==
+INFO  17:48:46,183 - #45 8
+INFO  17:48:46,184 - #38 )
+INFO  17:48:46,184 - #41 {
+INFO  17:48:46,184 - #3 break
+INFO  17:48:46,184 - #33 ;
+INFO  17:48:46,184 - #42 }
+INFO  17:48:46,184 - #42 }
+INFO  17:48:46,184 - #38 )
+INFO  17:48:46,184 - #33 ;
+INFO  17:48:46,184 - #42 }
+INFO  17:48:46,184 - #42 }
+INFO  17:48:46,186 - Program(
   ProgramName(
    p
   ) [ProgramName]
@@ -755,8 +755,6 @@ INFO  16:37:51,247 - Program(
               DesignatorSingle(
                a
               ) [DesignatorSingle]
-              StatementForeachStart(
-              ) [StatementForeachStart]
               ForeachVarDesignator(
                ai
               ) [ForeachVarDesignator]
@@ -882,8 +880,6 @@ INFO  16:37:51,247 - Program(
                                       ) [StatementDesignator]
                                     ) [StatementListEExists]
                                   ) [StatementSection]
-                                  PlaceAfterWhileBlock(
-                                  ) [PlaceAfterWhileBlock]
                                 ) [StatementWhile]
                               ) [StatementListEExists]
                             ) [StatementSection]
@@ -993,8 +989,6 @@ INFO  16:37:51,247 - Program(
                                 DesignatorSingle(
                                  b
                                 ) [DesignatorSingle]
-                                StatementForeachStart(
-                                ) [StatementForeachStart]
                                 ForeachVarDesignator(
                                  bi
                                 ) [ForeachVarDesignator]
@@ -1018,8 +1012,6 @@ INFO  16:37:51,247 - Program(
                                   ) [StatementPrint]
                                 ) [StatementListEExists]
                               ) [StatementSection]
-                              PlaceAfterForeachBlock(
-                              ) [PlaceAfterForeachBlock]
                             ) [ForeachStatement]
                           ) [StatementForeach]
                         ) [StatementListEExists]
@@ -1098,256 +1090,254 @@ INFO  16:37:51,247 - Program(
                 ) [StatementIf]
               ) [StatementListEExists]
             ) [StatementSection]
-            PlaceAfterForeachBlock(
-            ) [PlaceAfterForeachBlock]
           ) [ForeachStatement]
         ) [StatementForeach]
       ) [StatementListEExists]
     ) [MethodDecl]
   ) [MethodDeclListEExists]
 ) [Program]
-INFO  16:37:51,248 - ===================================
-INFO  16:37:51,249 - ProgramName -> line 1
-INFO  16:37:51,249 - MethodReturnTypeIsVoid
-INFO  16:37:51,249 - MethodName -> line 4
-INFO  16:37:51,249 - Type -> line 4
-INFO  16:37:51,249 - VarDeclInnerListElementArray -> line 4
-INFO  16:37:51,249 - VarDeclInnerListElementArray -> line 4
-INFO  16:37:51,249 - VarDeclInnerListElementVar -> line 4
-INFO  16:37:51,249 - VarDeclInnerListElementVar -> line 4
-INFO  16:37:51,249 - VarDeclInnerListElementVar -> line 4
-INFO  16:37:51,249 - VarDeclInnerListElementVar -> line 4
-INFO  16:37:51,249 - DesignatorSingle -> line 6
-INFO  16:37:51,249 - Type -> line 6
-INFO  16:37:51,249 - FactorNumConst -> line 6
-INFO  16:37:51,249 - TermSingle -> line 6
-INFO  16:37:51,249 - ExprSingle -> line 6
-INFO  16:37:51,249 - FactorNewArray -> line 6
-INFO  16:37:51,249 - TermSingle -> line 6
-INFO  16:37:51,249 - ExprSingle -> line 6
-INFO  16:37:51,249 - DesignatorAssignopExpression -> line 6
-INFO  16:37:51,249 - DesignatorSingle -> line 7
-INFO  16:37:51,249 - DesignatorArray -> line 7
-INFO  16:37:51,249 - FactorNumConst -> line 7
-INFO  16:37:51,249 - TermSingle -> line 7
-INFO  16:37:51,250 - ExprSingle -> line 7
-INFO  16:37:51,250 - DesignatorSquareBrackets -> line 7
-INFO  16:37:51,250 - FactorNumConst -> line 7
-INFO  16:37:51,250 - TermSingle -> line 7
-INFO  16:37:51,250 - ExprSingle -> line 7
-INFO  16:37:51,250 - DesignatorAssignopExpression -> line 7
-INFO  16:37:51,250 - DesignatorSingle -> line 8
-INFO  16:37:51,250 - DesignatorArray -> line 8
-INFO  16:37:51,250 - FactorNumConst -> line 8
-INFO  16:37:51,250 - TermSingle -> line 8
-INFO  16:37:51,250 - ExprSingle -> line 8
-INFO  16:37:51,250 - DesignatorSquareBrackets -> line 8
-INFO  16:37:51,250 - FactorNumConst -> line 8
-INFO  16:37:51,250 - TermSingle -> line 8
-INFO  16:37:51,250 - ExprSingle -> line 8
-INFO  16:37:51,250 - DesignatorAssignopExpression -> line 8
-INFO  16:37:51,250 - DesignatorSingle -> line 9
-INFO  16:37:51,250 - DesignatorArray -> line 9
-INFO  16:37:51,250 - FactorNumConst -> line 9
-INFO  16:37:51,250 - TermSingle -> line 9
-INFO  16:37:51,250 - ExprSingle -> line 9
-INFO  16:37:51,250 - DesignatorSquareBrackets -> line 9
-INFO  16:37:51,250 - FactorNumConst -> line 9
-INFO  16:37:51,250 - TermSingle -> line 9
-INFO  16:37:51,250 - ExprSingle -> line 9
-INFO  16:37:51,250 - DesignatorAssignopExpression -> line 9
-INFO  16:37:51,250 - DesignatorSingle -> line 10
-INFO  16:37:51,250 - DesignatorArray -> line 10
-INFO  16:37:51,250 - FactorNumConst -> line 10
-INFO  16:37:51,250 - TermSingle -> line 10
-INFO  16:37:51,250 - ExprSingle -> line 10
-INFO  16:37:51,250 - DesignatorSquareBrackets -> line 10
-INFO  16:37:51,250 - FactorNumConst -> line 10
-INFO  16:37:51,250 - TermSingle -> line 10
-INFO  16:37:51,250 - ExprSingle -> line 10
-INFO  16:37:51,250 - DesignatorAssignopExpression -> line 10
-INFO  16:37:51,250 - DesignatorSingle -> line 11
-INFO  16:37:51,250 - DesignatorArray -> line 11
-INFO  16:37:51,250 - FactorNumConst -> line 11
-INFO  16:37:51,250 - TermSingle -> line 11
-INFO  16:37:51,250 - ExprSingle -> line 11
-INFO  16:37:51,250 - DesignatorSquareBrackets -> line 11
-INFO  16:37:51,250 - FactorNumConst -> line 11
-INFO  16:37:51,250 - TermSingle -> line 11
-INFO  16:37:51,250 - ExprSingle -> line 11
-INFO  16:37:51,250 - DesignatorAssignopExpression -> line 11
-INFO  16:37:51,250 - DesignatorSingle -> line 12
-INFO  16:37:51,250 - DesignatorArray -> line 12
-INFO  16:37:51,251 - FactorNumConst -> line 12
-INFO  16:37:51,251 - TermSingle -> line 12
-INFO  16:37:51,251 - ExprSingle -> line 12
-INFO  16:37:51,251 - DesignatorSquareBrackets -> line 12
-INFO  16:37:51,251 - FactorNumConst -> line 12
-INFO  16:37:51,251 - TermSingle -> line 12
-INFO  16:37:51,251 - ExprSingle -> line 12
-INFO  16:37:51,251 - DesignatorAssignopExpression -> line 12
-INFO  16:37:51,251 - DesignatorSingle -> line 13
-INFO  16:37:51,251 - DesignatorArray -> line 13
-INFO  16:37:51,251 - FactorNumConst -> line 13
-INFO  16:37:51,251 - TermSingle -> line 13
-INFO  16:37:51,251 - ExprSingle -> line 13
-INFO  16:37:51,251 - DesignatorSquareBrackets -> line 13
-INFO  16:37:51,251 - FactorNumConst -> line 13
-INFO  16:37:51,251 - TermSingle -> line 13
-INFO  16:37:51,251 - ExprSingleMinus -> line 13
-INFO  16:37:51,251 - DesignatorAssignopExpression -> line 13
-INFO  16:37:51,251 - DesignatorSingle -> line 14
-INFO  16:37:51,251 - DesignatorArray -> line 14
-INFO  16:37:51,251 - FactorNumConst -> line 14
-INFO  16:37:51,251 - TermSingle -> line 14
-INFO  16:37:51,251 - ExprSingle -> line 14
-INFO  16:37:51,251 - DesignatorSquareBrackets -> line 14
-INFO  16:37:51,251 - FactorNumConst -> line 14
-INFO  16:37:51,251 - TermSingle -> line 14
-INFO  16:37:51,251 - ExprSingle -> line 14
-INFO  16:37:51,251 - DesignatorAssignopExpression -> line 14
-INFO  16:37:51,251 - DesignatorSingle -> line 15
-INFO  16:37:51,251 - DesignatorArray -> line 15
-INFO  16:37:51,251 - FactorNumConst -> line 15
-INFO  16:37:51,251 - TermSingle -> line 15
-INFO  16:37:51,251 - ExprSingle -> line 15
-INFO  16:37:51,251 - DesignatorSquareBrackets -> line 15
-INFO  16:37:51,251 - FactorNumConst -> line 15
-INFO  16:37:51,251 - TermSingle -> line 15
-INFO  16:37:51,251 - ExprSingle -> line 15
-INFO  16:37:51,251 - DesignatorAssignopExpression -> line 15
-INFO  16:37:51,251 - DesignatorSingle -> line 16
-INFO  16:37:51,251 - DesignatorArray -> line 16
-INFO  16:37:51,251 - FactorNumConst -> line 16
-INFO  16:37:51,251 - TermSingle -> line 16
-INFO  16:37:51,251 - ExprSingle -> line 16
-INFO  16:37:51,251 - DesignatorSquareBrackets -> line 16
-INFO  16:37:51,251 - FactorNumConst -> line 16
-INFO  16:37:51,251 - TermSingle -> line 16
-INFO  16:37:51,251 - ExprSingle -> line 16
-INFO  16:37:51,251 - DesignatorAssignopExpression -> line 16
-INFO  16:37:51,251 - DesignatorSingle -> line 18
-INFO  16:37:51,251 - Type -> line 18
-INFO  16:37:51,251 - FactorNumConst -> line 18
-INFO  16:37:51,251 - TermSingle -> line 18
-INFO  16:37:51,251 - ExprSingle -> line 18
-INFO  16:37:51,251 - FactorNewArray -> line 18
-INFO  16:37:51,251 - TermSingle -> line 18
-INFO  16:37:51,251 - ExprSingle -> line 18
-INFO  16:37:51,251 - DesignatorAssignopExpression -> line 18
-INFO  16:37:51,251 - DesignatorSingle -> line 19
-INFO  16:37:51,251 - DesignatorArray -> line 19
-INFO  16:37:51,251 - FactorNumConst -> line 19
-INFO  16:37:51,252 - TermSingle -> line 19
-INFO  16:37:51,252 - ExprSingle -> line 19
-INFO  16:37:51,252 - DesignatorSquareBrackets -> line 19
-INFO  16:37:51,252 - FactorNumConst -> line 19
-INFO  16:37:51,252 - TermSingle -> line 19
-INFO  16:37:51,252 - ExprSingle -> line 19
-INFO  16:37:51,252 - DesignatorAssignopExpression -> line 19
-INFO  16:37:51,252 - DesignatorSingle -> line 20
-INFO  16:37:51,252 - DesignatorArray -> line 20
-INFO  16:37:51,252 - FactorNumConst -> line 20
-INFO  16:37:51,252 - TermSingle -> line 20
-INFO  16:37:51,252 - ExprSingle -> line 20
-INFO  16:37:51,252 - DesignatorSquareBrackets -> line 20
-INFO  16:37:51,252 - FactorNumConst -> line 20
-INFO  16:37:51,252 - TermSingle -> line 20
-INFO  16:37:51,252 - ExprSingle -> line 20
-INFO  16:37:51,252 - DesignatorAssignopExpression -> line 20
-INFO  16:37:51,252 - DesignatorSingle -> line 21
-INFO  16:37:51,252 - DesignatorArray -> line 21
-INFO  16:37:51,252 - FactorNumConst -> line 21
-INFO  16:37:51,252 - TermSingle -> line 21
-INFO  16:37:51,252 - ExprSingle -> line 21
-INFO  16:37:51,252 - DesignatorSquareBrackets -> line 21
-INFO  16:37:51,252 - FactorNumConst -> line 21
-INFO  16:37:51,252 - TermSingle -> line 21
-INFO  16:37:51,252 - ExprSingle -> line 21
-INFO  16:37:51,252 - DesignatorAssignopExpression -> line 21
-INFO  16:37:51,252 - DesignatorSingle -> line 25
-INFO  16:37:51,252 - StatementForeachStart
-INFO  16:37:51,252 - ForeachVar -> line 25
-INFO  16:37:51,252 - DesignatorSingle -> line 28
-INFO  16:37:51,252 - FactorDesignator -> line 28
-INFO  16:37:51,252 - TermSingle -> line 28
-INFO  16:37:51,252 - ExprSingle -> line 28
-INFO  16:37:51,252 - FactorNumConst -> line 28
-INFO  16:37:51,252 - TermSingle -> line 28
-INFO  16:37:51,252 - ExprSingle -> line 28
-INFO  16:37:51,252 - CondFactMultipleEquality -> line 28
-INFO  16:37:51,252 - DesignatorSingle -> line 29
-INFO  16:37:51,252 - FactorNumConst -> line 29
-INFO  16:37:51,252 - TermSingle -> line 29
-INFO  16:37:51,252 - ExprSingle -> line 29
-INFO  16:37:51,252 - DesignatorAssignopExpression -> line 29
-INFO  16:37:51,252 - StatementWhileStart
-INFO  16:37:51,252 - DesignatorSingle -> line 30
-INFO  16:37:51,252 - FactorDesignator -> line 30
-INFO  16:37:51,252 - TermSingle -> line 30
-INFO  16:37:51,252 - ExprSingle -> line 30
-INFO  16:37:51,252 - FactorNumConst -> line 30
-INFO  16:37:51,252 - TermSingle -> line 30
-INFO  16:37:51,252 - ExprSingle -> line 30
-INFO  16:37:51,252 - CondFactMultipleComparaison -> line 30
-INFO  16:37:51,252 - DesignatorSingle -> line 31
-INFO  16:37:51,252 - FactorDesignator -> line 31
-INFO  16:37:51,252 - TermSingle -> line 31
-INFO  16:37:51,252 - ExprSingle -> line 31
-INFO  16:37:51,252 - PrintNumConstOptionalEmpty
-INFO  16:37:51,252 - StatementPrint -> line 31
-INFO  16:37:51,252 - DesignatorSingle -> line 32
-INFO  16:37:51,252 - DesignatorActionDec -> line 32
-INFO  16:37:51,252 - StatementWhile -> line 30
-INFO  16:37:51,252 - DesignatorSingle -> line 36
-INFO  16:37:51,252 - FactorDesignator -> line 36
-INFO  16:37:51,252 - TermSingle -> line 36
-INFO  16:37:51,252 - ExprSingle -> line 36
-INFO  16:37:51,252 - FactorNumConst -> line 36
-INFO  16:37:51,252 - TermSingle -> line 36
-INFO  16:37:51,252 - ExprSingle -> line 36
-INFO  16:37:51,252 - CondFactMultipleEquality -> line 36
-INFO  16:37:51,252 - StatementContinue
-INFO  16:37:51,252 - DesignatorSingle -> line 40
-INFO  16:37:51,252 - FactorDesignator -> line 40
-INFO  16:37:51,253 - TermSingle -> line 40
-INFO  16:37:51,253 - ExprSingle -> line 40
-INFO  16:37:51,253 - PrintNumConstOptionalEmpty
-INFO  16:37:51,253 - StatementPrint -> line 40
-INFO  16:37:51,253 - DesignatorSingle -> line 42
-INFO  16:37:51,253 - FactorDesignator -> line 42
-INFO  16:37:51,253 - TermSingle -> line 42
-INFO  16:37:51,253 - ExprSingle -> line 42
-INFO  16:37:51,253 - FactorNumConst -> line 42
-INFO  16:37:51,253 - TermSingle -> line 42
-INFO  16:37:51,253 - ExprSingleMinus -> line 42
-INFO  16:37:51,253 - CondFactMultipleEquality -> line 42
-INFO  16:37:51,253 - DesignatorSingle -> line 43
-INFO  16:37:51,253 - StatementForeachStart
-INFO  16:37:51,253 - ForeachVar -> line 43
-INFO  16:37:51,253 - DesignatorSingle -> line 44
-INFO  16:37:51,253 - FactorDesignator -> line 44
-INFO  16:37:51,253 - TermSingle -> line 44
-INFO  16:37:51,253 - ExprSingle -> line 44
-INFO  16:37:51,253 - PrintNumConstOptionalEmpty
-INFO  16:37:51,253 - StatementPrint -> line 44
-INFO  16:37:51,253 - ForeachStatement -> line 43
-INFO  16:37:51,253 - FactorCharConst -> line 48
-INFO  16:37:51,253 - TermSingle -> line 48
-INFO  16:37:51,253 - ExprSingle -> line 48
-INFO  16:37:51,253 - PrintNumConstOptionalEmpty
-INFO  16:37:51,253 - StatementPrint -> line 48
-INFO  16:37:51,253 - DesignatorSingle -> line 51
-INFO  16:37:51,253 - FactorDesignator -> line 51
-INFO  16:37:51,253 - TermSingle -> line 51
-INFO  16:37:51,253 - ExprSingle -> line 51
-INFO  16:37:51,253 - FactorNumConst -> line 51
-INFO  16:37:51,253 - TermSingle -> line 51
-INFO  16:37:51,253 - ExprSingle -> line 51
-INFO  16:37:51,253 - CondFactMultipleEquality -> line 51
-INFO  16:37:51,253 - StatementBreak
-INFO  16:37:51,253 - ForeachStatement -> line 25
-INFO  16:37:51,253 - MethodDecl -> line 4
-INFO  16:37:51,253 - Program -> line 1
-INFO  16:37:51,253 - ===================================
-INFO  16:37:51,255 - Parsiranje uspesno zavrseno!
+INFO  17:48:46,187 - ===================================
+INFO  17:48:46,188 - ProgramName -> line 1
+INFO  17:48:46,188 - MethodReturnTypeIsVoid
+INFO  17:48:46,188 - MethodName -> line 4
+INFO  17:48:46,188 - Type -> line 4
+INFO  17:48:46,188 - VarDeclInnerListElementArray -> line 4
+INFO  17:48:46,188 - VarDeclInnerListElementArray -> line 4
+INFO  17:48:46,188 - VarDeclInnerListElementVar -> line 4
+INFO  17:48:46,188 - VarDeclInnerListElementVar -> line 4
+INFO  17:48:46,188 - VarDeclInnerListElementVar -> line 4
+INFO  17:48:46,188 - VarDeclInnerListElementVar -> line 4
+INFO  17:48:46,188 - DesignatorSingle -> line 6
+INFO  17:48:46,188 - Type -> line 6
+INFO  17:48:46,188 - FactorNumConst -> line 6
+INFO  17:48:46,188 - TermSingle -> line 6
+INFO  17:48:46,188 - ExprSingle -> line 6
+INFO  17:48:46,188 - FactorNewArray -> line 6
+INFO  17:48:46,188 - TermSingle -> line 6
+INFO  17:48:46,188 - ExprSingle -> line 6
+INFO  17:48:46,188 - DesignatorAssignopExpression -> line 6
+INFO  17:48:46,188 - DesignatorSingle -> line 7
+INFO  17:48:46,188 - DesignatorArray -> line 7
+INFO  17:48:46,188 - FactorNumConst -> line 7
+INFO  17:48:46,188 - TermSingle -> line 7
+INFO  17:48:46,188 - ExprSingle -> line 7
+INFO  17:48:46,188 - DesignatorSquareBrackets -> line 7
+INFO  17:48:46,188 - FactorNumConst -> line 7
+INFO  17:48:46,188 - TermSingle -> line 7
+INFO  17:48:46,188 - ExprSingle -> line 7
+INFO  17:48:46,188 - DesignatorAssignopExpression -> line 7
+INFO  17:48:46,188 - DesignatorSingle -> line 8
+INFO  17:48:46,188 - DesignatorArray -> line 8
+INFO  17:48:46,189 - FactorNumConst -> line 8
+INFO  17:48:46,189 - TermSingle -> line 8
+INFO  17:48:46,189 - ExprSingle -> line 8
+INFO  17:48:46,189 - DesignatorSquareBrackets -> line 8
+INFO  17:48:46,189 - FactorNumConst -> line 8
+INFO  17:48:46,189 - TermSingle -> line 8
+INFO  17:48:46,189 - ExprSingle -> line 8
+INFO  17:48:46,189 - DesignatorAssignopExpression -> line 8
+INFO  17:48:46,189 - DesignatorSingle -> line 9
+INFO  17:48:46,189 - DesignatorArray -> line 9
+INFO  17:48:46,189 - FactorNumConst -> line 9
+INFO  17:48:46,189 - TermSingle -> line 9
+INFO  17:48:46,189 - ExprSingle -> line 9
+INFO  17:48:46,189 - DesignatorSquareBrackets -> line 9
+INFO  17:48:46,189 - FactorNumConst -> line 9
+INFO  17:48:46,189 - TermSingle -> line 9
+INFO  17:48:46,189 - ExprSingle -> line 9
+INFO  17:48:46,189 - DesignatorAssignopExpression -> line 9
+INFO  17:48:46,189 - DesignatorSingle -> line 10
+INFO  17:48:46,189 - DesignatorArray -> line 10
+INFO  17:48:46,189 - FactorNumConst -> line 10
+INFO  17:48:46,189 - TermSingle -> line 10
+INFO  17:48:46,189 - ExprSingle -> line 10
+INFO  17:48:46,189 - DesignatorSquareBrackets -> line 10
+INFO  17:48:46,189 - FactorNumConst -> line 10
+INFO  17:48:46,189 - TermSingle -> line 10
+INFO  17:48:46,189 - ExprSingle -> line 10
+INFO  17:48:46,189 - DesignatorAssignopExpression -> line 10
+INFO  17:48:46,189 - DesignatorSingle -> line 11
+INFO  17:48:46,189 - DesignatorArray -> line 11
+INFO  17:48:46,189 - FactorNumConst -> line 11
+INFO  17:48:46,189 - TermSingle -> line 11
+INFO  17:48:46,189 - ExprSingle -> line 11
+INFO  17:48:46,189 - DesignatorSquareBrackets -> line 11
+INFO  17:48:46,189 - FactorNumConst -> line 11
+INFO  17:48:46,189 - TermSingle -> line 11
+INFO  17:48:46,189 - ExprSingle -> line 11
+INFO  17:48:46,189 - DesignatorAssignopExpression -> line 11
+INFO  17:48:46,189 - DesignatorSingle -> line 12
+INFO  17:48:46,189 - DesignatorArray -> line 12
+INFO  17:48:46,189 - FactorNumConst -> line 12
+INFO  17:48:46,189 - TermSingle -> line 12
+INFO  17:48:46,189 - ExprSingle -> line 12
+INFO  17:48:46,189 - DesignatorSquareBrackets -> line 12
+INFO  17:48:46,189 - FactorNumConst -> line 12
+INFO  17:48:46,189 - TermSingle -> line 12
+INFO  17:48:46,189 - ExprSingle -> line 12
+INFO  17:48:46,189 - DesignatorAssignopExpression -> line 12
+INFO  17:48:46,189 - DesignatorSingle -> line 13
+INFO  17:48:46,189 - DesignatorArray -> line 13
+INFO  17:48:46,189 - FactorNumConst -> line 13
+INFO  17:48:46,189 - TermSingle -> line 13
+INFO  17:48:46,189 - ExprSingle -> line 13
+INFO  17:48:46,190 - DesignatorSquareBrackets -> line 13
+INFO  17:48:46,190 - FactorNumConst -> line 13
+INFO  17:48:46,190 - TermSingle -> line 13
+INFO  17:48:46,190 - ExprSingleMinus -> line 13
+INFO  17:48:46,190 - DesignatorAssignopExpression -> line 13
+INFO  17:48:46,190 - DesignatorSingle -> line 14
+INFO  17:48:46,190 - DesignatorArray -> line 14
+INFO  17:48:46,190 - FactorNumConst -> line 14
+INFO  17:48:46,190 - TermSingle -> line 14
+INFO  17:48:46,190 - ExprSingle -> line 14
+INFO  17:48:46,190 - DesignatorSquareBrackets -> line 14
+INFO  17:48:46,190 - FactorNumConst -> line 14
+INFO  17:48:46,190 - TermSingle -> line 14
+INFO  17:48:46,190 - ExprSingle -> line 14
+INFO  17:48:46,190 - DesignatorAssignopExpression -> line 14
+INFO  17:48:46,190 - DesignatorSingle -> line 15
+INFO  17:48:46,190 - DesignatorArray -> line 15
+INFO  17:48:46,190 - FactorNumConst -> line 15
+INFO  17:48:46,190 - TermSingle -> line 15
+INFO  17:48:46,190 - ExprSingle -> line 15
+INFO  17:48:46,190 - DesignatorSquareBrackets -> line 15
+INFO  17:48:46,190 - FactorNumConst -> line 15
+INFO  17:48:46,190 - TermSingle -> line 15
+INFO  17:48:46,190 - ExprSingle -> line 15
+INFO  17:48:46,190 - DesignatorAssignopExpression -> line 15
+INFO  17:48:46,190 - DesignatorSingle -> line 16
+INFO  17:48:46,190 - DesignatorArray -> line 16
+INFO  17:48:46,190 - FactorNumConst -> line 16
+INFO  17:48:46,190 - TermSingle -> line 16
+INFO  17:48:46,190 - ExprSingle -> line 16
+INFO  17:48:46,190 - DesignatorSquareBrackets -> line 16
+INFO  17:48:46,190 - FactorNumConst -> line 16
+INFO  17:48:46,190 - TermSingle -> line 16
+INFO  17:48:46,190 - ExprSingle -> line 16
+INFO  17:48:46,190 - DesignatorAssignopExpression -> line 16
+INFO  17:48:46,190 - DesignatorSingle -> line 18
+INFO  17:48:46,190 - Type -> line 18
+INFO  17:48:46,190 - FactorNumConst -> line 18
+INFO  17:48:46,190 - TermSingle -> line 18
+INFO  17:48:46,190 - ExprSingle -> line 18
+INFO  17:48:46,190 - FactorNewArray -> line 18
+INFO  17:48:46,190 - TermSingle -> line 18
+INFO  17:48:46,190 - ExprSingle -> line 18
+INFO  17:48:46,190 - DesignatorAssignopExpression -> line 18
+INFO  17:48:46,190 - DesignatorSingle -> line 19
+INFO  17:48:46,190 - DesignatorArray -> line 19
+INFO  17:48:46,190 - FactorNumConst -> line 19
+INFO  17:48:46,190 - TermSingle -> line 19
+INFO  17:48:46,190 - ExprSingle -> line 19
+INFO  17:48:46,190 - DesignatorSquareBrackets -> line 19
+INFO  17:48:46,190 - FactorNumConst -> line 19
+INFO  17:48:46,190 - TermSingle -> line 19
+INFO  17:48:46,190 - ExprSingle -> line 19
+INFO  17:48:46,190 - DesignatorAssignopExpression -> line 19
+INFO  17:48:46,190 - DesignatorSingle -> line 20
+INFO  17:48:46,190 - DesignatorArray -> line 20
+INFO  17:48:46,190 - FactorNumConst -> line 20
+INFO  17:48:46,190 - TermSingle -> line 20
+INFO  17:48:46,190 - ExprSingle -> line 20
+INFO  17:48:46,190 - DesignatorSquareBrackets -> line 20
+INFO  17:48:46,190 - FactorNumConst -> line 20
+INFO  17:48:46,190 - TermSingle -> line 20
+INFO  17:48:46,190 - ExprSingle -> line 20
+INFO  17:48:46,190 - DesignatorAssignopExpression -> line 20
+INFO  17:48:46,190 - DesignatorSingle -> line 21
+INFO  17:48:46,190 - DesignatorArray -> line 21
+INFO  17:48:46,190 - FactorNumConst -> line 21
+INFO  17:48:46,190 - TermSingle -> line 21
+INFO  17:48:46,190 - ExprSingle -> line 21
+INFO  17:48:46,190 - DesignatorSquareBrackets -> line 21
+INFO  17:48:46,190 - FactorNumConst -> line 21
+INFO  17:48:46,190 - TermSingle -> line 21
+INFO  17:48:46,190 - ExprSingle -> line 21
+INFO  17:48:46,190 - DesignatorAssignopExpression -> line 21
+INFO  17:48:46,190 - DesignatorSingle -> line 25
+INFO  17:48:46,190 - ForeachVar -> line 25
+INFO  17:48:46,190 - ForeachStatementBeginning -> line 25
+INFO  17:48:46,190 - DesignatorSingle -> line 28
+INFO  17:48:46,190 - FactorDesignator -> line 28
+INFO  17:48:46,190 - TermSingle -> line 28
+INFO  17:48:46,190 - ExprSingle -> line 28
+INFO  17:48:46,191 - FactorNumConst -> line 28
+INFO  17:48:46,191 - TermSingle -> line 28
+INFO  17:48:46,191 - ExprSingle -> line 28
+INFO  17:48:46,191 - CondFactMultipleEquality -> line 28
+INFO  17:48:46,191 - DesignatorSingle -> line 29
+INFO  17:48:46,191 - FactorNumConst -> line 29
+INFO  17:48:46,191 - TermSingle -> line 29
+INFO  17:48:46,191 - ExprSingle -> line 29
+INFO  17:48:46,191 - DesignatorAssignopExpression -> line 29
+INFO  17:48:46,191 - StatementWhileStart
+INFO  17:48:46,191 - DesignatorSingle -> line 30
+INFO  17:48:46,191 - FactorDesignator -> line 30
+INFO  17:48:46,191 - TermSingle -> line 30
+INFO  17:48:46,191 - ExprSingle -> line 30
+INFO  17:48:46,191 - FactorNumConst -> line 30
+INFO  17:48:46,191 - TermSingle -> line 30
+INFO  17:48:46,191 - ExprSingle -> line 30
+INFO  17:48:46,191 - CondFactMultipleComparaison -> line 30
+INFO  17:48:46,191 - DesignatorSingle -> line 31
+INFO  17:48:46,191 - FactorDesignator -> line 31
+INFO  17:48:46,191 - TermSingle -> line 31
+INFO  17:48:46,191 - ExprSingle -> line 31
+INFO  17:48:46,191 - PrintNumConstOptionalEmpty
+INFO  17:48:46,191 - StatementPrint -> line 31
+INFO  17:48:46,191 - DesignatorSingle -> line 32
+INFO  17:48:46,191 - DesignatorActionDec -> line 32
+INFO  17:48:46,191 - StatementWhile -> line 30
+INFO  17:48:46,191 - DesignatorSingle -> line 36
+INFO  17:48:46,191 - FactorDesignator -> line 36
+INFO  17:48:46,191 - TermSingle -> line 36
+INFO  17:48:46,191 - ExprSingle -> line 36
+INFO  17:48:46,191 - FactorNumConst -> line 36
+INFO  17:48:46,191 - TermSingle -> line 36
+INFO  17:48:46,191 - ExprSingle -> line 36
+INFO  17:48:46,191 - CondFactMultipleEquality -> line 36
+INFO  17:48:46,191 - StatementContinue
+INFO  17:48:46,191 - DesignatorSingle -> line 40
+INFO  17:48:46,191 - FactorDesignator -> line 40
+INFO  17:48:46,191 - TermSingle -> line 40
+INFO  17:48:46,191 - ExprSingle -> line 40
+INFO  17:48:46,191 - PrintNumConstOptionalEmpty
+INFO  17:48:46,191 - StatementPrint -> line 40
+INFO  17:48:46,191 - DesignatorSingle -> line 42
+INFO  17:48:46,191 - FactorDesignator -> line 42
+INFO  17:48:46,191 - TermSingle -> line 42
+INFO  17:48:46,191 - ExprSingle -> line 42
+INFO  17:48:46,191 - FactorNumConst -> line 42
+INFO  17:48:46,191 - TermSingle -> line 42
+INFO  17:48:46,191 - ExprSingleMinus -> line 42
+INFO  17:48:46,191 - CondFactMultipleEquality -> line 42
+INFO  17:48:46,191 - DesignatorSingle -> line 43
+INFO  17:48:46,191 - ForeachVar -> line 43
+INFO  17:48:46,191 - ForeachStatementBeginning -> line 43
+INFO  17:48:46,191 - DesignatorSingle -> line 44
+INFO  17:48:46,191 - FactorDesignator -> line 44
+INFO  17:48:46,191 - TermSingle -> line 44
+INFO  17:48:46,191 - ExprSingle -> line 44
+INFO  17:48:46,191 - PrintNumConstOptionalEmpty
+INFO  17:48:46,191 - StatementPrint -> line 44
+INFO  17:48:46,191 - ForeachStatement -> line 43
+INFO  17:48:46,191 - FactorCharConst -> line 48
+INFO  17:48:46,191 - TermSingle -> line 48
+INFO  17:48:46,191 - ExprSingle -> line 48
+INFO  17:48:46,191 - PrintNumConstOptionalEmpty
+INFO  17:48:46,191 - StatementPrint -> line 48
+INFO  17:48:46,191 - DesignatorSingle -> line 51
+INFO  17:48:46,191 - FactorDesignator -> line 51
+INFO  17:48:46,191 - TermSingle -> line 51
+INFO  17:48:46,191 - ExprSingle -> line 51
+INFO  17:48:46,191 - FactorNumConst -> line 51
+INFO  17:48:46,191 - TermSingle -> line 51
+INFO  17:48:46,191 - ExprSingle -> line 51
+INFO  17:48:46,191 - CondFactMultipleEquality -> line 51
+INFO  17:48:46,191 - StatementBreak
+INFO  17:48:46,191 - ForeachStatement -> line 25
+INFO  17:48:46,191 - MethodDecl -> line 4
+INFO  17:48:46,191 - Program -> line 1
+INFO  17:48:46,191 - ===================================
+INFO  17:48:46,193 - Parsiranje uspesno zavrseno!

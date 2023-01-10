@@ -9,7 +9,6 @@ import rs.ac.bg.etf.pp1.ast.*;
 import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
-import rs.etf.pp1.symboltable.concepts.Struct;
 
 public class CodeGenerator extends VisitorAdaptor {
 	
@@ -28,26 +27,26 @@ public class CodeGenerator extends VisitorAdaptor {
     private List<Integer> designatorStatementAssignArrayObjectIndexes = null;
     private int designatorStatementAssignArrayObjectCnt = 0;
     
-    // Current statement type (used for jump FIXUP)
+    // Current statement type (used for jump fixup)
     private enum SpecialStatement {IF_ELSE_STMT, WHILE_STMT, FOREACH_STMT};
     private Stack<SpecialStatement> specialStatementStack = new Stack<>();
     
-    // Current loop type (used for CONTINUE & BREAK)
+    // Current loop type (used for continue & break jumps)
     private enum Loop {WHILE_LOOP, FOREACH_LOOP};
     private Stack<Loop> loopStack = new Stack<>();
     
-    // IfElse stacks
+    // If Else stacks
     private Stack<Integer> skipElseBlockFixupJumpAddresses = new Stack<>();
     private Stack<Integer> skipIfBlockFixupJumpAddresses = new Stack<>();
     
     // While stacks
     private Stack<Integer> skipWhileBlockFixupJumpAddresses = new Stack<>();
-    private Stack<Integer> begginingOfWhileBlockJumpAddresses = new Stack<>();
+    private Stack<Integer> beginningOfWhileBlockJumpAddresses = new Stack<>();
     private Stack<List<Integer>> breakWhileFixupJumpAddresses = new Stack<>();
     
     // Foreach stacks
     private Stack<Integer> skipForeachBlockFixupJumpAddresses = new Stack<>();
-    private Stack<Integer> begginingOfForeachBlockJumpAddresses = new Stack<>();
+    private Stack<Integer> beginningOfForeachBlockJumpAddresses = new Stack<>();
     private Stack<List<Integer>> breakForeachFixupJumpAddresses = new Stack<>();
 
 
@@ -58,7 +57,7 @@ public class CodeGenerator extends VisitorAdaptor {
 		return mainPc;
 	}
 	
-	public int getAddopOperatorCode(Class operatorClass) {
+	public int getAddopOperatorCode(Class<? extends Addop> operatorClass) {
 		if (operatorClass == AddopPlus.class) {
 			return Code.add;
 		} else if (operatorClass == AddopMinus.class) {
@@ -70,7 +69,7 @@ public class CodeGenerator extends VisitorAdaptor {
 		}
 	}
 	
-	public int getMulopOperatorCode(Class operatorClass) {
+	public int getMulopOperatorCode(Class<? extends Mulop> operatorClass) {
 		if (operatorClass == AddopMul.class) {
 			return Code.mul;
 		} else if (operatorClass == AddopDiv.class) {
@@ -84,7 +83,7 @@ public class CodeGenerator extends VisitorAdaptor {
 		}
 	}
 	
-	public int getRelopComparisonOperatorCode(Class operatorClass) {
+	public int getRelopComparisonOperatorCode(Class<? extends RelopComparison> operatorClass) {
 		if (operatorClass == RelopGreater.class) {
 			return Code.gt;
 		} else if (operatorClass == RelopGreaterEquals.class) {
@@ -100,7 +99,7 @@ public class CodeGenerator extends VisitorAdaptor {
 		}
 	}
 	
-	public int getRelopEqualityOperatorCode(Class operatorClass) {
+	public int getRelopEqualityOperatorCode(Class<? extends RelopEquality> operatorClass) {
 		if (operatorClass == RelopEquals.class) {
 			return Code.eq;
 		} else if (operatorClass == RelopNotEquals.class) {
@@ -215,7 +214,6 @@ public class CodeGenerator extends VisitorAdaptor {
 			Code.put(Code.call);
 			Code.put2(offset);
 		}
-		// Return value is not cleared by caller
 		if(methodDesignator.getType() != Tab.noType){
 			Code.put(Code.pop);
 		}
@@ -248,11 +246,10 @@ public class CodeGenerator extends VisitorAdaptor {
 	public void visit(DesignatorStatementAssignArray designatorStatementAssignArray) {
 		Obj designatorArrRight = designatorStatementAssignArray.getDesignator().obj;
 		
-		// Check for Runtime Error, if number of args > arrLength
+		// Runtime error check
 		Code.load(designatorStatementAssignArray.getDesignator().obj);
 		Code.put(Code.arraylength);
 		Code.loadConst(designatorStatementAssignArrayObjectCnt);
-		//int jumpToFix = Code.pc + 1;
 		Code.put(getJumpCondition(Code.ge));	// if (arrLength >= cnt) skip trap;
 		int jumpToFix = Code.pc;
 		Code.put2(0);
@@ -260,7 +257,7 @@ public class CodeGenerator extends VisitorAdaptor {
 		Code.put(1);
 		Code.fixup(jumpToFix);
 		
-		// TAKE CARE OF THIS! Inverse because array element assignment happens on stack
+		// Inverse because array element assignment happens on stack, in reverse order
 		for (int i = designatorStatementAssignArrayObjects.size() - 1; i >= 0; i--) {
 			int arrayIndex = designatorStatementAssignArrayObjectIndexes.get(i);
 			Obj designatorLeft = designatorStatementAssignArrayObjects.get(i);
@@ -294,15 +291,11 @@ public class CodeGenerator extends VisitorAdaptor {
 	// ~~~~~~~~~~~~~~~~~~~ Designator ~~~~~~~~~~~~~~~~~~~
 	
 	public void visit(DesignatorArray designatorArray) {
-		// Since Load and Store for Arrays require Adr, Index values on exprStack, put them here
-		// Index is put from Expr, and Adr is put here
-		// designatorArray is still Var gere, changed to Elem in DesignatorSquareBrackets visit
 		Code.load(designatorArray.getDesignator().obj);
 	}
 	
 	public void visit(DesignatorSingle designatorSingle) {
-		// Already loading this in other visit methods
-		// For arrays, loading aload/baload in other methods (that's why we need to load Adr/Value before)
+		// Empty
 	}
 	
 	public void visit(DesignatorDot DesignatorDot) {
@@ -355,7 +348,7 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	public void visit(FactorNewArray factorNewArray) {
-		// Array length already on ExprStack - visited Expr
+		// Array length already on exprStack - visited Expr
 		Code.put(Code.newarray);
 		if (factorNewArray.struct.getElemType() == Tab.charType) {
 			Code.put(0);
@@ -363,9 +356,7 @@ public class CodeGenerator extends VisitorAdaptor {
 			Code.put(1);
 		}
 	}
-	
-	// TODO check TRAP error numbers
-	
+		
 	// ~~~~~~~~~~~~~~~~~~~ Statement If Else ~~~~~~~~~~~~~~~~~~~
 	
 	public void visit(IfStatementStart ifStatementStart) {
@@ -373,30 +364,31 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	public void visit(PlaceAfterIfCondition placeAfterIfCondition) {
-		// putFalseJump already placed in CondFact
+		// Empty, putFalseJump already processed in Condition
 	}
 	
 	public void visit(StatementIfElse statementIfElse) {
-		// Pay attention to this!
+		// Need to patch skipElse jump
 		Code.fixup(skipElseBlockFixupJumpAddresses.pop());
 		specialStatementStack.pop();
 	}
 	
 	public void visit(StatementIf statementIf) {
-		// Pay attention to this!
-		Code.fixup(skipElseBlockFixupJumpAddresses.pop());
+		// No need to patch skipElse jump
 		specialStatementStack.pop();
 	}
 	
 	public void visit(PlaceAfterIfBlock placeAfterIfBlock) {
-		Code.putJump(0);
-		skipElseBlockFixupJumpAddresses.push(Code.pc - 2);
+		// IfElse - patch else, If - don't patch
+		if (placeAfterIfBlock.getParent().getParent().getClass() == StatementIfElse.class) {
+			Code.putJump(0);
+			skipElseBlockFixupJumpAddresses.push(Code.pc - 2);
+		}
 		Code.fixup(skipIfBlockFixupJumpAddresses.pop());
 	}
 	
 	public void visit(PlaceAfterElseBlock placeAfterElseBlock) {
-		// Pay attention to this!
-		//Code.fixup(skipElseBlockFixupJumpAddresses.pop());
+		// Empty
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~ Statement While ~~~~~~~~~~~~~~~~~~~
@@ -405,21 +397,82 @@ public class CodeGenerator extends VisitorAdaptor {
 		specialStatementStack.push(SpecialStatement.WHILE_STMT);
 		loopStack.push(Loop.WHILE_LOOP);
 		breakWhileFixupJumpAddresses.push(new ArrayList<>());
-		begginingOfWhileBlockJumpAddresses.push(Code.pc);
-	}
-	
-	public void visit(PlaceAfterWhileBlock placeAfterWhileBlock) {
-		Code.putJump(begginingOfWhileBlockJumpAddresses.peek());
-		begginingOfWhileBlockJumpAddresses.pop();
-		Code.fixup(skipWhileBlockFixupJumpAddresses.peek());
-		skipWhileBlockFixupJumpAddresses.pop();
+		beginningOfWhileBlockJumpAddresses.push(Code.pc);
 	}
 	
 	public void visit(StatementWhile statementWhile) {
+		// Set default jump to beginning
+		Code.putJump(beginningOfWhileBlockJumpAddresses.peek());
+		beginningOfWhileBlockJumpAddresses.pop();
+		// Fixup jumps to end
+		Code.fixup(skipWhileBlockFixupJumpAddresses.peek());
+		skipWhileBlockFixupJumpAddresses.pop();
+		// Fixup break jumps
 		List<Integer> breakJmpFixupList = breakWhileFixupJumpAddresses.pop();
 		for (int addr : breakJmpFixupList) {
 			Code.fixup(addr);
 		}
+		specialStatementStack.pop();
+		loopStack.pop();
+	}
+	
+	// ~~~~~~~~~~~~~~~~~~~ Statement Foreach ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(ForeachStatementBeginning foreachStatementBeginning) {
+		// Init state
+		specialStatementStack.push(SpecialStatement.FOREACH_STMT);
+		loopStack.push(Loop.FOREACH_LOOP);
+		breakForeachFixupJumpAddresses.push(new ArrayList<>());
+		
+		Obj arrayDesignator = foreachStatementBeginning.getDesignator().obj;
+		Obj varDesignator = foreachStatementBeginning.getForeachVarDesignator().obj;
+		
+															// STACK
+		Code.load(arrayDesignator);							// arrAddr
+		Code.loadConst(-1);									// arrAddr, i
+		
+		beginningOfForeachBlockJumpAddresses.push(Code.pc); // Beginning of the loop (before inc)
+		
+		Code.loadConst(1);									// arrAddr, i, 1	
+		Code.put(Code.add);									// arrAddr, i = i + 1
+		
+		Code.put(Code.dup2);								// arrAddr, i, arrAddr, i
+		Code.put(Code.dup2);								// arrAddr, i, arrAddr, i, arrAddr, i
+
+		Code.put(Code.pop);									// arrAddr, i, arrAddr, i, arrAddr
+		Code.put(Code.arraylength);							// arrAddr, i, arrAddr, i, arrLength
+		
+		// WHEN JUMPING, NEED TO CLEANUP 3 ADDRESSES
+		Code.put(getJumpCondition(Code.ge));				// arrAddr, i, arrAddr
+		skipForeachBlockFixupJumpAddresses.push(Code.pc);	// FIXUP THIS -> Change to End
+		Code.put2(0);	// ADDRESS HAS 2 BYTES!				// arrAddr, i, arrAddr
+		
+		Code.put(Code.dup2);								// arrAddr, i, arrAddr, i, arrAddr
+		Code.put(Code.pop);									// arrAddr, i, arrAddr, i
+		Code.put(Code.aload);								// arrAddr, i, arr[i]
+		Code.store(varDesignator);							// arrAddr, i
+		
+		// Next, statements are handled
+	}
+		
+	public void visit(ForeachStatement foreachStatement) {
+		// Set default jump to beginning
+		Code.putJump(beginningOfForeachBlockJumpAddresses.peek());
+		beginningOfForeachBlockJumpAddresses.pop();
+		// Fixup jumps to end
+		Code.fixup(skipForeachBlockFixupJumpAddresses.peek());
+		skipForeachBlockFixupJumpAddresses.pop();
+		// Fixup break jumps
+		List<Integer> breakJmpFixupList = breakForeachFixupJumpAddresses.pop();
+		for (int addr : breakJmpFixupList) {
+			Code.fixup(addr);
+		}
+		
+		// Cleanup stack
+		Code.put(Code.pop);			// arrAddr
+		Code.put(Code.pop);			// i
+		Code.put(Code.pop);			// arrAddr
+		
 		specialStatementStack.pop();
 		loopStack.pop();
 	}
@@ -429,9 +482,9 @@ public class CodeGenerator extends VisitorAdaptor {
 	public void visit(StatementContinue statementContinue) {
 		Loop currentLoop = loopStack.peek();
 		if (currentLoop == Loop.WHILE_LOOP) {
-			Code.putJump(begginingOfWhileBlockJumpAddresses.peek());
+			Code.putJump(beginningOfWhileBlockJumpAddresses.peek());
 		} else if (currentLoop == Loop.FOREACH_LOOP) {
-			Code.putJump(begginingOfForeachBlockJumpAddresses.peek());
+			Code.putJump(beginningOfForeachBlockJumpAddresses.peek());
 		}
 	}
 	
@@ -445,67 +498,7 @@ public class CodeGenerator extends VisitorAdaptor {
 		} else if (currentLoop == Loop.FOREACH_LOOP) {
 			breakForeachFixupJumpAddresses.peek().add(Code.pc - 2);
 		}
-	}
-	
-	// ~~~~~~~~~~~~~~~~~~~ Statement Foreach ~~~~~~~~~~~~~~~~~~~
-	
-	public void visit(StatementForeachStart statementForeachStart) {
-		specialStatementStack.push(SpecialStatement.FOREACH_STMT);
-		loopStack.push(Loop.FOREACH_LOOP);
-		breakForeachFixupJumpAddresses.push(new ArrayList<>());
-	}
-	
-	public void visit(ForeachStatementBeginning foreachStatementBeginning) {
-		Obj arrayDesignator = foreachStatementBeginning.getDesignator().obj;
-		Obj varDesignator = foreachStatementBeginning.getForeachVarDesignator().obj;
-		
-															// STACK
-		Code.load(arrayDesignator);							// arrAddr
-		Code.loadConst(-1);									// arrAddr, i
-		
-		begginingOfForeachBlockJumpAddresses.push(Code.pc); // Beginning of the loop (before inc)
-		
-		Code.loadConst(1);									// arrAddr, i, 1	
-		Code.put(Code.add);									// arrAddr, i = i + 1
-		
-		Code.put(Code.dup2);								// arrAddr, i, arrAddr, i
-		Code.put(Code.dup2);								// arrAddr, i, arrAddr, i, arrAddr, i
-
-		Code.put(Code.pop);									// arrAddr, i, arrAddr, i, arrAddr
-		Code.put(Code.arraylength);							// arrAddr, i, arrAddr, i, arrLength
-		
-		Code.put(getJumpCondition(Code.ge));				// arrAddr, i, arrAddr
-		skipForeachBlockFixupJumpAddresses.push(Code.pc);	// FIXUP THIS -> Change to End
-		Code.put2(0);	// ADDRESS HAS 2 BYTES!				// arrAddr, i, arrAddr
-		
-		Code.put(Code.dup2);								// arrAddr, i, arrAddr, i, arrAddr
-		Code.put(Code.pop);									// arrAddr, i, arrAddr, i
-		Code.put(Code.aload);								// arrAddr, i, arr[i]
-		Code.store(varDesignator);							// arrAddr, i
-		
-		// Next, statements are handled
-	}
-	
-	public void visit(PlaceAfterForeachBlock placeAfterForeachBlock) {
-		Code.putJump(begginingOfForeachBlockJumpAddresses.peek());
-		begginingOfForeachBlockJumpAddresses.pop();
-		Code.fixup(skipForeachBlockFixupJumpAddresses.peek());
-		skipForeachBlockFixupJumpAddresses.pop();
-	}
-	
-	public void visit(ForeachStatement foreachStatement) {
-		List<Integer> breakJmpFixupList = breakForeachFixupJumpAddresses.pop();
-		for (int addr : breakJmpFixupList) {
-			Code.fixup(addr);
-		}
-		
-		// Cleanup stack
-		Code.put(Code.pop);			// i
-		Code.put(Code.pop);			// arrAddr
-		
-		specialStatementStack.pop();
-		loopStack.pop();
-	}
+	}	
 	
 	// ~~~~~~~~~~~~~~~~~~~ CondTerm ~~~~~~~~~~~~~~~~~~~
 
@@ -532,7 +525,6 @@ public class CodeGenerator extends VisitorAdaptor {
 		saveFixupJumpAddress();
 	}
 	
-	// Put pc as fixup jump address for current stmt
 	private void saveFixupJumpAddress() {
 		SpecialStatement currentStatement = specialStatementStack.peek();
 		if (currentStatement == SpecialStatement.IF_ELSE_STMT) {

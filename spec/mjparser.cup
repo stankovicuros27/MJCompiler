@@ -102,10 +102,10 @@ nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, Factor, Term, Expr, Pri
 
 nonterminal ConstDeclInnerListElement, VarDeclInnerListElement, FormParam, DesignatorOptional, ForeachStatement, ConditionInIf;
 nonterminal DesignatorStatementAssignArrayStart;
-nonterminal RelopComparison, RelopEquality, StatementForeachStart;
+nonterminal RelopComparison, RelopEquality;
 nonterminal IfStatementStart, ElseStatementStart;
 
-nonterminal PlaceAfterIfCondition, PlaceAfterIfBlock, PlaceAfterElseBlock, PlaceAfterWhileBlock, PlaceAfterForeachBlock;
+nonterminal PlaceAfterIfCondition, PlaceAfterIfBlock, PlaceAfterElseBlock;
 
 nonterminal ForeachStatementBeginning;
 
@@ -321,7 +321,7 @@ Statement ::= (StatementDesignator) DesignatorStatement SEMI_COLON
 			|
 			(StatementIf) IfStatement
 			|
-			(StatementWhile) StatementWhileStart L_PAREN Condition R_PAREN Statement PlaceAfterWhileBlock
+			(StatementWhile) StatementWhileStart L_PAREN Condition R_PAREN Statement
 			|
 			(StatementBreak) BREAK SEMI_COLON
 			|
@@ -343,8 +343,6 @@ Statement ::= (StatementDesignator) DesignatorStatement SEMI_COLON
 			
 			
 // ~~~~~~~~~~~~~~~~~~~ WHILE STATEMENT ~~~~~~~~~~~~~~~~~~~
-
-PlaceAfterWhileBlock ::= (PlaceAfterWhileBlock) /* e */;
 			
 StatementWhileStart ::= (StatementWhileStart) WHILE;
 
@@ -370,15 +368,11 @@ PlaceAfterElseBlock ::= (PlaceAfterElseBlock) /* e */;
 
 // ~~~~~~~~~~~~~~~~~~~ FOREACH STATEMENT ~~~~~~~~~~~~~~~~~~~
 								
-ForeachStatement ::= (ForeachStatement) ForeachStatementBeginning Statement R_PAREN PlaceAfterForeachBlock;
+ForeachStatement ::= (ForeachStatement) ForeachStatementBeginning Statement R_PAREN;
 
-ForeachStatementBeginning ::= (ForeachStatementBeginning) Designator:arrayDesignator DOT StatementForeachStart L_PAREN ForeachVarDesignator:varDesignator ARROW;
+ForeachStatementBeginning ::= (ForeachStatementBeginning) Designator:arrayDesignator DOT FOREACH L_PAREN ForeachVarDesignator:varDesignator ARROW;
 
 ForeachVarDesignator ::= (ForeachVarDesignator) IDENT:name;
-
-StatementForeachStart ::= (StatementForeachStart) FOREACH;
-
-PlaceAfterForeachBlock ::= (PlaceAfterForeachBlock) /* e */;
 
 
 
