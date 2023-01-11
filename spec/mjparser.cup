@@ -109,6 +109,8 @@ nonterminal PlaceAfterIfCondition, PlaceAfterIfBlock, PlaceAfterElseBlock;
 
 nonterminal ForeachStatementBeginning;
 
+nonterminal PlaceAfterFirstConditionInOr, PlaceAfterFirstConditionInAnd;
+
 // ~~~~~~~~~~~~~~~~TERMINALS~~~~~~~~~~~~~~~~
 
 // Keywords
@@ -450,15 +452,19 @@ ConditionInIf ::= (ConditionInIfExists) Condition
 					:}
 				;
 
-Condition ::= (ConditionMultiple) Condition OR CondTerm
+Condition ::= (ConditionMultiple) Condition PlaceAfterFirstConditionInOr OR CondTerm
 			|
 			(ConditionSingle) CondTerm
 			;
 			
-CondTerm ::= (CondTermMultiple) CondTerm AND CondFact
+PlaceAfterFirstConditionInOr ::= (PlaceAfterFirstConditionInOr) /* e */;
+			
+CondTerm ::= (CondTermMultiple) CondTerm PlaceAfterFirstConditionInAnd AND CondFact
 			|
 			(CondTermSingle) CondFact
 			;
+			
+PlaceAfterFirstConditionInAnd ::= (PlaceAfterFirstConditionInAnd) /* e */;
 
 CondFact ::= (CondFactSingle) Expr:expr
 			|

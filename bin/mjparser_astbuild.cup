@@ -137,6 +137,9 @@ nonterminal PlaceAfterElseBlock PlaceAfterElseBlock;
 
 nonterminal ForeachStatementBeginning ForeachStatementBeginning;
 
+nonterminal PlaceAfterFirstConditionInOr PlaceAfterFirstConditionInOr;
+nonterminal PlaceAfterFirstConditionInAnd PlaceAfterFirstConditionInAnd;
+
 // ~~~~~~~~~~~~~~~~TERMINALS~~~~~~~~~~~~~~~~
 
 // Keywords
@@ -478,15 +481,19 @@ ConditionInIf ::= (ConditionInIfExists) Condition:C1 {: RESULT=new ConditionInIf
 					:} {: RESULT=new ConditionInIfError(); :}
 				;
 
-Condition ::= (ConditionMultiple) Condition:C1 OR CondTerm:C2 {: RESULT=new ConditionMultiple(C1, C2); RESULT.setLine(C1left); :}
+Condition ::= (ConditionMultiple) Condition:C1 PlaceAfterFirstConditionInOr:P2 OR CondTerm:C3 {: RESULT=new ConditionMultiple(C1, P2, C3); RESULT.setLine(C1left); :}
 			|
 			(ConditionSingle) CondTerm:C1 {: RESULT=new ConditionSingle(C1); RESULT.setLine(C1left); :}
 			;
 			
-CondTerm ::= (CondTermMultiple) CondTerm:C1 AND CondFact:C2 {: RESULT=new CondTermMultiple(C1, C2); RESULT.setLine(C1left); :}
+PlaceAfterFirstConditionInOr ::= (PlaceAfterFirstConditionInOr) {: RESULT=new PlaceAfterFirstConditionInOr(); :} /* e */;
+			
+CondTerm ::= (CondTermMultiple) CondTerm:C1 PlaceAfterFirstConditionInAnd:P2 AND CondFact:C3 {: RESULT=new CondTermMultiple(C1, P2, C3); RESULT.setLine(C1left); :}
 			|
 			(CondTermSingle) CondFact:C1 {: RESULT=new CondTermSingle(C1); RESULT.setLine(C1left); :}
 			;
+			
+PlaceAfterFirstConditionInAnd ::= (PlaceAfterFirstConditionInAnd) {: RESULT=new PlaceAfterFirstConditionInAnd(); :} /* e */;
 
 CondFact ::= (CondFactSingle) Expr:expr {: RESULT=new CondFactSingle(expr); RESULT.setLine(exprleft); :}
 			|

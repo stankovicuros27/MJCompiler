@@ -35,20 +35,35 @@ public class CodeGenerator extends VisitorAdaptor {
     private enum Loop {WHILE_LOOP, FOREACH_LOOP};
     private Stack<Loop> loopStack = new Stack<>();
     
-    // If Else stacks
+    
+    // IF ELSE
+    
+    // Holds addresses to fixup
     private Stack<Integer> skipElseBlockFixupJumpAddresses = new Stack<>();
-    private Stack<Integer> skipIfBlockFixupJumpAddresses = new Stack<>();
+    private Stack<List<Integer>> ifConditionIsFalseFixupJumpAddresses = new Stack<>();
+    private Stack<List<Integer>> beginningOfIfBlockFixupJumpAddresses = new Stack<>();
     
-    // While stacks
-    private Stack<Integer> skipWhileBlockFixupJumpAddresses = new Stack<>();
-    private Stack<Integer> beginningOfWhileBlockJumpAddresses = new Stack<>();
+    
+    // WHILE
+    
+    // Holds addresses to fixup
     private Stack<List<Integer>> breakWhileFixupJumpAddresses = new Stack<>();
-    
-    // Foreach stacks
-    private Stack<Integer> skipForeachBlockFixupJumpAddresses = new Stack<>();
-    private Stack<Integer> beginningOfForeachBlockJumpAddresses = new Stack<>();
-    private Stack<List<Integer>> breakForeachFixupJumpAddresses = new Stack<>();
+    private Stack<List<Integer>> whileConditionIsFalseFixupJumpAddresses = new Stack<>();
+    private Stack<List<Integer>> beginningOfWhileBlockFixupJumpAddresses = new Stack<>();
 
+    // Holds real addresses
+    private Stack<Integer> beginningOfWhileBlockJumpAddresses = new Stack<>();
+
+    
+    // FOREACH
+    
+    // Holds addresses to fixup
+    private Stack<Integer> skipForeachBlockFixupJumpAddresses = new Stack<>();
+    private Stack<List<Integer>> breakForeachFixupJumpAddresses = new Stack<>();
+    
+    // Holds real addresses
+    private Stack<Integer> beginningOfForeachBlockJumpAddresses = new Stack<>();
+    
 
     
 	// ~~~~~~~~~~~~~~~~~~~ Util ~~~~~~~~~~~~~~~~~~~
@@ -361,30 +376,57 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	public void visit(IfStatementStart ifStatementStart) {
 		specialStatementStack.push(SpecialStatement.IF_ELSE_STMT);
+		
+		// For Conditions
+		beginningOfIfBlockFixupJumpAddresses.push(new ArrayList<>());
+		ifConditionIsFalseFixupJumpAddresses.push(new ArrayList<>());
 	}
 	
 	public void visit(PlaceAfterIfCondition placeAfterIfCondition) {
-		// Empty, putFalseJump already processed in Condition
+		List<Integer> addressesToFix = beginningOfIfBlockFixupJumpAddresses.peek();
+		for (int addr : addressesToFix) {
+			Code.fixup(addr);
+		}
+		beginningOfIfBlockFixupJumpAddresses.peek().clear();
 	}
 	
 	public void visit(StatementIfElse statementIfElse) {
+		
 		// Need to patch skipElse jump
-		Code.fixup(skipElseBlockFixupJumpAddresses.pop());
+		Code.fixup(skipElseBlockFixupJumpAddresses.peek());
+		skipElseBlockFixupJumpAddresses.pop();
+		
 		specialStatementStack.pop();
+		
+		// Pop for Conditions
+		beginningOfIfBlockFixupJumpAddresses.pop();
+		ifConditionIsFalseFixupJumpAddresses.pop();
 	}
 	
 	public void visit(StatementIf statementIf) {
+		
 		// No need to patch skipElse jump
 		specialStatementStack.pop();
+		
+		// Pop for Conditions
+		beginningOfIfBlockFixupJumpAddresses.pop();
+		ifConditionIsFalseFixupJumpAddresses.pop();
 	}
 	
 	public void visit(PlaceAfterIfBlock placeAfterIfBlock) {
-		// IfElse - patch else, If - don't patch
+		
+		// Set jump after else branch
 		if (placeAfterIfBlock.getParent().getParent().getClass() == StatementIfElse.class) {
 			Code.putJump(0);
 			skipElseBlockFixupJumpAddresses.push(Code.pc - 2);
 		}
-		Code.fixup(skipIfBlockFixupJumpAddresses.pop());
+		
+		// Fix jumps to else (if condition is false)
+		List<Integer> addressesToFix = ifConditionIsFalseFixupJumpAddresses.peek();
+		for (int addr : addressesToFix) {
+			Code.fixup(addr);
+		}
+		ifConditionIsFalseFixupJumpAddresses.peek().clear();
 	}
 	
 	public void visit(PlaceAfterElseBlock placeAfterElseBlock) {
@@ -398,22 +440,38 @@ public class CodeGenerator extends VisitorAdaptor {
 		loopStack.push(Loop.WHILE_LOOP);
 		breakWhileFixupJumpAddresses.push(new ArrayList<>());
 		beginningOfWhileBlockJumpAddresses.push(Code.pc);
+		
+		// For Conditions
+		beginningOfWhileBlockFixupJumpAddresses.push(new ArrayList<>());
+		whileConditionIsFalseFixupJumpAddresses.push(new ArrayList<>());
 	}
 	
 	public void visit(StatementWhile statementWhile) {
+		
 		// Set default jump to beginning
 		Code.putJump(beginningOfWhileBlockJumpAddresses.peek());
 		beginningOfWhileBlockJumpAddresses.pop();
+		
 		// Fixup jumps to end
-		Code.fixup(skipWhileBlockFixupJumpAddresses.peek());
-		skipWhileBlockFixupJumpAddresses.pop();
+		List<Integer> falseConditionJmpFixupList = whileConditionIsFalseFixupJumpAddresses.peek();
+		for (int addr : falseConditionJmpFixupList) {
+			Code.fixup(addr);
+		}
+		whileConditionIsFalseFixupJumpAddresses.peek().clear();
+		
 		// Fixup break jumps
 		List<Integer> breakJmpFixupList = breakWhileFixupJumpAddresses.pop();
 		for (int addr : breakJmpFixupList) {
 			Code.fixup(addr);
 		}
+		
+		// Pop state identifiers
 		specialStatementStack.pop();
 		loopStack.pop();
+		
+		// Pop for Conditions
+		beginningOfWhileBlockFixupJumpAddresses.pop();
+		whileConditionIsFalseFixupJumpAddresses.pop();
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~ Statement Foreach ~~~~~~~~~~~~~~~~~~~
@@ -500,13 +558,44 @@ public class CodeGenerator extends VisitorAdaptor {
 		}
 	}	
 	
-	// ~~~~~~~~~~~~~~~~~~~ CondTerm ~~~~~~~~~~~~~~~~~~~
-
+	// ~~~~~~~~~~~~~~~~~~~ Condition ~~~~~~~~~~~~~~~~~~~
 	
+	// We already have falseJump from CondFact that jumps to: next condition in OR / then branch / after while loop
+	public void visit(PlaceAfterFirstConditionInOr placeAfterFirstConditionInOr) {
+		
+		// If condition in OR is true, jump to: if branch / while branch
+		Code.putJump(0);
+		SpecialStatement currentStatement = specialStatementStack.peek();
+		if (currentStatement == SpecialStatement.IF_ELSE_STMT) {
+			beginningOfIfBlockFixupJumpAddresses.peek().add(Code.pc - 2);
+		} else if (currentStatement == SpecialStatement.WHILE_STMT) {
+			beginningOfWhileBlockFixupJumpAddresses.peek().add(Code.pc - 2);
+		}
+		
+		// Fixup all false jumps from conditions in AND (this is fixed up to either: next condition in OR / then branch / after while loop
+		if (currentStatement == SpecialStatement.IF_ELSE_STMT) {
+			List<Integer> addressesToFix = ifConditionIsFalseFixupJumpAddresses.peek();
+			for (int addr : addressesToFix) {
+				Code.fixup(addr);
+			}
+			ifConditionIsFalseFixupJumpAddresses.peek().clear();
+		} else if (currentStatement == SpecialStatement.WHILE_STMT) {
+			List<Integer> addressesToFix = whileConditionIsFalseFixupJumpAddresses.peek();
+			for (int addr : addressesToFix) {
+				Code.fixup(addr);
+			}
+			whileConditionIsFalseFixupJumpAddresses.peek().clear();
+		}
+	}
+		
+	// ~~~~~~~~~~~~~~~~~~~ CondTerm ~~~~~~~~~~~~~~~~~~~
+	
+	public void visit(PlaceAfterFirstConditionInAnd placeAfterFirstConditionInAnd) {
+		// falseJump already set in CondFact
+	}
 	
 	// ~~~~~~~~~~~~~~~~~~~ CondFact ~~~~~~~~~~~~~~~~~~~
 	
-	// Must be bool, checked in semantic analysis
 	public void visit(CondFactSingle condFactSingle) {
 		Code.loadConst(1);
 		Code.putFalseJump(Code.eq, 0);
@@ -528,11 +617,16 @@ public class CodeGenerator extends VisitorAdaptor {
 	private void saveFixupJumpAddress() {
 		SpecialStatement currentStatement = specialStatementStack.peek();
 		if (currentStatement == SpecialStatement.IF_ELSE_STMT) {
-			skipIfBlockFixupJumpAddresses.push(Code.pc - 2);
+			ifConditionIsFalseFixupJumpAddresses.peek().add(Code.pc - 2);
 		} else if (currentStatement == SpecialStatement.WHILE_STMT) {
-			skipWhileBlockFixupJumpAddresses.push(Code.pc - 2);
+			whileConditionIsFalseFixupJumpAddresses.peek().add(Code.pc - 2);
 		}
 	}
+		
+	
+	
+	
+	
 	
 	
 	

@@ -5,11 +5,11 @@
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class PlaceAfterIfCondition implements SyntaxNode {
+public class PlaceAfterFirstConditionInOr implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    public PlaceAfterIfCondition () {
+    public PlaceAfterFirstConditionInOr () {
     }
 
     public SyntaxNode getParent() {
@@ -46,10 +46,10 @@ public class PlaceAfterIfCondition implements SyntaxNode {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("PlaceAfterIfCondition(\n");
+        buffer.append("PlaceAfterFirstConditionInOr(\n");
 
         buffer.append(tab);
-        buffer.append(") [PlaceAfterIfCondition]");
+        buffer.append(") [PlaceAfterFirstConditionInOr]");
         return buffer.toString();
     }
 }
