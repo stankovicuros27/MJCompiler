@@ -159,9 +159,9 @@ terminal Character CHAR_CONST;
 
 // ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
-terminal ARRMAX;
+terminal ARRMAX, ARRSORT;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ArrMaxArrDesignator, ArrMaxVarDesignator;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ArrMaxArrDesignator, ArrMaxVarDesignator, ArrSortArrDesignator;
 
 // ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -372,7 +372,9 @@ Statement ::= (StatementDesignator) DesignatorStatement:D1 SEMI_COLON {: RESULT=
 			|
 			(StatementSection) L_BRACE StatementListE:S1 R_BRACE {: RESULT=new StatementSection(S1); RESULT.setLine(S1left); :}
 			|
-			(StatementArrMax) ARRMAX ArrMaxArrDesignator:A1 COLON ArrMaxVarDesignator:A2 SEMI_COLON {: RESULT=new StatementArrMax(A1, A2); RESULT.setLine(A1left); :} 	// ADDITIONAL
+			(StatementArrMax) ARRMAX ArrMaxArrDesignator:A1 SEMI_COLON {: RESULT=new StatementArrMax(A1); RESULT.setLine(A1left); :} 	// ADDITIONAL
+			|
+			(StatementArrSort) ARRSORT ArrSortArrDesignator:A1 SEMI_COLON {: RESULT=new StatementArrSort(A1); RESULT.setLine(A1left); :}	// ADDITIONAL
 			;
 			
 			
@@ -598,6 +600,8 @@ Mulop ::= (AddopMul) MUL {: RESULT=new AddopMul(); :}
 		
 ArrMaxArrDesignator ::= (ArrMaxArrDesignator) IDENT:name {: RESULT=new ArrMaxArrDesignator(name); RESULT.setLine(nameleft); :};
 ArrMaxVarDesignator ::= (ArrMaxVarDesignator) IDENT:name {: RESULT=new ArrMaxVarDesignator(name); RESULT.setLine(nameleft); :};
+
+ArrSortArrDesignator ::= (ArrSortArrDesignator) IDENT:name {: RESULT=new ArrSortArrDesignator(name); RESULT.setLine(nameleft); :};
 
 // ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 

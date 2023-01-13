@@ -5,24 +5,24 @@
 
 package rs.ac.bg.etf.pp1.ast;
 
-public class MethodName implements SyntaxNode {
+public class ArrSortArrDesignator implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
     public rs.etf.pp1.symboltable.concepts.Obj obj = null;
 
-    private String MethodName;
+    private String name;
 
-    public MethodName (String MethodName) {
-        this.MethodName=MethodName;
+    public ArrSortArrDesignator (String name) {
+        this.name=name;
     }
 
-    public String getMethodName() {
-        return MethodName;
+    public String getName() {
+        return name;
     }
 
-    public void setMethodName(String MethodName) {
-        this.MethodName=MethodName;
+    public void setName(String name) {
+        this.name=name;
     }
 
     public SyntaxNode getParent() {
@@ -59,13 +59,13 @@ public class MethodName implements SyntaxNode {
     public String toString(String tab) {
         StringBuffer buffer=new StringBuffer();
         buffer.append(tab);
-        buffer.append("MethodName(\n");
+        buffer.append("ArrSortArrDesignator(\n");
 
-        buffer.append(" "+tab+MethodName);
+        buffer.append(" "+tab+name);
         buffer.append("\n");
 
         buffer.append(tab);
-        buffer.append(") [MethodName]");
+        buffer.append(") [ArrSortArrDesignator]");
         return buffer.toString();
     }
 }

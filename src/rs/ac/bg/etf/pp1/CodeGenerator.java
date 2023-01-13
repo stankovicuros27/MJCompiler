@@ -635,60 +635,69 @@ public class CodeGenerator extends VisitorAdaptor {
 	// ARRMAX (array must have len > 0)
 	public void visit(StatementArrMax statementArrMax) {
 		Obj arrayDesignator = statementArrMax.getArrMaxArrDesignator().obj;
-		Obj maxVarDesignator = statementArrMax.getArrMaxVarDesignator().obj;
 		
-		// Set max = arr[0]
-		Code.load(arrayDesignator);
-		Code.loadConst(0);
-		Code.put(Code.aload);
-		Code.store(maxVarDesignator);
+		// Init max = arr[0]
+		Code.load(arrayDesignator);				// arrAddr
+		Code.loadConst(0);						// arrAddr, 0
+		Code.put(Code.aload);					// max				max = arr[0]
 		
-		
-		Code.load(arrayDesignator);						// arrAddr
-		Code.loadConst(-1);								// arrAddr, i
-		
-		int loopStart = Code.pc;
-		
-		Code.loadConst(1);								// arrAddr, i, 1
-		Code.put(Code.add);								// arrAddr, i
-		
-		Code.put(Code.dup2);							// arrAddr, i, arrAddr, i
-		Code.put(Code.dup2);							// arrAddr, i, arrAddr, i, arrAddr, i
+		// Init i = -1
+		Code.loadConst(-1);						// max, i
 
-		Code.put(Code.pop);								// arrAddr, i, arrAddr, i, arrAddr
-		Code.put(Code.arraylength);						// arrAddr, i, arrAddr, i, arrLength
+		// Loop beginning
+		int loopBeginning = Code.pc;
+		Code.loadConst(1);						// max, i, 1
+		Code.put(Code.add);						// max, i  			i = i + 1
 		
-		Code.put(getJumpCondition(Code.ge));			
-		int fixupJumpToFinalEnd = Code.pc;
-		Code.put2(0);									// arrAddr, i, arrAddr
+		// Check i >= arrLen
+		Code.put(Code.dup);						// max, i, i
+		Code.load(arrayDesignator);				// max, i, i, arrAddr
+		Code.put(Code.arraylength);				// max, i, i, arrLen
+		Code.put(getJumpCondition(Code.ge));	// max, i
+		int fixupEndAddr = Code.pc;				// jump to end if i >= arrLen
+		Code.put2(0);
 		
-		Code.put(Code.dup2);							// arrAddr, i, arrAddr, i, arrAddr
-		Code.put(Code.pop);								// arrAddr, i, arrAddr, i
-		Code.put(Code.aload);							// arrAddr, i, arr[i]
+		// Load arr[i]
+		Code.load(arrayDesignator);				// max, i, arrAddr
+		Code.put(Code.dup2);					// max, i, arrAddr, i, arrAddr
+		Code.put(Code.pop);						// max, i, arrAddr, i
+		Code.put(Code.aload);					// max, i, arr[i]
 		
-		Code.put(Code.dup);								// arrAddr, i, arr[i], arr[i]
+		// Arrange stack
+		Code.put(Code.dup_x2);					// arr[i], max, i, arr[i]
+		Code.put(Code.pop);						// arr[i], max, i
+		Code.put(Code.dup_x2);					// i, arr[i], max, i
+		Code.put(Code.pop);						// i, arr[i], max
 		
-		Code.load(maxVarDesignator);					// arrAddr, i, arr[i], arr[i], max
+		// Check arr[i] <= max
+		Code.put(Code.dup2);					// i, arr[i], max, arr[i], max
+		Code.put(getJumpCondition(Code.le));	// i, arr[i], max
+		int fixupKeepMaxAddr = Code.pc;			// jump to keepMax if arr[i] <= max
+		Code.put2(0);
 		
-		Code.put(getJumpCondition(Code.le));
-		int fixupJumpToLoopEndBeforePop = Code.pc;
-		Code.put2(0); 									// arrAddr, i, arr[i]
+		// Update max
+		Code.put(Code.pop);						// i, arr[i]
+		Code.put(Code.dup_x1);					// arr[i], i, arr[i]
+		Code.put(Code.pop);						// arr[i], i
+		Code.putJump(loopBeginning);			// jump to beginning
 		
-		Code.store(maxVarDesignator);					// arrAddr, i		
-		Code.putJump(0);
-		int fixupJumpToLoopEndAfterPop = Code.pc - 2;
+		// Keep max
+		Code.fixup(fixupKeepMaxAddr);			
+		Code.put(Code.dup_x2);					// max, i, arr[i], max
+		Code.put(Code.pop);						// max, i, arr[i]
+		Code.put(Code.pop);						// max, i
+		Code.putJump(loopBeginning);			// jump to beginning
 		
-		Code.fixup(fixupJumpToLoopEndBeforePop);		
-		Code.put(Code.pop);								// arrAddr, i
-		Code.fixup(fixupJumpToLoopEndAfterPop);
+		Code.fixup(fixupEndAddr);				// End
 		
-		Code.putJump(loopStart);						// arrAddr, i
+		Code.put(Code.pop);						// max, i
+		Code.loadConst(5);						// max, 5
+		Code.put(Code.print);					// 
 		
-		Code.fixup(fixupJumpToFinalEnd);
+	}
+	
+	public void visit(ArrSortArrDesignator arrSortArrDesignator) {
 		
-		Code.put(Code.pop);								// arrAddr, i, arrAddr				
-		Code.put(Code.pop);								// arrAddr, i
-		Code.put(Code.pop);								// arrAddr
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~

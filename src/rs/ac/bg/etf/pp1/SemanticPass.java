@@ -7,7 +7,6 @@ import java.util.Stack;
 import org.apache.log4j.Logger;
 
 import rs.ac.bg.etf.pp1.ast.*;
-import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.*;
 import rs.etf.pp1.symboltable.concepts.*;
 
@@ -736,7 +735,7 @@ public class SemanticPass extends VisitorAdaptor {
 		arrMaxArrDesignator.obj = designatorObj;
 	}
 	
-	public void visit(ArrMaxVarDesignator arrMaxVarDesignator) {
+	/*public void visit(ArrMaxVarDesignator arrMaxVarDesignator) {
 		Obj designatorObj = Tab.find(arrMaxVarDesignator.getName());
 		if (designatorObj == Tab.noObj) {
 			report_error("VarDesignator " + arrMaxVarDesignator.getName() + " was not declared!", arrMaxVarDesignator);
@@ -764,6 +763,21 @@ public class SemanticPass extends VisitorAdaptor {
 			return;
 		}
 		report_info("FactorArrMax", statementArrMax);
+	}*/
+	
+	public void visit(ArrSortArrDesignator arrSortArrDesignator) {
+		Obj designatorObj = Tab.find(arrSortArrDesignator.getName());
+		if (designatorObj == Tab.noObj) {
+			report_error("ArrDesignator " + arrSortArrDesignator.getName() + " was not declared!", arrSortArrDesignator);
+			arrSortArrDesignator.obj = Tab.noObj;
+			return;
+		}
+		if (designatorObj.getType().getKind() != Struct.Array) {
+			report_error("ArrDesignator must have Array Kind!", arrSortArrDesignator);
+			arrSortArrDesignator.obj = Tab.noObj;
+			return;
+		}
+		arrSortArrDesignator.obj = designatorObj;
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
