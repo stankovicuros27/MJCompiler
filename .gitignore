@@ -1,4 +1,5 @@
 *bin/* 
 *logs/* 
 *.class
+*.DS_Store
 /bin/
