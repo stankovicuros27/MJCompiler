@@ -106,7 +106,7 @@ nonterminal Addop Addop;
 nonterminal Mulop Mulop;
 nonterminal ParenActParsOptional ParenActParsOptional;
 nonterminal NewTypeSuffix NewTypeSuffix;
-nonterminal Label Label;
+//nonterminal Label;		// ADDITIONAL
 nonterminal VarDeclGlobal VarDeclGlobal;
 nonterminal VarDeclInnerListGlobal VarDeclInnerListGlobal;
 nonterminal DesignatorAssignopExpr DesignatorAssignopExpr;
@@ -159,9 +159,9 @@ terminal Character CHAR_CONST;
 
 // ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
-terminal ARRMAX, ARRSORT;
+terminal ARRMAX, ARRSORT, LABEL, GOTO;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ArrMaxArrDesignator, ArrMaxVarDesignator, ArrSortArrDesignator;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ArrMaxArrDesignator, ArrMaxVarDesignator, ArrSortArrDesignator, Label;
 
 // ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -375,6 +375,10 @@ Statement ::= (StatementDesignator) DesignatorStatement:D1 SEMI_COLON {: RESULT=
 			(StatementArrMax) ARRMAX ArrMaxArrDesignator:A1 SEMI_COLON {: RESULT=new StatementArrMax(A1); RESULT.setLine(A1left); :} 	// ADDITIONAL
 			|
 			(StatementArrSort) ARRSORT ArrSortArrDesignator:A1 SEMI_COLON {: RESULT=new StatementArrSort(A1); RESULT.setLine(A1left); :}	// ADDITIONAL
+			|
+			(StatementLabelDeclare) LABEL Label:L1	SEMI_COLON {: RESULT=new StatementLabelDeclare(L1); RESULT.setLine(L1left); :}				// ADDITIONAL
+			|	
+			(StatementGotoLabel) GOTO Label:L1	SEMI_COLON {: RESULT=new StatementGotoLabel(L1); RESULT.setLine(L1left); :}					// ADDITIONAL
 			;
 			
 			
@@ -560,7 +564,7 @@ DesignatorArray ::= (DesignatorArray) Designator:D1 {: RESULT=new DesignatorArra
 
 // ~~~~~~~~~~~~~~~~~~~ UTIL ~~~~~~~~~~~~~~~~~~~
 			
-Label ::= (Label) IDENT:I1 {: RESULT=new Label(I1); RESULT.setLine(I1left); :};
+Label ::= (Label) IDENT:labelName {: RESULT=new Label(labelName); RESULT.setLine(labelNameleft); :};
 
 Assignop ::= (Assignop) ASSIGN {: RESULT=new Assignop(); :};
 
@@ -599,7 +603,6 @@ Mulop ::= (AddopMul) MUL {: RESULT=new AddopMul(); :}
 // ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 		
 ArrMaxArrDesignator ::= (ArrMaxArrDesignator) IDENT:name {: RESULT=new ArrMaxArrDesignator(name); RESULT.setLine(nameleft); :};
-ArrMaxVarDesignator ::= (ArrMaxVarDesignator) IDENT:name {: RESULT=new ArrMaxVarDesignator(name); RESULT.setLine(nameleft); :};
 
 ArrSortArrDesignator ::= (ArrSortArrDesignator) IDENT:name {: RESULT=new ArrSortArrDesignator(name); RESULT.setLine(nameleft); :};
 

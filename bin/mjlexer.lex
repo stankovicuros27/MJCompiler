@@ -68,6 +68,8 @@ import java_cup.runtime.Symbol;
 
 "ARRMAX"	{ return new_symbol(sym.ARRMAX, yytext()); }
 "ARRSORT"	{ return new_symbol(sym.ARRSORT, yytext()); }
+"LABEL"		{ return new_symbol(sym.LABEL, yytext()); }
+"GOTO" 		{ return new_symbol(sym.GOTO, yytext()); }
 
 // ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 

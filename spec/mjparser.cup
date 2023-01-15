@@ -89,7 +89,7 @@ nonterminal RelopExprOptional, Relop;
 nonterminal TermAddopList, Addop;
 nonterminal Mulop;
 nonterminal ParenActParsOptional, NewTypeSuffix;
-nonterminal Label;
+//nonterminal Label;		// ADDITIONAL
 nonterminal VarDeclGlobal, VarDeclInnerListGlobal;
 nonterminal DesignatorAssignopExpr;
 nonterminal StatementWhileStart;
@@ -130,9 +130,9 @@ terminal Character CHAR_CONST;
 
 // ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
-terminal ARRMAX, ARRSORT;
+terminal ARRMAX, ARRSORT, LABEL, GOTO;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Obj ArrMaxArrDesignator, ArrMaxVarDesignator, ArrSortArrDesignator;
+nonterminal rs.etf.pp1.symboltable.concepts.Obj ArrMaxArrDesignator, ArrMaxVarDesignator, ArrSortArrDesignator, Label;
 
 // ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -346,6 +346,10 @@ Statement ::= (StatementDesignator) DesignatorStatement SEMI_COLON
 			(StatementArrMax) ARRMAX ArrMaxArrDesignator SEMI_COLON 	// ADDITIONAL
 			|
 			(StatementArrSort) ARRSORT ArrSortArrDesignator SEMI_COLON	// ADDITIONAL
+			|
+			(StatementLabelDeclare) LABEL Label	SEMI_COLON				// ADDITIONAL
+			|	
+			(StatementGotoLabel) GOTO Label	SEMI_COLON					// ADDITIONAL
 			;
 			
 			
@@ -531,7 +535,7 @@ DesignatorArray ::= (DesignatorArray) Designator;
 
 // ~~~~~~~~~~~~~~~~~~~ UTIL ~~~~~~~~~~~~~~~~~~~
 			
-Label ::= (Label) IDENT;
+Label ::= (Label) IDENT:labelName;
 
 Assignop ::= (Assignop) ASSIGN;
 
@@ -570,7 +574,6 @@ Mulop ::= (AddopMul) MUL
 // ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 		
 ArrMaxArrDesignator ::= (ArrMaxArrDesignator) IDENT:name;
-ArrMaxVarDesignator ::= (ArrMaxVarDesignator) IDENT:name;
 
 ArrSortArrDesignator ::= (ArrSortArrDesignator) IDENT:name;
 

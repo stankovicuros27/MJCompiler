@@ -2,7 +2,9 @@ package rs.ac.bg.etf.pp1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import rs.ac.bg.etf.pp1.ast.*;
@@ -64,6 +66,11 @@ public class CodeGenerator extends VisitorAdaptor {
     // Holds real addresses
     private Stack<Integer> beginningOfForeachBlockJumpAddresses = new Stack<>();
     
+    
+    
+    private static final int FPPOS_FUNC_FORM_PARAM = 0;
+    private static final int FPPOS_VAR = 1;
+	private static final int FPPOS_LABEL = 2; 		// ADDITIONAL
 
     
 	// ~~~~~~~~~~~~~~~~~~~ Util ~~~~~~~~~~~~~~~~~~~
@@ -138,6 +145,36 @@ public class CodeGenerator extends VisitorAdaptor {
 		return Code.jcc + condition;
 	}
 	
+    public int getNumberOfFormPars(Obj methodDesignator) {
+    	int cnt = 0;
+    	for (Obj symbol : methodDesignator.getLocalSymbols()) {
+    		if (symbol.getFpPos() == FPPOS_FUNC_FORM_PARAM) {
+    			cnt++;
+    		}
+    	}
+    	return cnt;
+    }
+    
+    public int getNumberOfVars(Obj methodDesignator) {
+    	int cnt = 0;
+    	for (Obj symbol : methodDesignator.getLocalSymbols()) {
+    		if (symbol.getFpPos() == FPPOS_VAR) {
+    			cnt++;
+    		}
+    	}
+    	return cnt;
+    }
+    
+    public int getNumberOfLabels(Obj methodDesignator) {
+    	int cnt = 0;
+    	for (Obj symbol : methodDesignator.getLocalSymbols()) {
+    		if (symbol.getFpPos() == FPPOS_LABEL) {
+    			cnt++;
+    		}
+    	}
+    	return cnt;
+    }
+	
 	// ~~~~~~~~~~~~~~~~~~~ MethodDecl & Return ~~~~~~~~~~~~~~~~~~~
     	
 	public void visit(MethodName methodName) {
@@ -145,8 +182,11 @@ public class CodeGenerator extends VisitorAdaptor {
 			mainPc = Code.pc;
 		}
 		methodName.obj.setAdr(Code.pc);		
-		int formParamCount = methodName.obj.getLevel();
-		int totalVarCount = methodName.obj.getLocalSymbols().size();
+		//int formParamCount = methodName.obj.getLevel();
+		//int totalVarCount = methodName.obj.getLocalSymbols().size();
+		int formParamCount = getNumberOfFormPars(methodName.obj);
+		int totalVarCount = formParamCount + getNumberOfVars(methodName.obj);
+		System.out.println("Func local symbols size: " + totalVarCount);
 		Code.put(Code.enter);
 		Code.put(formParamCount);
 		Code.put(totalVarCount);
@@ -165,15 +205,15 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	public void visit(MethodDecl methodDecl) {
-		if (!methodHasReturn) {
-			if (methodDecl.getMethodName().obj.getType() != Tab.noType) {
-				// ERROR
-				Code.put(Code.trap);
-				Code.put(0);	
-			} else {
-				Code.put(Code.exit);
-				Code.put(Code.return_);
-			}
+		if (methodDecl.getMethodName().obj.getType() != Tab.noType && !methodHasReturn) {
+			// ERROR
+			Code.put(Code.trap);
+			Code.put(0);	
+		} 
+		if (methodDecl.getMethodName().obj.getType() == Tab.noType) {
+			// VOID
+			Code.put(Code.exit);
+			Code.put(Code.return_);
 		}
 		methodHasReturn = false;
 	}
@@ -631,9 +671,10 @@ public class CodeGenerator extends VisitorAdaptor {
 	
 	
 	// ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
+	
+	// Arr
 
-	// ARRMAX (array must have len > 0)
-	public void visit(StatementArrMax statementArrMax) {
+	public void visit(StatementArrMax statementArrMax) {	// DONE
 		Obj arrayDesignator = statementArrMax.getArrMaxArrDesignator().obj;
 		
 		// Init max = arr[0]
@@ -693,11 +734,179 @@ public class CodeGenerator extends VisitorAdaptor {
 		Code.put(Code.pop);						// max, i
 		Code.loadConst(5);						// max, 5
 		Code.put(Code.print);					// 
-		
 	}
 	
 	public void visit(ArrSortArrDesignator arrSortArrDesignator) {
+		Obj arrDesignator = arrSortArrDesignator.obj;
 		
+		// init i
+		Code.loadConst(-1);						// i
+		
+		// i loop begin
+		int iLoopBegin = Code.pc;
+		Code.loadConst(1);						// i, 1
+		Code.put(Code.add);						// i
+		
+		// i condition check
+		Code.put(Code.dup);						// i, i
+		Code.load(arrDesignator);				// i, i, arrAddr
+		Code.put(Code.arraylength);				// i, i, arrLen
+		Code.put(getJumpCondition(Code.ge));	// i
+		int jumpToEndFixup = Code.pc;
+		Code.put2(0);							// i				// Jump to end
+		
+		// init j
+		Code.put(Code.dup);						// i, j
+		
+		// j loop begin
+		int jLoopBegin = Code.pc;
+		Code.loadConst(1);						// i, j, 1
+		Code.put(Code.add);						// i, j
+		
+		// j condition check
+		Code.put(Code.dup);						// i, j, j
+		Code.load(arrDesignator);				// i, j, j, arrAddr
+		Code.put(Code.arraylength);				// i, j, j, arrLen
+		Code.put(getJumpCondition(Code.lt));	// i, j
+		int jumpToJLoopBodyFixup = Code.pc;
+		Code.put2(0);							// i, j
+		
+		// pop & jump to i loop begin if j >= arrLen
+		Code.put(Code.pop);						// i
+		Code.putJump(iLoopBegin);				// i				// Jump to i loop begin
+		
+		// jLoopBody
+		Code.fixup(jumpToJLoopBodyFixup);
+		
+		// Load arr[j]
+		Code.put(Code.dup2);					// i, j, i, j
+		Code.load(arrDesignator);				// i, j, i, j, arrAddr
+		Code.put(Code.dup2);					// i, j, i, j, arrAddr, j, arrAddr
+		Code.put(Code.pop);						// i, j, i, j, arrAddr, j
+		Code.put(Code.aload);					// i, j, i, j, arr[j]
+		
+		// Load arr[i]
+		Code.put(Code.dup_x2);					// i, j, arr[j], i, j, arr[j]
+		Code.put(Code.pop);						// i, j, arr[j], i, j
+		Code.put(Code.pop);						// i, j, arr[j], i
+		Code.load(arrDesignator);				// i, j, arr[j], i, arrAddr
+		Code.put(Code.dup2);					// i, j, arr[j], i, arrAddr, i, arrAddr
+		Code.put(Code.pop);						// i, j, arr[j], i, arrAddr, i
+		Code.put(Code.aload);					// i, j, arr[j], i, arr[i]
+		Code.put(Code.dup_x1);					// i, j, arr[j], arr[i], i, arr[i]
+		Code.put(Code.pop);						// i, j, arr[j], arr[i], i
+		Code.put(Code.pop);						// i, j, arr[j], arr[i]
+		
+		// Compare arr[i], arr[j]
+		Code.put(Code.dup2);					// i, j, arr[j], arr[i], arr[j], arr[i] 
+		Code.put(getJumpCondition(Code.lt));	// i, j, arr[j], arr[i]
+		int jumpToSwapFixup = Code.pc;			
+		Code.put2(0);							// i, j, arr[j], arr[i]
+		
+		// pop & jump to j loop if arr[j] >= arr[i]
+		Code.put(Code.pop);						// i, j, arr[j]
+		Code.put(Code.pop);						// i, j
+		Code.putJump(jLoopBegin);				// i, j
+		
+		
+		// Swap									// i, j, arr[j], arr[i]
+		Code.fixup(jumpToSwapFixup);
+		
+		// Store arr[j] = arr[i] + arr[j]
+		Code.put(Code.add);						// i, j, arr[j] + arr[i]
+		Code.put(Code.dup2);					// i, j, arr[j] + arr[i], j, arr[j] + arr[i]
+		Code.load(arrDesignator);				// i, j, arr[j] + arr[i], j, arr[j] + arr[i], arrAddr
+		Code.put(Code.dup_x2);					// i, j, arr[j] + arr[i], arrAddr, j, arr[j] + arr[i], arrAddr
+		Code.put(Code.pop);						// i, j, arr[j] + arr[i], arrAddr, j, arr[j] + arr[i]
+		Code.put(Code.astore);					// i, j, arr[j] + arr[i]
+		
+		// Load arr[i]
+		Code.put(Code.pop);						// i, j
+		Code.put(Code.dup2);					// i, j, i, j
+		Code.put(Code.pop);						// i, j, i
+		Code.load(arrDesignator);				// i, j, i, arrAddr
+		Code.put(Code.dup2);					// i, j, i, arrAddr, i, arrAddr
+		Code.put(Code.pop);						// i, j, i, arrAddr, i
+		Code.put(Code.aload);					// i, j, i, arr[i]
+		
+		// Load arr[j]
+		Code.put(Code.dup_x2);					// i, arr[i], j, i, arr[i]
+		Code.put(Code.pop);						// i, arr[i], j, i
+		Code.put(Code.pop);						// i, arr[i], j
+		Code.load(arrDesignator);				// i, arr[i], j, arrAddr
+		Code.put(Code.dup2);					// i, arr[i], j, arrAddr, j, arrAddr
+		Code.put(Code.pop);						// i, arr[i], j, arrAddr, j
+		Code.put(Code.aload);					// i, arr[i], j, arr[i] + arr[j]
+		
+		// Set arr[i] = arr[j](prev)
+		Code.put(Code.dup_x2);					// i, arr[i] + arr[j], arr[i], j, arr[i] + arr[j]
+		Code.put(Code.pop);						// i, arr[i] + arr[j], arr[i], j
+		Code.put(Code.dup_x2);					// i, j, arr[i] + arr[j], arr[i], j
+		Code.put(Code.pop);						// i, j, arr[i] + arr[j], arr[i]
+		Code.put(Code.sub);						// i, j, arr[j]
+		Code.put(Code.dup_x2);					// arr[j], i, j, arr[j]
+		Code.put(Code.pop);						// arr[j], i, j
+		Code.put(Code.dup_x2);					// j, arr[j], i, j
+		Code.put(Code.pop);						// j, arr[j], i
+		Code.put(Code.dup_x2);					// i, j, arr[j], i
+		Code.put(Code.dup2);					// i, j, arr[j], i, arr[j], i
+		Code.put(Code.pop);						// i, j, arr[j], i, arr[j]
+		Code.load(arrDesignator);				// i, j, arr[j], i, arr[j], arrAddr
+		Code.put(Code.dup_x2);					// i, j, arr[j], arrAddr, i, arr[j], arrAddr
+		Code.put(Code.pop);						// i, j, arr[j], arrAddr, i, arr[j]
+		Code.put(Code.astore);					// i, j, arr[j]							// arr[i] = arr[j]
+		
+		// Set arr[j] = arr[i](prev)			// i, j, arr[j]
+		Code.put(Code.dup2);					// i, j, arr[j], j, arr[j]
+		Code.put(Code.pop);						// i, j, arr[j], j
+		Code.put(Code.dup_x2);					// i, j, j, arr[j], j
+		Code.load(arrDesignator);				// i, j, j, arr[j], j, arrAddr
+		Code.put(Code.dup2);					// i, j, j, arr[j], j, arrAddr, j, arrAddr
+		Code.put(Code.pop);						// i, j, j, arr[j], j, arrAddr, j
+		Code.put(Code.aload);					// i, j, j, arr[j], j, arr[i] + arr[j]
+		Code.put(Code.dup_x2);					// i, j, j, arr[i] + arr[j], arr[j], j, arr[i] + arr[j]
+		Code.put(Code.pop);						// i, j, j, arr[i] + arr[j], arr[j], j
+		Code.put(Code.pop);						// i, j, j, arr[i] + arr[j], arr[j]
+		Code.put(Code.sub);						// i, j, j, arr[i]
+		Code.load(arrDesignator);				// i, j, j, arr[i], arrAddr
+		Code.put(Code.dup_x2);					// i, j, arrAddr, j, arr[i], arrAddr
+		Code.put(Code.pop);						// i, j, arrAddr, j, arr[i]
+		Code.put(Code.astore);					// i, j									// arr[j] = arr[i]
+		
+		// Jump to jLoopBegin
+		Code.putJump(jLoopBegin);				// i, j
+		
+		// End
+		Code.fixup(jumpToEndFixup);				// i
+		Code.put(Code.pop);						//
+	}
+	
+	// Lbl
+	
+	private Map<String, List<Integer>> labelAddressesToFixup = new HashMap<>();
+	private Map<String, Integer> labelRealAddresses = new HashMap<>();
+	
+	public void visit(StatementLabelDeclare statementLabelDeclare) {
+		String labelName = statementLabelDeclare.getLabel().getLabelName();
+		if (labelAddressesToFixup.containsKey(labelName)) {
+			for (int addrToFixup : labelAddressesToFixup.get(labelName)) {
+				Code.fixup(addrToFixup);
+			}
+		}
+		labelRealAddresses.put(labelName, Code.pc);
+	}
+	
+	public void visit(StatementGotoLabel statementGotoLabel) {
+		String labelName = statementGotoLabel.getLabel().getLabelName();
+		if (labelRealAddresses.containsKey(labelName)) {
+			Code.putJump(labelRealAddresses.get(labelName));
+		} else {
+			if (!labelAddressesToFixup.containsKey(labelName)) {
+				labelAddressesToFixup.put(labelName, new ArrayList<>());
+			}
+			Code.putJump(0);
+			labelAddressesToFixup.get(labelName).add(Code.pc - 2);
+		}
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~

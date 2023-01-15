@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 13/0/2023 16:9:0
+// 15/0/2023 1:3:3
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -48,6 +48,7 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(ProgramDeclListE ProgramDeclListE) { }
     public void visit(CondFact CondFact) { }
     public void visit(ConstDeclInnerList ConstDeclInnerList) { }
+    public void visit(ArrMaxVarDesignator ArrMaxVarDesignator) { }
     public void visit(VarDeclInnerListGlobal VarDeclInnerListGlobal) { }
     public void visit(FormParsOptional FormParsOptional) { }
     public void visit(Term Term) { }
@@ -57,7 +58,6 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(StatementListE StatementListE) { }
     public void visit(MethodReturnType MethodReturnType) { }
     public void visit(ArrSortArrDesignator ArrSortArrDesignator) { visit(); }
-    public void visit(ArrMaxVarDesignator ArrMaxVarDesignator) { visit(); }
     public void visit(ArrMaxArrDesignator ArrMaxArrDesignator) { visit(); }
     public void visit(AddopMod AddopMod) { visit(); }
     public void visit(AddopDiv AddopDiv) { visit(); }
@@ -131,6 +131,8 @@ public abstract class VisitorAdaptor implements Visitor {
     public void visit(IfStatementStart IfStatementStart) { visit(); }
     public void visit(IfStatement IfStatement) { visit(); }
     public void visit(StatementWhileStart StatementWhileStart) { visit(); }
+    public void visit(StatementGotoLabel StatementGotoLabel) { visit(); }
+    public void visit(StatementLabelDeclare StatementLabelDeclare) { visit(); }
     public void visit(StatementArrSort StatementArrSort) { visit(); }
     public void visit(StatementArrMax StatementArrMax) { visit(); }
     public void visit(StatementSection StatementSection) { visit(); }

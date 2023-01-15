@@ -1,7 +1,9 @@
 package rs.ac.bg.etf.pp1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import org.apache.log4j.Logger;
@@ -36,8 +38,10 @@ public class SemanticPass extends VisitorAdaptor {
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MY CODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    private static final int FUNC_FORM_PARAM = 0;
-    private static final int VAR = 1;
+    private static final int FPPOS_FUNC_FORM_PARAM = 0;
+    private static final int FPPOS_VAR = 1;
+	private static final int FPPOS_LABEL = 2; 		// ADDITIONAL
+
     
     private static final String MAIN_METHOD = "main";
     private boolean mainMethodExists = false;
@@ -53,7 +57,7 @@ public class SemanticPass extends VisitorAdaptor {
 	private Stack<String> foreachUnmodifiableVarNames = new Stack<>();
 	
 	private List<Obj> designatorStatementAssignArrayObjects = null;
-
+	
     
     // ~~~~~~~~~~~~~~~~~~~ Util ~~~~~~~~~~~~~~~~~~~
 	
@@ -110,7 +114,7 @@ public class SemanticPass extends VisitorAdaptor {
     public List<Struct> getFormParsTypes(Obj methodDesignator) {
     	List<Struct> ret = new ArrayList<>();
     	for (Obj symbol : methodDesignator.getLocalSymbols()) {
-    		if (symbol.getFpPos() == FUNC_FORM_PARAM) {
+    		if (symbol.getFpPos() == FPPOS_FUNC_FORM_PARAM) {
     			ret.add(symbol.getType());
     		}
     	}
@@ -120,7 +124,7 @@ public class SemanticPass extends VisitorAdaptor {
     public int getNumberOfFormPars(Obj methodDesignator) {
     	int cnt = 0;
     	for (Obj symbol : methodDesignator.getLocalSymbols()) {
-    		if (symbol.getFpPos() == FUNC_FORM_PARAM) {
+    		if (symbol.getFpPos() == FPPOS_FUNC_FORM_PARAM) {
     			cnt++;
     		}
     	}
@@ -206,7 +210,7 @@ public class SemanticPass extends VisitorAdaptor {
 		if (checkIfSymbolExistsInCurrentScope(varDeclInnerListElementVar.getVarName(), varDeclInnerListElementVar)) {
 			return;
 		}
-		Tab.insert(Obj.Var, varDeclInnerListElementVar.getVarName(), currentType).setFpPos(VAR);
+		Tab.insert(Obj.Var, varDeclInnerListElementVar.getVarName(), currentType).setFpPos(FPPOS_VAR);
 		report_info("VarDeclInnerListElementVar", varDeclInnerListElementVar);
 	}
 	
@@ -214,7 +218,7 @@ public class SemanticPass extends VisitorAdaptor {
 		if (checkIfSymbolExistsInCurrentScope(varDeclInnerListElementArray.getVarName(), varDeclInnerListElementArray)) {
 			return;
 		}
-		Tab.insert(Obj.Var, varDeclInnerListElementArray.getVarName(), new Struct(Struct.Array, currentType)).setFpPos(VAR);
+		Tab.insert(Obj.Var, varDeclInnerListElementArray.getVarName(), new Struct(Struct.Array, currentType)).setFpPos(FPPOS_VAR);
 		report_info("VarDeclInnerListElementArray", varDeclInnerListElementArray);
 	}
 	
@@ -261,7 +265,7 @@ public class SemanticPass extends VisitorAdaptor {
 		if (checkIfSymbolExistsInCurrentScope(formParamVar.getParamName(), formParamVar)) {
 			return;
 		}
-		Tab.insert(Obj.Var, formParamVar.getParamName(), currentType).setFpPos(FUNC_FORM_PARAM);
+		Tab.insert(Obj.Var, formParamVar.getParamName(), currentType).setFpPos(FPPOS_FUNC_FORM_PARAM);
 		report_info("FormParamVar", formParamVar);
 	}
 	
@@ -269,7 +273,7 @@ public class SemanticPass extends VisitorAdaptor {
 		if (checkIfSymbolExistsInCurrentScope(formParamArray.getParamName(), formParamArray)) {
 			return;
 		}
-		Tab.insert(Obj.Var, formParamArray.getParamName(), new Struct(Struct.Array, currentType)).setFpPos(FUNC_FORM_PARAM);
+		Tab.insert(Obj.Var, formParamArray.getParamName(), new Struct(Struct.Array, currentType)).setFpPos(FPPOS_FUNC_FORM_PARAM);
 		report_info("FormParamArray", formParamArray);
 	}
 		
@@ -349,9 +353,7 @@ public class SemanticPass extends VisitorAdaptor {
 		designatorStatementAssignArrayObjects.add(designatorObj);
 		report_info("DesignatorOptionalExist", designatorOptionalExist);
 	}
-	
-	// Might need to add DesignatorOptionalEmpty
-	
+		
 	// ~~~~~~~~~~~~~~~~~~~ DesignatorAction ~~~~~~~~~~~~~~~~~~~		// DONE
 	
 	public void visit(DesignatorActionMethodCall designatorActionMethodCall) {
@@ -720,6 +722,8 @@ public class SemanticPass extends VisitorAdaptor {
 	
 	// ~~~~~~~~~~~~~~~~~~~~~~ ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~
 	
+	// Arr
+	
 	public void visit(ArrMaxArrDesignator arrMaxArrDesignator) {
 		Obj designatorObj = Tab.find(arrMaxArrDesignator.getName());
 		if (designatorObj == Tab.noObj) {
@@ -733,38 +737,9 @@ public class SemanticPass extends VisitorAdaptor {
 			return;
 		}
 		arrMaxArrDesignator.obj = designatorObj;
+		report_info("ArrMaxArrDesignator", arrMaxArrDesignator);
 	}
-	
-	/*public void visit(ArrMaxVarDesignator arrMaxVarDesignator) {
-		Obj designatorObj = Tab.find(arrMaxVarDesignator.getName());
-		if (designatorObj == Tab.noObj) {
-			report_error("VarDesignator " + arrMaxVarDesignator.getName() + " was not declared!", arrMaxVarDesignator);
-			arrMaxVarDesignator.obj = Tab.noObj;
-			return;
-		}
-		if (designatorObj.getKind() != Obj.Var) {
-			report_error("VarDesignator must be Var!", arrMaxVarDesignator);
-			arrMaxVarDesignator.obj = Tab.noObj;
-			return;
-		}
-		arrMaxVarDesignator.obj = designatorObj;
-	}
-
-	// ARRMAX
-	public void visit(StatementArrMax statementArrMax) {
-		Obj arrayDesignator = statementArrMax.getArrMaxArrDesignator().obj;
-		if (arrayDesignator.getType().getKind() != Struct.Array) {
-			report_error("Left Designator must be Array for #ARRMAX!", statementArrMax);
-			return;
-		}
-		Obj targetDesignator = statementArrMax.getArrMaxVarDesignator().obj;
-		if (targetDesignator.getKind() != Obj.Var && targetDesignator.getType() != Tab.intType) {
-			report_error("Right Designator must be Var, int for #ARRMAX!", statementArrMax);
-			return;
-		}
-		report_info("FactorArrMax", statementArrMax);
-	}*/
-	
+		
 	public void visit(ArrSortArrDesignator arrSortArrDesignator) {
 		Obj designatorObj = Tab.find(arrSortArrDesignator.getName());
 		if (designatorObj == Tab.noObj) {
@@ -778,6 +753,33 @@ public class SemanticPass extends VisitorAdaptor {
 			return;
 		}
 		arrSortArrDesignator.obj = designatorObj;
+		report_info("ArrSortArrDesignator", arrSortArrDesignator);
+	}
+	
+	// Lbl
+			
+	public void visit(StatementLabelDeclare statementLabelDeclare) {
+		if (currentMethodObj == null) {
+			report_error("Label must be inside a method!", statementLabelDeclare);
+			return;
+		}
+		String labelName = statementLabelDeclare.getLabel().getLabelName();
+		Obj labelObj = Tab.find(labelName);
+		if (labelObj != Tab.noObj) {
+			report_error("Designator/Label " + labelName + " was already declared!", statementLabelDeclare);
+			return;
+		}
+		statementLabelDeclare.getLabel().obj = Tab.insert(Obj.NO_VALUE, labelName, Tab.noType);
+		statementLabelDeclare.getLabel().obj.setFpPos(FPPOS_LABEL);
+		report_info("StatementLabelDeclare", statementLabelDeclare);
+	}
+	
+	public void visit(StatementGotoLabel statementGotoLabel) {
+		if (currentMethodObj == null) {
+			report_error("Label must be inside a method!", statementGotoLabel);
+			return;
+		}
+		report_info("StatementGotoLabel", statementGotoLabel);
 	}
 	
 	// ~~~~~~~~~~~~~~~~~~~~~~ /ADDITIONAL ~~~~~~~~~~~~~~~~~~~~~~

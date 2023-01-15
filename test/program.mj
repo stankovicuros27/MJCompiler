@@ -1,17 +1,53 @@
 program p 
 
 {
+
+	void printSth() int a, c; {
+	
+		a = 3;
+		
+		if (a == 3) {
+			GOTO printSth0;
+		} else {
+			return;
+		}
+		
+		LABEL printSth0;
+	
+		c = 0;
+	
+		LABEL printSth1;
+	
+		print(eol);
+		print('C');
+		print('a');
+		print('o');
+		
+		c++;
+		
+		if (c < 3) {
+			GOTO printSth1;
+		}
+
+	}
+
 	void main() int a[], b[], i, max, ai, bi; {
 	
-		a = new int[7];
-		a[0] = 6;
-		a[1] = 5;
-		a[2] = 20;
-		a[3] = 8;
-		a[4] = 11;
-		a[5] = 1;
-		a[6] = -5;
+		i = 0;
+	
+		LABEL main1;
 		
-		a.foreach(ai => ARRMAX a;);
+		i++;
+		
+		print(i);
+		
+		if (i < 3) {
+			GOTO main1;
+		}
+		
+		printSth();
+		
+		GOTO printSth0;
+		
 	}
 }

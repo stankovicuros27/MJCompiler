@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 13/0/2023 16:9:0
+// 15/0/2023 1:3:3
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,18 +9,20 @@ public class Label implements SyntaxNode {
 
     private SyntaxNode parent;
     private int line;
-    private String I1;
+    public rs.etf.pp1.symboltable.concepts.Obj obj = null;
 
-    public Label (String I1) {
-        this.I1=I1;
+    private String labelName;
+
+    public Label (String labelName) {
+        this.labelName=labelName;
     }
 
-    public String getI1() {
-        return I1;
+    public String getLabelName() {
+        return labelName;
     }
 
-    public void setI1(String I1) {
-        this.I1=I1;
+    public void setLabelName(String labelName) {
+        this.labelName=labelName;
     }
 
     public SyntaxNode getParent() {
@@ -59,7 +61,7 @@ public class Label implements SyntaxNode {
         buffer.append(tab);
         buffer.append("Label(\n");
 
-        buffer.append(" "+tab+I1);
+        buffer.append(" "+tab+labelName);
         buffer.append("\n");
 
         buffer.append(tab);
